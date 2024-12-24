@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -17,19 +16,29 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.ladr-header-links {
-  @apply inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300;
+#ladr-header-li .active {
+  @apply inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500;
+
+
 }
 
-.ladr-header-links-active {
-  @apply inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500;
+.ladr-header-links {
+  @apply inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300;
+  transition: border-color 0.4s ease;
 }
+
+
 
 
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  flex-direction: column;
+  min-width: 320px;
+  min-height: 100vh;
+}
+#ladr-page {
+  margin: 54px 0 0 0;
   min-width: 320px;
   min-height: 100vh;
 }
