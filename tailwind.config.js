@@ -6,6 +6,9 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
     "./src/*.{js,ts,jsx,tsx}",
 
+    "./data/pages/*.{js,ts,jsx,tsx}",
+    "./data/pages/**/*.{js,ts,jsx,tsx}",
+
   ],
   theme: {
     extend: {},

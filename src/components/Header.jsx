@@ -11,7 +11,7 @@ export default function Header() {
                     <NavLink to="/main" className="ladr-header-links" >Main Story</NavLink>
                 </li>
                 <li id="ladr-header-li" className="me-2">
-                    <a href="#" className="ladr-header-links">Relationship Story</a>
+                    <NavLink to="/relationship" className="ladr-header-links">Relationship Story</NavLink>
                 </li>
                 <li id="ladr-header-li" className="me-2">
                     <a href="#" className="ladr-header-links">Event Story</a>
