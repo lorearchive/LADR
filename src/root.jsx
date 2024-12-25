@@ -1,53 +1,69 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { AnimatePresence, motion } from 'framer-motion'
 
-
-import Home from '../data/pages/Home'
-import MainSto from '../data/pages/Story/MainSto';
-import RelSto from '../data/pages/Story/RelSto';
+// /data/pages/
+import Home from '../data/pages/Home.jsx'
+import MainSto from '../data/pages/Story/MainSto.jsx'
+import RelSto from '../data/pages/Story/RelSto.jsx'
 
 import './index.css'
-
 import Header from './components/Header.jsx'
+import TestDir from '../data/chapterDirectories/TestDir.jsx'
 
+// Wrap page components with motion
+const PageWrapper = ({ children }) => (
+  <motion.div
+    initial={{ opacity: 0, x: 20 }}
+    animate={{ opacity: 1, x: 0 }}
+    exit={{ opacity: 0, x: -20 }}
+    transition={{ duration: 0.13 }}
+  >
+    {children}
+  </motion.div>
+);
 
 function App() {
+  const location = useLocation();
+  
   return (
-      <main>
-          <Routes>
-              <Route path="/" element={<Navigate to="/home" />} />
+    <main>
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<Navigate to="/home" />} />
+          <Route path="/mainstory" element={<Navigate to="/main" />} />
+          
+          <Route path="/home" element={ <PageWrapper><Home /></PageWrapper> } />
+          <Route path="/main" element={ <PageWrapper><MainSto /></PageWrapper> } />
+          <Route path="/main/test" element={ <PageWrapper><TestDir /></PageWrapper> } />
 
-              <Route path="/mainstory" element={<Navigate to="/main" />} />
 
 
-              
-              <Route path="/home" element={<Home />} />
-              <Route path="/main" element={<MainSto />} />
-              <Route path="/relationship" element={<RelSto />} />
-          </Routes>
-      </main>
+
+
+          <Route path="/relationship" element={ <PageWrapper><RelSto /></PageWrapper> } />
+        </Routes>
+      </AnimatePresence>
+    </main>
   );
 }
-
 
 function Root() {
   return (
     <Router>
       <StrictMode>
-
-          <div id="ladr-header" className="fixed top-0 flex items-center justify-center w-full">
-            <div id="ladr-header-root" className="flex items-center justify-center flex-grow">
-              <Header />
-            </div>
+        <div id="ladr-header" className="fixed top-0 z-50 flex items-center justify-center w-full">
+          <div id="ladr-header-root" className="flex items-center justify-center flex-grow">
+            <Header />
           </div>
+        </div>
 
-          <div id="ladr-page">
-            <div id="ladr-window" className="flex justify-center pt-10">
-              <App />
-            </div>
+        <div id="ladr-page">
+          <div id="ladr-window" className="flex justify-center pt-10">
+            <App />
           </div>
-
+        </div>
       </StrictMode>
     </Router>
   )

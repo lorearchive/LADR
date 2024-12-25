@@ -11,7 +11,7 @@ export default function Home() {
                     <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
                     </svg>
                     <span className="sr-only">Info</span>
-                    <h1 className="text-lg font-medium text-gray-800 dark:text-gray-300">Welcome to LADR!</h1>
+                    <h3 className="text-lg font-medium text-gray-800 dark:text-gray-300">Welcome to LADR!</h3>
                 </div>
                 <div className="mt-2 mb-4 text-sm text-gray-800 dark:text-gray-300">
                     Lore Archive's Dialogue Reader is an ultra-fast, Single-Page Application for reading Blue Archive's story on the web, created by the <a href="https://lorearchive.org" className="font-semibold underline hover:no-underline">Lore Archive</a> team.
