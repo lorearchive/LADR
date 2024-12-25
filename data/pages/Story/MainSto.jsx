@@ -1,7 +1,7 @@
 export default function MainSto() {
     return (
 
-        <p>asmdisaud</p>
+        <h1>Main Story</h1>
 
     );
 }
