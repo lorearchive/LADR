@@ -12,7 +12,7 @@ function Root() {
     <Router>
       <StrictMode>
 
-          <div id="ladr-header" className="absolute top-0 flex items-center justify-center w-full">
+          <div id="ladr-header" className="fixed top-0 flex items-center justify-center w-full">
             <div id="ladr-header-root" className="flex items-center justify-center flex-grow">
               <Header />
             </div>
