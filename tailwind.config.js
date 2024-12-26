@@ -5,14 +5,15 @@ export default {
     "./src/index.css",
     "./src/**/*.{js,ts,jsx,tsx}",
     "./src/*.{js,ts,jsx,tsx}",
-
     "./data/pages/*.{js,ts,jsx,tsx}",
     "./data/pages/**/*.{js,ts,jsx,tsx}",
-
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        defaultGray: '#242424',
+      },
+    },
   },
   plugins: [],
 }
-

@@ -10,7 +10,8 @@ import RelSto from '../data/pages/Story/RelSto.jsx'
 
 import './index.css'
 import Header from './components/Header.jsx'
-import TestDir from '../data/chapterDirectories/TestDir.jsx'
+import GetDirectory from './scripts/GetDirectory.jsx'
+import GetEpisode from './scripts/GetEpisode.jsx'
 
 // Wrap page components with motion
 const PageWrapper = ({ children }) => (
@@ -36,9 +37,11 @@ function App() {
           
           <Route path="/home" element={ <PageWrapper><Home /></PageWrapper> } />
           <Route path="/main" element={ <PageWrapper><MainSto /></PageWrapper> } />
-          <Route path="/main/test" element={ <PageWrapper><TestDir /></PageWrapper> } />
+          <Route path="/main/test" element={ <PageWrapper><GetDirectory path="/test" chapter="Test" /></PageWrapper> } />
 
 
+
+         <Route path="/main/test/*" element={ <PageWrapper><GetEpisode /></PageWrapper> } />
 
 
 
