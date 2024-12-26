@@ -1,6 +1,13 @@
-# React + Vite
+# Lore Archive's Dialogue Reader
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## For local developments
+Clone the repository, then run
+```bash
+cd LADR
+npm i
+npm run dev
+```
+
 
 Currently, two official plugins are available:
 
