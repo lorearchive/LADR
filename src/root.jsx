@@ -63,7 +63,7 @@ function Root() {
         </div>
 
         <div id="ladr-page">
-          <div id="ladr-window" className="flex justify-center pt-10">
+          <div id="ladr-window" className="flex justify-center pt-10 bg-transparent">
             <App />
           </div>
         </div>
