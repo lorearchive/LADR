@@ -68,12 +68,36 @@ h2 {
   background-color: #242424;
 }
 
+#ladr-header-root {
+  position: relative;
+}
+
+#ladr-header-root:after {
+  background: linear-gradient(90deg, transparent, mediumslateblue, mediumpurple, transparent);
+  opacity: 0.6;
+  height: 1px;
+  width: 60%;
+  position: absolute;
+  bottom: 0px;
+  left: 30%;
+  content: "";
+}
+
+
+
+
+
 #ladr-page {
   margin: 54px 0 0 0;
   min-width: 320px;
   min-height: 100vh;
 }
 
+
+#ladr-window {
+  
+
+}
 
 
 main {
@@ -82,4 +106,21 @@ main {
 }
 
 
+#display-block {
+  display: block !important;
+}
 
+#ladr-footer {
+  position: relative;
+}
+
+#ladr-footer:after {
+  background: linear-gradient(90deg, transparent, mediumslateblue, mediumpurple, transparent);
+  opacity: 0.6;
+  height: 1px;
+  width: 60%;
+  position: absolute;
+  top: 0px;
+  right: 40%;
+  content: "";
+}

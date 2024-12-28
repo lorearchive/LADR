@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom'
+import DropdownLang from './DropdownLang.jsx'
 
 export default function Header() {
     return (
@@ -38,6 +39,8 @@ export default function Header() {
                     <span className="sr-only">Search</span>
                 </button>
             </form>
+
+            <DropdownLang />
         </nav>
     );
 }

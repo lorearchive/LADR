@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { Tooltip } from 'react-tooltip';
+
 
 export default function GetDirectory({ path, chapter }) {
   const [data, setData] = useState([]);
@@ -29,6 +31,8 @@ export default function GetDirectory({ path, chapter }) {
     };
 
     fetchFiles();
+    window.scrollTo(0, 0);
+
   }, [path]);
 
   if (loading) return <p>Searching through the Archive...</p>;
@@ -42,14 +46,40 @@ export default function GetDirectory({ path, chapter }) {
       <div id="chapters">
         {data.map((item, index) => {
           return (
-            <NavLink key={item.sha || index} to={`${url}${item.name}`}>
-                <div id="chapter" className="flex justify-between p-4 transition-colors border rounded-md mb-7 dark:bg-defaultGray dark:border-gray-500 hover:dark:bg-black">
-                <p><strong>{item.name}</strong></p>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6" aria-hidden="true" focusable="false">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                </svg>
-                </div>
-            </NavLink>
+            <div key={item.sha || index} id="chapter" className="h-14 flex items-center justify-between transition-colors border-2 rounded-md mb-7 dark:bg-defaultGray dark:border-gray-500 hover:dark:bg-black min-h-[3rem]">
+              <NavLink to={`${url}${item.name}`} className="flex items-center w-full p-3 h-14">
+                  <p className="flex items-center m-0">
+                    <strong>{item.name}</strong>
+                  </p>
+              </NavLink>
+            
+              <button data-tooltip-id="newtabtooltip" data-tooltip-content="Open in new tab" data-tooltip-variant="light" className="flex items-center self-stretch justify-center border-l border-gray-400 w-14">
+                <NavLink
+                  to={`${url}${item.name}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center w-6 h-6" // Added these classes
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="size-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25"
+                    />
+                  </svg>
+                </NavLink>
+              </button>
+              <Tooltip id="newtabtooltip" />
+
+
+            </div>
           );
         })}
       </div>

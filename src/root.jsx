@@ -10,6 +10,8 @@ import RelSto from '../data/pages/Story/RelSto.jsx'
 
 import './index.css'
 import Header from './components/Header.jsx'
+import Footer from './components/Footer.jsx'
+
 import GetDirectory from './scripts/GetDirectory.jsx'
 import GetEpisode from './scripts/GetEpisode.jsx'
 
@@ -67,6 +69,10 @@ function Root() {
             <App />
           </div>
         </div>
+
+
+        <Footer />
+        
       </StrictMode>
     </Router>
   )

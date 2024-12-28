@@ -24,8 +24,25 @@ export default function Home() {
 
             <hr></hr>
 
-            <h2>"If you're not paying for a product, you are the product."</h2>
-            <p className="font-serif">The Lore Archive team is here to break this assumption. We don't sell your data, we don't track you, and we don't show you ads. We're here to provide a fast, clean, and junk-free reading experience for Blue Archive's story. We do not generate profit, and we rely on your donations to keep going.</p>
+            <h2>Help us make LADR BETTR!</h2>
+            <p className="font-serif">We don't sell your data, we don't track you, and we don't show you ads. We're here to provide a fast, clean, and junk-free reading experience for Blue Archive's story. If you like it, we invite you to propose improvements you want to see! Check out the <a href="https://github.com/orgs/lorearchive/projects/1/views/1" className="text-blue-600 underline">LADR Backlog</a> for the latest development updates.</p>
+            <br></br>
+            <p className="font-serif">This app was built with <a href="https://react.dev/" className="text-blue-600 underline">React</a>, <a href="https://swc.rs/" className="text-blue-600 underline">SWC</a>, <a href="https://vite.dev/" className="text-blue-600 underline">Vite</a> and <a href="https://tailwindcss.com/" className="text-blue-600 underline">TailwindCSS</a>. If you would like to contribute to the development efforts of this web app, check out our <a href="https://github.com/lorearchive/LADR" className="text-blue-600 underline">source code</a>!</p>
+            <br></br>
+
+            <h2>Acknowledgements</h2>
+            <p className="font-serif">Many thanks to the following people! Without them, the LADR would not have been possible.</p>
+            <br></br>
+            <ul className="list-disc list-inside">
+                <li><p className="inline"><strong>AlexMercer</strong></p></li>
+
+                <li><p className="inline"><strong>c10</strong> for providing the json data</p></li>
+                <li><p className="inline"><em>and more to come...</em></p></li>
+
+            </ul>
+
+
+
 
 
         </>

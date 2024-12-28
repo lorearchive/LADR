@@ -105,6 +105,8 @@ export default function GetEpisode() {
         setLoading(false);
       }
     };
+    window.scrollTo(0, 0);
+  
 
     fetchEpisode();
   }, []); // Empty dependency array to run only once on component mount
