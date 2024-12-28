@@ -6,7 +6,7 @@ export default function GetEpisode() {
   const [error, setError] = useState(null);
 
   // Function to process the ScriptKr field and return a styled HTML template
-  const processScript = (script) => {
+  const processScript = (script, index) => {
     if (script.startsWith('#')) {
       const [command, ...instruction] = script.split(';'); // Split by semicolon
       const ins = instruction.join(';').trim(); // Combine the rest as the instruction
@@ -54,6 +54,29 @@ export default function GetEpisode() {
           return <p>{script}</p>; // Default rendering for unknown commands
       }
     }
+
+    // Non-command processing logic
+    const tokens = script.split(';');
+    if (/^[1-5]$/.test(tokens[0])) {
+      const speaker = tokens[1]?.trim() ?? 'Unknown'; // Get the speaker (second token)
+      const dialogue = tokens.slice(3).join(';').trim(); // Combine everything after the third token
+      const lineNo = index + 1; // Use the passed index to calculate LineNo
+    
+      return (
+        <div id={`Line${lineNo}`} className="my-2 p-2 rounded">
+          <p className="flex items-center space-x-2">
+            <span id="speaker" className="font-semibold text-gray-600">
+              {speaker}:
+            </span>
+            <span id="dialogue" className="text-gray-300">
+              {dialogue}
+            </span>
+          </p>
+        </div>
+      );
+    }
+    
+
     return <p>{script}</p>; // Default rendering for non-commands
   };
 
@@ -94,7 +117,7 @@ export default function GetEpisode() {
 
         const dataList = episodeData.DataList;
         if (dataList) {
-          const scriptData = dataList.map((item) => processScript(item.ScriptKr));
+          const scriptData = dataList.map((item, index) => processScript(item.ScriptKr, index));
           setData(scriptData);
         } else {
           throw new Error('DataList not found in the JSON response');
@@ -106,7 +129,6 @@ export default function GetEpisode() {
       }
     };
     window.scrollTo(0, 0);
-  
 
     fetchEpisode();
   }, []); // Empty dependency array to run only once on component mount
@@ -120,7 +142,7 @@ export default function GetEpisode() {
       <div id="scriptData">
         {data ? (
           data.map((item, index) => (
-            <div key={index} className="p-4 mb-4">
+            <div key={index} className="mb-4">
               {item} {/* Render processed content */}
             </div>
           ))
