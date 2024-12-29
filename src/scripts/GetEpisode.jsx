@@ -35,8 +35,7 @@ export default function GetEpisode() {
 
 
         default:
-            console.log('Unknown command');
-            // Handle the default case
+          return (`${command};${instruction};${instruction2};${instruction3}`)
     }
   };
 
@@ -102,8 +101,8 @@ export default function GetEpisode() {
 
       return (
         <div id={`Line${lineNo}`} className="p-2 rounded noto-serif-kr">
-          <p className="flex items-center space-x-2">
-            <span id="speaker" className="font-semibold text-gray-600">
+          <p className="flex space-x-2 items-start">
+            <span id="speaker" className="font-semibold text-gray-600 flex-shrink-0">
               {speaker}:
             </span>
             <span id="dialogue" className="text-gray-300">
