@@ -58,7 +58,7 @@ function Root() {
   return (
     <Router>
       <StrictMode>
-        <div id="ladr-header" className="fixed top-0 z-50 flex items-center justify-center w-full">
+        <div id="ladr-header" className="top-0 z-50 flex items-center justify-center w-full">
           <div id="ladr-header-root" className="flex items-center justify-center flex-grow">
             <Header />
           </div>

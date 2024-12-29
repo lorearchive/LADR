@@ -8,8 +8,8 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
+  background-color: #242424;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -28,6 +28,18 @@
 }
 
 
+
+.noto-serif-kr {
+  font-family: "Noto Serif KR", serif;
+  font-optical-sizing: auto;
+}
+
+.noto-serif-kr-bold {
+  font-family: "Noto Serif KR", serif;
+  font-optical-sizing: auto;
+  font-weight: bold;
+  font-style: normal;
+}
 
 
 body {
@@ -66,7 +78,16 @@ h2 {
 #ladr-header {
   height: 54px;
   background-color: #242424;
+  position: fixed;
 }
+body:has(#ladr-window > main > div > #episode) #ladr-header {
+  position: relative;
+} 
+
+
+
+
+
 
 #ladr-header-root {
   position: relative;
@@ -91,6 +112,12 @@ h2 {
   margin: 54px 0 0 0;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #242424;
+}
+
+#ladr-page:has(#ladr-window > main > div > #episode) {
+  background-color: #121212;
+  margin: 0;
 }
 
 
