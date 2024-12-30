@@ -68,6 +68,11 @@ h2 {
   margin: 1em 0 1em 0;
 }
 
+q {
+  quotes: none;
+}
+
+
 #ladr-site {
   width: 100%;
   min-height: 100vh;
@@ -121,10 +126,7 @@ body:has(#ladr-window > main > div > #episode) #ladr-header {
 }
 
 
-#ladr-window {
-  
 
-}
 
 
 main {
