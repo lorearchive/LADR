@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 
+
 // /data/pages/
 import Home from '../data/pages/Home.jsx'
 import MainSto from '../data/pages/Story/MainSto.jsx'
@@ -58,21 +59,20 @@ function Root() {
   return (
     <Router>
       <StrictMode>
-        <div id="ladr-header" className="top-0 z-50 flex items-center justify-center w-full">
-          <div id="ladr-header-root" className="flex items-center justify-center flex-grow">
-            <Header />
+          <div id="ladr-header" className="top-0 z-50 flex items-center justify-center w-full">
+            <div id="ladr-header-root" className="flex items-center justify-center flex-grow">
+              <Header />
+            </div>
           </div>
-        </div>
 
-        <div id="ladr-page">
-          <div id="ladr-window" className="flex justify-center pt-10 bg-transparent">
-            <App />
+          <div id="ladr-page">
+            <div id="ladr-window" className="flex justify-center pt-10 bg-transparent">
+              <App />
+            </div>
           </div>
-        </div>
 
 
-        <Footer />
-        
+          <Footer />
       </StrictMode>
     </Router>
   )

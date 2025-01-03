@@ -1,22 +1,26 @@
-export default function processCommand (array) {
+import { fetchSprites } from "../../state/spriteids"
+
+export default function ProcessCommand({ array }) {
+
 
     const command = array[0]
     const instruction = array[1]
     const instruction2 = array[2]
     const instruction3 = array[3]
-    
-
-    // This is pretty damn ugly.
+    const instruction4 = array[4]
 
 
-    switch (command) {
+    // If visualized, shit should look like the Collatz conjecture bruh
+
+
+    switch(command) {
 
         case '#title':
             if (instruction2) {
 
                 return (
                     <h2 id="EpTitle" className="noto-serif-kr text-2xl my-1 mb-6 font-bold relative pl-4 before:content-[''] before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-gradient-to-b before:from-transparent before:to-blue-600">
-                        {instruction}:{instruction2}
+                        {instruction} // {instruction2}
                     </h2>
                 );
 
@@ -29,7 +33,6 @@ export default function processCommand (array) {
             }
 
         case '#place':
-
             if (instruction2) {
                 return (
                     <div id="EpPlace" className="flex items-center p-2 pr-3 my-1 mb-6 text-sm">
@@ -46,8 +49,8 @@ export default function processCommand (array) {
 
             } else {
                 return (
-                    <div id="EpPlace" className="flex items-center p-2 pr-3 my-1 mb-6 text-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="gray" className="mr-2 size-6">
+                    <div id="EpPlace" className="flex items-center p-2 pr-3 mb-4 text-sm mt-11">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="gray" className="flex items-center justify-center mr-2 size-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                         </svg>
@@ -61,14 +64,11 @@ export default function processCommand (array) {
             }
 
 
-        case '#wait':
-            return (<><br />nodial<br /></>)
-
         case '#na':
             if (array.length === 3) {
                 return (
-                    <div className="p-2 rounded noto-serif-kr flex">
-                        <div id="speaker" className="flex mr-2 w-40 justify-end">
+                    <div className="flex p-2 rounded noto-serif-kr">
+                        <div id="speaker" className="flex justify-end flex-shrink-0 w-40 mr-2">
                             <p className="font-semibold text-gray-600">
                                 {instruction}:
                             </p>
@@ -80,13 +80,61 @@ export default function processCommand (array) {
                         </div>
                     </div>
                 );
-            } else {
-                return <p>{array}</p>;
-
+            } else if (array.length === 2) {
+                return (
+                    <div className="flex p-2 rounded noto-serif-kr">
+                        <div className="flex justify-end flex-shrink-0 w-40 mr-2" />
+                        <div id="narration" className="flex justify-end flex-shrink-0">
+                            <q className="text-gray-400 ">
+                                {instruction}
+                            </q>
+                        </div>
+                    </div>
+                );
             }
-            
-    
 
+        case '#zmc':
+            switch(instruction) {
+                case 'instant':
+                    return ''
+                case 'move':
+                    let height = Math.round(((instruction4 / 100) - 5) / 10);
+                        if (height > 1) {
+                        return (
+                            <div id="visualDelay" style={{ height: `${height}px` }}></div>
+                        );
+                    } else {
+                        return ''
+                    }
+                default:
+                    return 'DEFAULTINZMC'
+            }
+
+
+
+        case '#st':
+        case '#bgshake':
+            return ''
+
+        case '#clearST':
+            return <br />
+        
+        case '#all':
+            if (instruction === 'hide') {
+                return ''
+            } else {
+                console.log('#ALL,NOTHIDE')
+            }
+        
+        case '#wait':
+            let height = (instruction / 100) - 6;
+                if (height > 2) {
+                    return (
+                        <div id="visualDelay" style={{ height: `${height}px` }}></div>
+                    );
+                } else {
+                    return ''
+                }
 
         case '#1':
         case '#2':
@@ -94,22 +142,69 @@ export default function processCommand (array) {
         case '#4':
         case '#5':
             switch(instruction) {
+                case 'al':
+                case 'ar':
+                case 'd':
+                case 'dl':
+                    return <br />
+
+                
+
+                case 'a':
+                case 'h':
                 case 'm1':
                 case 'm2':
                 case 'm3':
                 case 'm4':
                 case 'm5':
-                    return ( '' );
-            
+                case 'hide':
+                case 'jump':
+                case 'shake':
+                case 'stiff':
+                case 'hophop':
+                case 'closeup':
+                case 'greeting':
+                    return ''
                 case 'em':
                     switch(instruction2) {
-                        case '[음표]':
+
+                        case '…':
                             return (
                                 <span className="emsvg">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="m9 9 10.5-3m0 6.553v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66a2.25 2.25 0 0 0 1.632-2.163Zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 0 1-.99-3.467l2.31-.66A2.25 2.25 0 0 0 9 15.553Z" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
                                     </svg>
                                 </span>
+
                             )
+                        case '[?]':
+                            return (
+                                    <span className="emsvg">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+                                        </svg>
+                                    </span>
+                            )
+
+                        case '[!]':
+                            return (
+                                <span className="emsvg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                                    </svg>
+                                </span>
+
+                            )
+
+                        case '[?!]':
+                            return (
+                                <span className="emsvg">
+                                    <p><strong>?!</strong></p>
+                                </span>
+                            )
+
+                        case '[반응]':
+                        case '[속상함]':
+                            return ''
 
                         case '[반짝]':
                             return (
@@ -119,60 +214,37 @@ export default function processCommand (array) {
                                 </span>
                             )
 
-                        case '[?]':
+                        case '[재잘]':
                             return (
                                 <span className="emsvg">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+                                    </svg>
+                                </span>
+
+                            )
+
+                        case '[땀]':
+                            return (
+                                <span className="emsvg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-droplet size-5" viewBox="0 0 16 16">
+                                        <path fillRule="evenodd" d="M7.21.8C7.69.295 8 0 8 0q.164.544.371 1.038c.812 1.946 2.073 3.35 3.197 4.6C12.878 7.096 14 8.345 14 10a6 6 0 0 1-12 0C2 6.668 5.58 2.517 7.21.8m.413 1.021A31 31 0 0 0 5.794 3.99c-.726.95-1.436 2.008-1.96 3.07C3.304 8.133 3 9.138 3 10a5 5 0 0 0 10 0c0-1.201-.796-2.157-2.181-3.7l-.03-.032C9.75 5.11 8.5 3.72 7.623 1.82z"/>
+                                        <path fillRule="evenodd" d="M4.553 7.776c.82-1.641 1.717-2.753 2.093-3.13l.708.708c-.29.29-1.128 1.311-1.907 2.87z"/>
                                     </svg>
                                 </span>
                             )
 
-                        case '[?!]':
-                            return (
-                                <p>?!</p>
-                            )
 
-                        case '[빠직]':
-                            return (
-                                <span className="emsvg">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15.182 16.318A4.486 4.486 0 0 0 12.016 15a4.486 4.486 0 0 0-3.198 1.318M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z" />
-                                    </svg>
-                                </span>
-                            )
-                        case '[반응]':
-                            return ('')
-                        
                         default:
-                            return instruction2
-
+                            return 'EMHERE'
                     }
-
-            
-                case 'a':
-                    return <br />
-
-                case '#all':
-                    switch(instruction) {
-                        case 'hide':
-                            return <br />
-                        default:
-                            return instruction
-                    }
-
-
-                case 'greeting':
-                case 'stiff':
-                case 'hophop':
-                case 'jump':
-                    return ('')
-
-
-
+                    
+                    
+                default:
+                    return 'DEFAULTININS'
             }
-
+        default:
+            return 'DEFAULTINCOM';
     }
 
-
-
-
-};
+}

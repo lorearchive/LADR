@@ -1,6 +1,6 @@
 import { script } from 'framer-motion/client';
 import { useEffect, useState } from 'react';
-import processScript from './processScript.jsx';
+import { ProcessScript } from './ProcessScript.jsx';
 
 export default function GetEpisode() {
   const [data, setData] = useState(null);
@@ -9,8 +9,6 @@ export default function GetEpisode() {
 
 
 
-  
-  
 
   useEffect(() => {
     const fetchEpisode = async () => {
@@ -49,7 +47,7 @@ export default function GetEpisode() {
 
         const dataList = episodeData.DataList;
         if (dataList) {
-          const scriptData = dataList.map((item) => processScript(item.ScriptKr, item.selectionGroup));
+          const scriptData = dataList.map((item) => <ProcessScript script={item.ScriptKr} group={item.SelectionGroup} />);
 
           setData(scriptData);
         } else {
