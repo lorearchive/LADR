@@ -1,6 +1,6 @@
 import { fetchSprites } from "../../state/spriteids"
 
-export default function ProcessCommand({ array }) {
+export default function ProcessCommand({ array, fontSize = 0 }) {
 
 
     const command = array[0]
@@ -65,32 +65,64 @@ export default function ProcessCommand({ array }) {
 
 
         case '#na':
-            if (array.length === 3) {
-                return (
-                    <div className="flex p-2 rounded noto-serif-kr">
-                        <div id="speaker" className="flex justify-end flex-shrink-0 w-40 mr-2">
-                            <p className="font-semibold text-gray-600">
-                                {instruction}:
-                            </p>
+            if (fontSize !== 0) {
+                if (array.length === 3) {
+                    return (
+                        <div className="flex p-2 rounded noto-serif-kr">
+                            <div id="speaker" className="flex justify-end flex-shrink-0 w-40 mr-2">
+                                <p className="font-semibold text-gray-600">
+                                    {instruction}:
+                                </p>
+                            </div>
+                            <div id="dialogue" className="text-gray-200">
+                                <q style={{fontSize: fontSize + 'em'}}>
+                                    {instruction2}
+                                </q>
+                            </div>
                         </div>
-                        <div id="dialogue" className="text-gray-200">
-                            <q>
-                                {instruction2}
-                            </q>
+                    );
+                } else if (array.length === 2) {
+                    return (
+                        <div className="flex p-2 rounded noto-serif-kr">
+                            <div className="flex justify-end flex-shrink-0 w-40 mr-2" />
+                            <div id="narration" className="flex justify-end flex-shrink-0">
+                                <q className="text-gray-400" style={{fontSize: fontSize + 'em'}}>
+                                    {instruction}
+                                </q>
+                            </div>
                         </div>
-                    </div>
-                );
-            } else if (array.length === 2) {
-                return (
-                    <div className="flex p-2 rounded noto-serif-kr">
-                        <div className="flex justify-end flex-shrink-0 w-40 mr-2" />
-                        <div id="narration" className="flex justify-end flex-shrink-0">
-                            <q className="text-gray-400 ">
-                                {instruction}
-                            </q>
+                    );
+                }
+            } else {
+
+                if (array.length === 3) {
+                    return (
+                        <div className="flex p-2 rounded noto-serif-kr">
+                            <div id="speaker" className="flex justify-end flex-shrink-0 w-40 mr-2">
+                                <p className="font-semibold text-gray-600">
+                                    {instruction}:
+                                </p>
+                            </div>
+                            <div id="dialogue" className="text-gray-200">
+                                <q>
+                                    {instruction2}
+                                </q>
+                            </div>
                         </div>
-                    </div>
-                );
+                    );
+                } else if (array.length === 2) {
+                    return (
+                        <div className="flex p-2 rounded noto-serif-kr">
+                            <div className="flex justify-end flex-shrink-0 w-40 mr-2" />
+                            <div id="narration" className="flex justify-end flex-shrink-0">
+                                <q className="text-gray-400 ">
+                                    {instruction}
+                                </q>
+                            </div>
+                        </div>
+                    );
+                }
+
             }
 
         case '#zmc':
@@ -119,6 +151,10 @@ export default function ProcessCommand({ array }) {
         case '#clearST':
             return <br />
         
+        case '#fontsize':
+            const fontsize = (instruction / 100) + 0.7 // font size in em. 100 = 1.7em, 80 = 1.5em etc. Linear interpolation.
+            return fontsize
+
         case '#all':
             if (instruction === 'hide') {
                 return ''
@@ -146,9 +182,9 @@ export default function ProcessCommand({ array }) {
                 case 'ar':
                 case 'd':
                 case 'dl':
+                case 'dr':
+                case 'black':
                     return <br />
-
-                
 
                 case 'a':
                 case 'h':
@@ -169,9 +205,10 @@ export default function ProcessCommand({ array }) {
                     switch(instruction2) {
 
                         case '…':
+                        case '[...]':
                             return (
                                 <span className="emsvg">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
                                     </svg>
                                 </span>
@@ -180,7 +217,7 @@ export default function ProcessCommand({ array }) {
                         case '[?]':
                             return (
                                     <span className="emsvg">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
                                         </svg>
                                     </span>
                             )
@@ -188,7 +225,7 @@ export default function ProcessCommand({ array }) {
                         case '[!]':
                             return (
                                 <span className="emsvg">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
                                     </svg>
                                 </span>
@@ -209,7 +246,7 @@ export default function ProcessCommand({ array }) {
                         case '[반짝]':
                             return (
                                 <span className="emsvg">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
                                     </svg>
                                 </span>
                             )
@@ -217,7 +254,7 @@ export default function ProcessCommand({ array }) {
                         case '[재잘]':
                             return (
                                 <span className="emsvg">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
                                     </svg>
                                 </span>
@@ -235,13 +272,41 @@ export default function ProcessCommand({ array }) {
                             )
 
 
+                        case '[빠직]':
+                            return (
+                                <span className="emsvg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="size-5">
+                                        <path d="M50 20 C20 20, 15 0, 15 0 C14 -2, 16 -3, 18 -2 C20 -1, 35 15, 50 15 C65 15, 80 -1, 82 -2 C84 -3, 86 -2, 85 0 C85 0, 80 20, 50 20Z" 
+                                                fill="white"/>
+                                        
+                                        <path d="M50 80 C20 80, 15 100, 15 100 C14 102, 16 103, 18 102 C20 101, 35 85, 50 85 C65 85, 80 101, 82 102 C84 103, 86 102, 85 100 C85 100, 80 80, 50 80Z" 
+                                                fill="white"/>
+                                        
+                                        <path d="M20 50 C20 20, 0 15, 0 15 C-2 14, -3 16, -2 18 C-1 20, 15 35, 15 50 C15 65, -1 80, -2 82 C-3 84, -2 86, 0 85 C0 85, 20 80, 20 50Z" 
+                                                fill="white"/>
+                                        
+                                        <path d="M80 50 C80 20, 100 15, 100 15 C102 14, 103 16, 102 18 C101 20, 85 35, 85 50 C85 65, 101 80, 102 82 C103 84, 102 86, 100 85 C100 85, 80 80, 80 50Z" 
+                                                fill="white"/>
+                                    </svg>
+                                </span>
+                            )
+
+                        case '[음표]':
+                            return (
+                                <span className="emsvg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m9 9 10.5-3m0 6.553v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66a2.25 2.25 0 0 0 1.632-2.163Zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 0 1-.99-3.467l2.31-.66A2.25 2.25 0 0 0 9 15.553Z" />
+                                    </svg>
+
+                                </span>
+                            )
                         default:
-                            return 'EMHERE'
+                            return 'EMHERE', instruction2
                     }
                     
                     
                 default:
-                    return 'DEFAULTININS'
+                    return 'DEFAULTININS', instruction
             }
         default:
             return 'DEFAULTINCOM';

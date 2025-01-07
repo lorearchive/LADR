@@ -10,30 +10,57 @@ export const SpriteContext = createContext();
 
 export function ProcessScript({ script, group }) {
 
+    let processedContent = []
+    let isFontSize = false
+    const lineNo = '';
+
 
     const tokens = script.split(";");
-    let tokenGroup = [];
-    let currentGroup = [];
 
-    for (let token of tokens) {
 
-        if (token.includes("\n")) {
-
-            let parts = token.split("\n");
-
-            currentGroup.push(parts[0]);
-
-            tokenGroup.push(currentGroup);
-
-            currentGroup = [...parts.slice(1)];
-        } else { 
-            currentGroup.push(token); 
+    function splitTokens(tokens) {
+        let tokenGroups = [];
+        let currentGroup = [];
+        
+        for (let token of tokens) {
+          if (token.includes('\n')) {
+            const parts = token.split('\n');
+            
+            // Add the first part to current group if it exists
+            if (parts[0]) {
+              currentGroup.push(parts[0]);
+            }
+            
+            // Add the current group to token groups if it's not empty
+            if (currentGroup.length > 0) {
+              tokenGroups.push(currentGroup);
+            }
+            
+            // Handle all middle parts (if any)
+            for (let i = 1; i < parts.length - 1; i++) {
+              if (parts[i]) {
+                tokenGroups.push([parts[i]]);
+              }
+            }
+            
+            // Start a new current group with the last part
+            currentGroup = parts[parts.length - 1] ? [parts[parts.length - 1]] : [];
+            
+          } else {
+            currentGroup.push(token);
+          }
         }
-    }
+        
+        // Add the last group if it's not empty
+        if (currentGroup.length > 0) {
+          tokenGroups.push(currentGroup);
+        }
+        
+        return tokenGroups;
+      }
 
-    if (currentGroup.length > 0) {
-        tokenGroup.push(currentGroup);
-    }
+    const tokenGroup = splitTokens(tokens)
+
 
     /**
      * script contains the raw script data, found in the ScriptKr field of the loaded json.
@@ -50,34 +77,21 @@ export function ProcessScript({ script, group }) {
      * for render.
      */
 
+    let fontsize
 
 
-    console.log(tokens)
+    if (tokenGroup.some(arr => arr[0].startsWith('#fontsize'))) {
 
-    if (tokenGroup.some(arr => arr[0].startsWith('[ns')) || tokenGroup.some(arr => arr[0].startsWith('[s')) || group !== 0) { // Selector, and selection?
-        return <ProcessSelector array={tokenGroup} group={group} />
-    }
+        let fontarr = tokenGroup.find(arr => arr[0].startsWith('#fontsize'));
 
-    const processedContent = tokenGroup.map(subArray => {
-
-        if (subArray[0].startsWith('#') && group === 0) {
-            return (
-                <ProcessCommand array={subArray} />
-            );
-
-
-
-        } else if (/^[1-5]$/.test(subArray[0])) {
-
-            updateSprites((subArray[0] - 1), subArray[1].trim());
-
-
-            const speaker = subArray[1]?.trim() ?? 'LADR.Err.NoSpeaker';
-            const dialogue = subArray.slice(3);
-            const lineNo = '';
-
-
-            if (subArray.length >= 4) {
+        fontsize = (fontarr[1] / 100) + 0.7
+    
+        processedContent = tokenGroup.map(subarray => {
+            if (/^[1-5]$/.test(subarray[0])) {
+                const speaker = subarray[1];
+                const dialogue = subarray.slice(3);
+    
+    
                 return (
                     <div key={lineNo} id={`Line${lineNo}`} className="flex p-2 rounded noto-serif-kr">
                         <div id="speaker" className="flex justify-end flex-shrink-0 w-40 mr-2">
@@ -86,16 +100,73 @@ export function ProcessScript({ script, group }) {
                             </p>
                         </div>
                         <div id="dialogue" className="text-gray-200">
-                            <q>{dialogue}</q>
+                            <q style={{fontSize: fontsize + 'em'}}>{dialogue}</q>
                         </div>
                     </div>
                 );
+
+            } else if (subarray[0].startsWith('#na')) {
+
+                return <ProcessCommand array={subarray} fontSize={fontsize} />;
+
+            } else if (/^#(?!(?:na|fontsize)\b)/.test(subarray[0])) {
+
+                return <ProcessCommand array={subarray} />;
             }
-            return '';
-        }
+        });
         
-        return null;
-    }).filter(Boolean); // Remove null/empty values
+    } else if (tokenGroup.some(arr => arr[0].startsWith('[ns')) || tokenGroup.some(arr => arr[0].startsWith('[s')) || group !== 0) { // Selector, and selection?
+
+        return <ProcessSelector array={tokenGroup} group={group} />
+        
+    } else if (tokenGroup.some(row => row.some(arr => arr.includes("[ruby=")))) {
+
+        const rubyString = tokenGroup.flat().find(item => item.includes("[ruby="));
+        return rubyString
+
+
+
+    } else if (!tokenGroup.some(arr => arr[0].startsWith('#fontsize'))) {
+        
+        console.log(tokenGroup)
+        processedContent = tokenGroup.map(subArray => {
+
+            if (/^#(?!fontsize\b)/.test(subArray[0]) && group === 0) {
+                return (
+                    <ProcessCommand array={subArray} /> 
+                );
+
+
+
+            } else if (/^[1-5]$/.test(subArray[0])) {
+
+                const speaker = subArray[1]?.trim() ?? 'LADR.Err.NoSpeaker';
+                const dialogue = subArray.slice(3);
+
+
+                if (subArray.length == 4) {
+                    return (
+                        <div key={lineNo} id={`Line${lineNo}`} className="flex p-2 rounded noto-serif-kr">
+                            <div id="speaker" className="flex justify-end flex-shrink-0 w-40 mr-2">
+                                <p className="font-semibold text-gray-600">
+                                    {speaker}:
+                                </p>
+                            </div>
+                            <div id="dialogue" className="text-gray-200">
+                                <q>{dialogue}</q>
+                            </div>
+                        </div>
+                    );
+                    
+                } else {
+                    return ''
+                };
+            }
+            
+            return 'null';
+        })
+    }
+
 
     return processedContent;
 }
