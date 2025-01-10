@@ -36,7 +36,7 @@ export default function Home() {
             <ul className="list-disc list-inside">
                 <li><p className="inline"><strong>AlexMercer</strong></p></li>
 
-                <li><p className="inline"><strong>c10</strong> for providing the json data</p></li>
+                <li><p className="inline"><strong>c10</strong></p></li>
                 <li><p className="inline"><em>and more to come...</em></p></li>
 
             </ul>
