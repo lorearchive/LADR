@@ -1,3 +1,5 @@
+![image](https://github.com/user-attachments/assets/4ec8bb04-7ccc-473f-89c1-cd29a0d751ee)
+
 # Lore Archive's Dialogue Reader
 
 ## For local developments
