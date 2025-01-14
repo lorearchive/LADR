@@ -11,13 +11,23 @@ import { isPreviousDialogueReset, fetchPreviousDialogue, setPreviousDialogue, re
 
 export default function ProcessSelector({ array, group }) {
 
-    // In this casse, array is a nested array!
+    // In this casse, array should be a nested array!
 
     // If it is a selector
-
-
-
     if (group === 0) {
+
+        if (array.some(subarray => subarray.some(item => /^\[([0-9A-F]{6})\]/.test(item)))) { // Check for text color overrides
+
+            array.some(subarray => subarray.some(item => {
+                const match = item.match(/^\[([0-9A-F]{6})\]/);
+                if (match) {
+                    let hex = match[1]; // Capture the XXXXXX part
+                    return true;
+                }
+                return false;
+            }));
+        }
+
 
         let line = array.filter(subArray => !subArray[0].startsWith('#'));
 
@@ -44,24 +54,23 @@ export default function ProcessSelector({ array, group }) {
             dialogue = line[0][1]
             return (
                 <div id={`Selector${selectorID}`} className="flex flex-col items-center justify-center p-2 my-6 rounded noto-serif-kr">
-                    <div className="flex justify-center flex-shrink-0 w-6/12 p-2 m-2 transition-colors rounded-md dark:bg-slate-800 hover:dark:bg-slate-700">
-                        <q className="font-semibold">
-                            {dialogue}
-                        </q>
-                    </div>
-
+                  <div className="flex justify-center flex-shrink-0 w-6/12 p-2 m-2 transition-colors rounded-md dark:bg-slate-800 hover:dark:bg-slate-700">
+                    <q className="font-semibold">
+                        {dialogue}
+                    </q>
+                  </div>
                 </div>
 
             )
-            
+
 
         } else if (line.length >=  2) { // if [nsx] or [sx]
-            
+
             selectorIDs = line.map(subArray => {
 
                 if (subArray[0].startsWith('[ns')) {
                     return subArray[0].slice(3, subArray[0].indexOf("]"))
-                
+
                 } else if (subArray[0].startsWith('[s')) {
                     return subArray[0].slice(2, subArray[0].indexOf("]"))
                 }
@@ -78,9 +87,9 @@ export default function ProcessSelector({ array, group }) {
 
 
         }
-        
 
-   
+
+
 
          if (line.length === 2) {
             return (
@@ -121,7 +130,7 @@ export default function ProcessSelector({ array, group }) {
         }
 
     }
-        
+
         // If group !== 0, handle responses
 
 
@@ -185,12 +194,12 @@ export default function ProcessSelector({ array, group }) {
             }
 
 
-            
+
         }
 
     }
-    
 
-        
+
+
 
 }
