@@ -1,71 +1,68 @@
-import { script } from 'framer-motion/client';
 import { useEffect, useState } from 'react';
 import { ProcessScript } from './ProcessScript.jsx';
 
 export default function GetEpisode() {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
 
+    useEffect(() => {
+        const fetchEpisode = async () => {
+            try {
+                setLoading(true);
+                setError(null);
 
+                const path = window.location.pathname;
+                const segments = path.split('/').filter(Boolean);
 
-  useEffect(() => {
-    const fetchEpisode = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+                const storytype = segments[0] ?? '';
+                const volume = segments[1] ?? '';
+                const chapter = segments[2] ?? '';
+                const episode = segments[3] ?? '';
 
-        // Capture the current URL path
-        const path = window.location.pathname;
+                let url = '';
+                if (volume === '') {
+                url = `https://media.githubusercontent.com/media/lorearchive/ladr-json/${storytype}.json`;
+                } else if (chapter === '') {
+                url = `https://media.githubusercontent.com/media/lorearchive/ladr-json/${storytype}/${volume}.json`;
+                } else if (episode === '') {
+                url = `https://media.githubusercontent.com/media/lorearchive/ladr-json/${storytype}/${volume}/${chapter}.json`;
+                } else {
+                url = `https://media.githubusercontent.com/media/lorearchive/ladr-json/${storytype}/${volume}/${chapter}/${episode}.json`;
+                }
 
-        // Strip off leading slashes and split the path by "/"
-        const segments = path.split('/').filter(Boolean);
+                const response = await fetch(url);
 
-        const storytype = segments[0] ?? '';
-        const volume = segments[1] ?? '';
-        const chapter = segments[2] ?? '';
-        const episode = segments[3] ?? '';
+                if (!response.ok) {
+                    console.log(url);
+                    throw new Error(`Failed to fetch episode: ${response.status}`);
+                }
 
-        let url = '';
-        if (volume === '') {
-          url = `https://media.githubusercontent.com/media/lorearchive/ladr-json/${storytype}.json`;
-        } else if (chapter === '') {
-          url = `https://media.githubusercontent.com/media/lorearchive/ladr-json/${storytype}/${volume}.json`;
-        } else if (episode === '') {
-          url = `https://media.githubusercontent.com/media/lorearchive/ladr-json/${storytype}/${volume}/${chapter}.json`;
-        } else {
-          url = `https://media.githubusercontent.com/media/lorearchive/ladr-json/${storytype}/${volume}/${chapter}/${episode}.json`;
-        }
+                const episodeData = await response.json();
+                const dataList = episodeData.DataList;
 
-        const response = await fetch(url);
-        if (!response.ok) {
-          console.log(url);
-          throw new Error(`Failed to fetch episode: ${response.status}`);
-        }
-        const episodeData = await response.json();
+                if (dataList) {
+                    const scriptData = dataList.map((item) => <ProcessScript script={item.ScriptKr} group={item.SelectionGroup} />);
+                    setData(scriptData);
 
-        const dataList = episodeData.DataList;
-        if (dataList) {
-          const scriptData = dataList.map((item) => <ProcessScript script={item.ScriptKr} group={item.SelectionGroup} />);
+                } else {
+                    throw new Error('LADR: DataList not found in the JSON response');
+                }
 
-          setData(scriptData);
-        } else {
-          throw new Error('DataList not found in the JSON response');
-        }
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    window.scrollTo(0, 0);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+        window.scrollTo(0, 0);
+        fetchEpisode();
 
-    fetchEpisode();
-  }, []); // Empty dependency array to run only once on component mount
+    }, []);
 
-  if (loading) return <p>Loading episode...</p>;
-  if (error) return <p>Error: {error}</p>;
+    if (loading) return <p>Loading episode...</p>;
+    if (error) return <p>Error: {error}</p>;
 
 
     return (

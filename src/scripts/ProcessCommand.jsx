@@ -2,267 +2,232 @@ import { fetchSprites } from "../../state/spriteids";
 import ProcessSelector from "./ProcessSelector.jsx";
 
 export default function ProcessCommand({ array, fontSize = 0 }) {
-  const command = array[0];
-  const instruction = array[1];
-  const instruction2 = array[2];
-  const instruction3 = array[3];
-  const instruction4 = array[4];
 
-  // If visualized, shit should look like the Collatz conjecture bruh
+    const command = array[0];
+    const instruction = array[1];
+    const instruction2 = array[2];
+    const instruction3 = array[3];
+    const instruction4 = array[4];
 
-  switch (command) {
-    case "#title":
-      if (instruction2) {
-        return (
-          <h2
-            id="EpTitle"
-            className="noto-serif-kr text-2xl my-1 mb-6 font-bold relative pl-4 before:content-[''] before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-gradient-to-b before:from-transparent before:to-blue-600"
-          >
-            {instruction} // {instruction2}
-          </h2>
-        );
-      } else {
-        return (
-          <h2
-            id="EpTitle"
-            className="noto-serif-kr text-2xl my-1 mb-6 font-bold relative pl-4 before:content-[''] before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-gradient-to-b before:from-transparent before:to-blue-600"
-          >
-            {instruction}
-          </h2>
-        );
-      }
+    // If visualized, shit should look like the Collatz conjecture bruh
 
-    case "#place":
-      if (instruction2) {
-        return (
-          <div
-            id="EpPlace"
-            className="flex items-center p-2 pr-3 my-1 mb-6 text-sm"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="gray"
-              className="mr-2 size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-              />
-            </svg>
+    switch (command) {
+        case "#title":
+            if (instruction2) {
+                return (
+                    <h2 id="EpTitle" className="noto-serif-kr text-2xl my-1 mb-6 font-bold relative pl-4 before:content-[''] before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-gradient-to-b before:from-transparent before:to-blue-600">
+                        {instruction} // {instruction2}
+                    </h2>
+                 );
 
-            <h5
-              id="EpPlaceTag"
-              className="flex items-center noto-serif-kr dark:text-gray-400"
-            >
-              <em>
-                {instruction} // {instruction2}
-              </em>
-            </h5>
-          </div>
-        );
-      } else {
-        return (
-          <div
-            id="EpPlace"
-            className="flex items-center p-2 pr-3 mb-4 text-sm mt-11"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="gray"
-              className="flex items-center justify-center mr-2 size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-              />
-            </svg>
+            } else {
+                return (
+                    <h2 id="EpTitle" className="noto-serif-kr text-2xl my-1 mb-6 font-bold relative pl-4 before:content-[''] before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-gradient-to-b before:from-transparent before:to-blue-600">
+                        {instruction}
+                    </h2>
+                );
+            }
 
-            <h5
-              id="EpPlaceTag"
-              className="flex items-center noto-serif-kr dark:text-gray-400"
-            >
-              <em>{instruction}</em>
-            </h5>
-          </div>
-        );
-      }
+        case "#place":
+            if (instruction2) {
+                return (
+                    <div id="EpPlace" className="flex items-center p-2 pr-3 my-1 mb-6 text-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="gray" className="mr-2 size-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                        </svg>
 
-    case "#na":
-      if (fontSize !== 0) {
-        if (array.length === 3) {
-          return (
-            <div className="flex p-2 rounded noto-serif-kr">
-              <div
-                id="speaker"
-                className="flex justify-end flex-shrink-0 w-40 mr-2"
-              >
-                <p className="font-semibold text-gray-600">{instruction}:</p>
-              </div>
-              <div id="dialogue" className="text-gray-200">
-                <q style={{ fontSize: fontSize + "em" }}>{instruction2}</q>
-              </div>
-            </div>
-          );
-        } else if (array.length === 2) {
-          return (
-            <div className="flex p-2 rounded noto-serif-kr">
-              <div className="flex justify-end flex-shrink-0 w-40 mr-2" />
-              <div id="narration" className="flex justify-end flex-shrink-0">
-                <q
-                  className="text-gray-400"
-                  style={{ fontSize: fontSize + "em" }}
-                >
-                  {instruction}
-                </q>
-              </div>
-            </div>
-          );
-        }
-      } else {
-        if (array.length === 3) {
-          return (
-            <div className="flex p-2 rounded noto-serif-kr">
-              <div
-                id="speaker"
-                className="flex justify-end flex-shrink-0 w-40 mr-2"
-              >
-                <p className="font-semibold text-gray-600">{instruction}:</p>
-              </div>
-              <div id="dialogue" className="text-gray-200">
-                <q>{instruction2}</q>
-              </div>
-            </div>
-          );
-        } else if (array.length === 2) {
-          return (
-            <div className="flex p-2 rounded noto-serif-kr">
-              <div className="flex justify-end flex-shrink-0 w-40 mr-2" />
-              <div id="narration" className="flex justify-end flex-shrink-0">
-                <q className="text-gray-400 ">{instruction}</q>
-              </div>
-            </div>
-          );
-        }
-      }
+                        <h5 id="EpPlaceTag" className="flex items-center noto-serif-kr dark:text-gray-400">
+                            <em>
+                                {instruction} // {instruction2}
+                            </em>
+                        </h5>
+                    </div>
+                );
 
-    case "#zmc":
-      switch (instruction) {
-        case "instant":
-          return "";
-        case "move":
-          let height = Math.round((instruction4 / 100 - 5) / 10);
-          if (height > 1) {
-            return (
-              <div id="visualDelay" style={{ height: `${height}px` }}></div>
-            );
-          } else {
+            } else {
+
+        
+                return (
+                    <div id="EpPlace" className="flex items-center p-2 pr-3 mb-4 text-sm mt-11">
+                        <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="gray"
+                        className="flex items-center justify-center mr-2 size-6"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                            />
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                            />
+                        </svg>
+
+                        <h5
+                        id="EpPlaceTag"
+                        className="flex items-center noto-serif-kr dark:text-gray-400"
+                        >
+                            <em>{instruction}</em>
+                        </h5>
+                    </div>
+                );
+            }
+
+        case "#na":
+            if (fontSize !== 0) {
+                if (array.length === 3) {
+                    return (
+                        <div className="flex p-2 rounded noto-serif-kr">
+                            <div id="speaker" className="flex justify-end flex-shrink-0 w-40 mr-2">
+                                <p className="font-semibold text-gray-600">{instruction}:</p>
+                            </div>
+                            <div id="dialogue" className="text-gray-200">
+                                <q style={{ fontSize: fontSize + "em" }}>{instruction2}</q>
+                            </div>
+                        </div>
+                    );
+                
+                } else if (array.length === 2) {
+                    return (
+                        <div className="flex p-2 rounded noto-serif-kr">
+                            <div className="flex justify-end flex-shrink-0 w-40 mr-2" />
+                            <div id="narration" className="flex justify-end flex-shrink-0">
+                                <q className="text-gray-400" style={{ fontSize: fontSize + "em" }}>
+                                    {instruction}
+                                </q>
+                            </div>
+                        </div>
+                    );
+                }
+
+            } else {
+                if (array.length === 3) {
+                    return (
+                        <div className="flex p-2 rounded noto-serif-kr">
+                            <div id="speaker" className="flex justify-end flex-shrink-0 w-40 mr-2">
+                                <p className="font-semibold text-gray-600">{instruction}:</p>
+                            </div>
+                            <div id="dialogue" className="text-gray-200">
+                                <q>{instruction2}</q>
+                            </div>
+                        </div>
+                    );
+
+                } else if (array.length === 2) {
+                    return (
+                        <div className="flex p-2 rounded noto-serif-kr">
+                            <div className="flex justify-end flex-shrink-0 w-40 mr-2" />
+                            <div id="narration" className="flex justify-end flex-shrink-0">
+                                <q className="text-gray-400 ">{instruction}</q>
+                            </div>
+                        </div>
+                    );
+                }
+            }
+
+
+
+        case "#zmc":
+            switch (instruction) {
+                case "instant":
+                    return "";
+
+                case "move":
+                    let height = Math.round((instruction4 / 100 - 5) / 10);
+                        if (height > 1) {
+                        return ( <div id="visualDelay" style={{ height: `${height}px` }}></div> );
+                        } else {
+                            return "";
+                        }
+
+                default:
+                    console.error("LADR: No valid instruction case for #zmc. Received ", instruction)
+                    return "";
+            }
+
+
+
+        case "#bgshake":
+        case "#hidemenu":
             return "";
-          }
-        default:
-          return "DEFAULTINZMC";
-      }
-
-    case "#bgshake":
-    case "#hidemenu":
-      return "";
 
 
-      case "#st":
-        if (/^\[([0-9A-F]{6})\]/.test(instruction4)) {
-            <ProcessSelector array={array} />
-        }
+        case "#st":
+            if (/^\[([0-9A-F]{6})\]/.test(instruction4)) {
+                <ProcessSelector array={array} />
+            }
 
-    case "#clearST":
-      return <br />;
+        case "#clearST":
+            return <br />;
 
-    case "#fontsize":
-      const fontsize = instruction / 100 + 0.7; // font size in em. 100 = 1.7em, 80 = 1.5em etc. Linear interpolation.
-      return fontsize;
+        case "#fontsize":
+            const fontsize = instruction / 100 + 0.7; // font size in em. 100 = 1.7em, 80 = 1.5em etc. Linear interpolation.
+            return fontsize;
 
-    case "#all":
-      if (instruction === "hide") {
-        return "";
-      } else {
-        console.log("#ALL,NOTHIDE");
-      }
+        case "#all":
+            if (instruction === "hide") {
+                return "";
+            } else {
+                console.error("LADR: No valid instruction for #all. Received ", instruction);
+            }
 
-    case "#wait":
-      let height = instruction / 100 - 6;
-      if (height > 2) {
-        return <div id="visualDelay" style={{ height: `${height}px` }}></div>;
-      } else {
-        return "";
-      }
 
-    case "#1":
-    case "#2":
-    case "#3":
-    case "#4":
-    case "#5":
-      switch (instruction) {
-        case "al":
-        case "ar":
-        case "d":
-        case "dl":
-        case "dr":
-        case "black":
-          return <br />;
+        case "#wait":
+            let height = instruction / 100 - 6;
+            if (height > 2) {
+                return <div id="visualDelay" style={{ height: `${height}px` }}></div>;
+            } else {
+                return "";
+            }
 
-        case "a":
-        case "h":
-        case "m1":
-        case "m2":
-        case "m3":
-        case "m4":
-        case "m5":
-        case "hide":
-        case "jump":
-        case "shake":
-        case "stiff":
-        case "hophop":
-        case "closeup":
-        case "greeting":
-          return "";
-        case "em":
-          switch (instruction2) {
-            case "…":
-            case "[...]":
-              return (
-                <span className="emsvg">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="size-6"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z"
-                    />
-                  </svg>
-                </span>
-              );
+        case "#1":
+        case "#2":
+        case "#3":
+        case "#4":
+        case "#5":
+            switch (instruction) {
+                case "al":
+                case "ar":
+                case "d":
+                case "dl":
+                case "dr":
+                case "black":
+                    return <br />;
+
+                case "a":
+                case "h":
+                case "m1":
+                case "m2":
+                case "m3":
+                case "m4":
+                case "m5":
+                case "hide":
+                case "jump":
+                case "shake":
+                case "stiff":
+                case "hophop":
+                case "closeup":
+                case "greeting":
+                    return "";
+
+                case "em":
+                    switch (instruction2) {
+                        case "…":
+                        case "[...]":
+                        return (
+                            <span className="emsvg">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
+                                </svg>
+                            </span>
+                        );
             case "[?]":
               return (
                 <span className="emsvg">

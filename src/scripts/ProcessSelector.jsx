@@ -106,6 +106,7 @@ export default function ProcessSelector({ array, group }) {
                     </div>
                 </div>
             )
+
         } else if (line.length === 3) {
             return (
                 <div id="Selectors" className="flex flex-col items-center justify-center p-2 my-8 rounded noto-serif-kr">
@@ -125,7 +126,6 @@ export default function ProcessSelector({ array, group }) {
                         </q>
                     </div>
                 </div>
-
             )
         }
 
