@@ -9,6 +9,7 @@ export default function GetEpisode() {
 
     useEffect(() => {
         const fetchEpisode = async () => {
+            
             try {
                 setLoading(true);
                 setError(null);
