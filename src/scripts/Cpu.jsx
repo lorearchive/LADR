@@ -1,6 +1,6 @@
 import ProcessCommand from "./ProcessCommand.jsx";
 import ProcessSelector from "./ProcessSelector.jsx";
-import { updateSprites } from "./LADR/state/spriteids.js"
+import { updateSprites } from "../../state/spriteids.js"
 
 
 
