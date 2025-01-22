@@ -1,0 +1,173 @@
+import React from "react";
+
+import ProcessCommand from "./ProcessCommand.jsx";
+import ProcessSelector from "./ProcessSelector.jsx";
+import { updateSprites } from "../../state/spriteids.js"
+
+
+/** NOTES
+ * 
+ * A subarray can be either a LINE, COMMAND, OR SELECTOR.
+ * 
+ * A Line is a normal bit of text you would expect
+ * 
+ * A Command begins with a # and directly modifies and adds graphics in-game
+ * 
+ * A Selector is a prompt in which the player can choose Sensei's response / dialogue (And a SELECTION is a response to a SELECTOR)
+ * 
+ * The CPU maps through each subarray and checks if it is a LINE, COMMAND, or SELECTOR.
+ * 
+ * 
+ * 
+ * A LINE can be modified by a VARIATOR. VARIATORS come in different shapes and forms, most commonly enclosed by square brackets.
+ * VARIATORS are present inside the dialogue.
+ * 
+ * VARIATORS are checked in this priority order: (The simpler it is, the less priority it has)
+ * 
+ * 1. Font size VARIATOR
+ * 2. Text color VARIATOR
+ * 3. Ruby text VARIATOR
+ * 4. Sensei name VARIATOR
+ * 5. Newline VARIATOR (#n, and this is NOT a command.)
+ * 
+ */
+
+
+let dialogue: string                                                // The string which is said by a character.
+
+let normal: (string | number)[]                                     // A line which is NORMAL. i.e. ['pos', 'char', 'sprite', 'dialogue']
+let commandArr: (string | number)[]                                 // A Command array
+
+let variator_fontsize: (string | number)[]  = []                    // An array which contains the fontsize variator
+let variator_fontsizeRaw = variator_fontsize[1] as number           // The raw integer font size provided by JSON
+let variator_size = 1                                               // Font size calulcated into em unit, defaulting at 1
+
+let variator_colour_regex = /^\[[0-9A-F]{6}\].*?\[-\]$/             // Matches EXACTLY "[HEXADECIMAL]...[-]"
+let variator_colour_regexCapture = /^\[([0-9A-F]{6})\](.*?)\[-\]$/
+let variator_colour_generalRegex = /\[([0-9A-F]{6})\](.*?)\[-\]/g   // Matches GENERALLY "...[HEXADECIMAL]...[-]..."
+let variator_colourRegex = /^\[([A-F0-9]{6})\](.*?)\[-\]$/           // Matches both the hex colour code and text
+let variator_colour = "0"                                           // The captured hex code, defaulted at 0 to check if it has been changed later
+let variator_colouredText: string                                   // The captured text
+
+
+let variator_rubyHex = /\[ruby=(.*?)\](.*?)\[\/ruby\]/g             // Captures both ABC and DEF in "foo foo [ruby=ABC]DEF[/ruby] bar bar"
+let variator_rubified: string[] = []
+
+let output: string[]
+
+
+export function ProcessVariator( dialogue:string ): string {
+
+    // Text color VARIATOR
+
+    if (variator_colour_regex.test(dialogue)) {
+
+        let matches = variator_colour_regexCapture.exec(dialogue) as RegExpExecArray
+        variator_colour = matches[1]
+        variator_colouredText = matches[2]
+
+
+        dialogue = `<span class="colouredText" style="color: #${variator_colour} ">${variator_colouredText}</span>`
+
+    } else if (variator_colour_generalRegex.test(dialogue)) {
+        console.log("LADR: Received general match for custom text colouring. ", dialogue)
+    }
+
+
+    // RUBY TEXT VARIATOR
+
+    if (dialogue.includes("[ruby=")) {
+
+        variator_rubified = [...dialogue.matchAll(variator_rubyHex)].flatMap(match => [match[1], match[2]]) // [rt, rb, rt, rb, rt, rb, ...]
+
+        if (variator_rubified.length % 2 !== 0) {
+            console.error("LADR: Rubified array does not contain an even amount of elements. Continuing with blank rubified array.")
+            variator_rubified = []
+        }
+
+        dialogue = dialogue.replace(variator_rubified[1], `<ruby>${variator_rubified[1]}<rp>(</rp><rt>${variator_rubified[0]}</rt><rp>)</rp></ruby>`)
+
+    }
+
+    // newlineVARIATOR
+
+    if (dialogue.includes("#n")) {
+        dialogue = dialogue.replace(/#n/g, "<br />")
+    }
+
+    return dialogue
+}
+
+
+
+export default function Cpu({ NestedArray, Group }) {
+
+    output = NestedArray.map((subarray: (string | number)[]) => {
+
+
+        if (typeof subarray[0] === 'number' && Number.isInteger(subarray[0]) && subarray[0] >= 1 && subarray[0] <= 5) {
+
+            normal = NestedArray.find((subarray: (string | number)[]) => [1, 2, 3, 4, 5].some(value => value === subarray[0]))
+            updateSprites(((normal[0] as number) - 1), normal[1])
+
+    
+            if (normal.length === 4) {
+                dialogue = normal[3] as string
+    
+            } else if (normal.length === 3) {
+                dialogue = ''
+    
+            } else if (normal.length !== 4 && normal.length !== 3) {
+                console.log("LADR: A Normal Subarray of Nested Array is not of length value 4 AND 3. Proceeding with blank dialogue value.")
+                dialogue = ''
+            }
+            
+
+            // Check for fontsize changes
+            // More often that not #fontsize is found in the last subarray. But we still check anyways
+
+
+            variator_fontsize = NestedArray.find((subarray: (string | number)[]) => subarray.includes("#fontsize")) || []
+
+            if (variator_fontsize.length !== 0) {
+
+                if (variator_fontsize.length === 2) {
+                    variator_fontsizeRaw = variator_fontsize[1] as number
+
+                } else {
+                    console.error("LADR: Fontsize VARIATOR array does not contain 2 elements. Continuing with raw fontsize = 30")
+                    variator_fontsizeRaw = 30
+                }
+
+                variator_size = variator_fontsizeRaw / 100 + 0.7; // Calculate the em value from raw fontsize
+
+                if (variator_size <= 1) {
+                    console.error("LADR: calculated font size to be equal to or less than 1em. Is this right? ", NestedArray)
+                }
+            }
+
+            return ProcessVariator(dialogue)
+
+
+            
+        } else if ((subarray[0] as string).startsWith("#")) {
+
+            // assign dialogue value before passing to ProcessCommand
+
+            
+
+
+
+        }
+    
+
+
+
+
+    })
+
+
+    return output
+
+
+}

@@ -19,7 +19,7 @@ export default function GetDirectory({ path, chapter }) {
 
         // Transform the data
         const names = result
-          .filter(item => item.type === 'file')
+          .filter(item => item.name.endsWith(".json"))
           .map(item => ({ name: item.name.replace('.json', ''), sha: item.sha }));
 
         setData(names);

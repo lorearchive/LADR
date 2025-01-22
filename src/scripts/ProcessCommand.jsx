@@ -1,13 +1,19 @@
 import { fetchSprites } from "../../state/spriteids";
 import ProcessSelector from "./ProcessSelector.jsx";
+import { ProcessVariator } from "./Cpu.tsx";
+import CreateLine from "./CreateLine.tsx";
+import { CreateHtmlLine } from "./CreateLine.tsx";
 
-export default function ProcessCommand({ array, fontSize = 0 }) {
+export default function ProcessCommand({ array, fontSize = 0, dialogue = "" }) {
 
     const command = array[0];
     const instruction = array[1];
     const instruction2 = array[2];
     const instruction3 = array[3];
     const instruction4 = array[4];
+
+    console.log(array)
+
 
     // If visualized, shit should look like the Collatz conjecture bruh
 
@@ -47,7 +53,6 @@ export default function ProcessCommand({ array, fontSize = 0 }) {
 
             } else {
 
-        
                 return (
                     <div id="EpPlace" className="flex items-center p-2 pr-3 mb-4 text-sm mt-11">
                         <svg
@@ -155,14 +160,22 @@ export default function ProcessCommand({ array, fontSize = 0 }) {
 
 
         case "#bgshake":
+        case "#showmenu":
         case "#hidemenu":
             return "";
 
 
         case "#st":
-            if (/^\[([0-9A-F]{6})\]/.test(instruction4)) {
-                <ProcessSelector array={array} />
+            if (array.length === 5) {
+                return CreateLine("white", ProcessVariator(array[4]))
             }
+            break
+
+        case "#stm":
+            if (array.length === 5) {
+                return CreateHtmlLine("center", ProcessVariator(array[4]))
+            }
+            break
 
         case "#clearST":
             return <br />;
@@ -172,7 +185,7 @@ export default function ProcessCommand({ array, fontSize = 0 }) {
             return fontsize;
 
         case "#all":
-            if (instruction === "hide") {
+            if (instruction === "hide" || "HIDE") {
                 return "";
             } else {
                 console.error("LADR: No valid instruction for #all. Received ", instruction);
@@ -180,7 +193,7 @@ export default function ProcessCommand({ array, fontSize = 0 }) {
 
 
         case "#wait":
-            let height = instruction / 100 - 6;
+            let height = instruction / 100 - 7;
             if (height > 2) {
                 return <div id="visualDelay" style={{ height: `${height}px` }}></div>;
             } else {
@@ -402,6 +415,6 @@ export default function ProcessCommand({ array, fontSize = 0 }) {
           return "DEFAULTININS", instruction;
       }
     default:
-      return "DEFAULTINCOM";
+      return "DEFAULTINCOM", command;
   }
 }

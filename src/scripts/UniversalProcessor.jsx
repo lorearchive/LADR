@@ -11,6 +11,7 @@ export default function UniversalProcessor({ NestedArray, Group }) {
     let output;
     console.log(NestedArray)
 
+
     if (NestedArray.some((subarray) => subarray[0].startsWith("#fontsize"))) {
 
         let fontarray = NestedArray.find((subarray) => subarray[0].startsWith("#fontsize"));
@@ -48,7 +49,7 @@ export default function UniversalProcessor({ NestedArray, Group }) {
 
 
 
-    } else if (NestedArray.some((subarray) => subarray[0].startsWith("[ns")) || NestedArray.some((subarray) => subarray[0].startsWith("[s")) || Group !== 0 || NestedArray.some(subarray => subarray.some(item => /^\[([0-9A-F]{6})\]/.test(item)))) { // Selector, and selection?
+    } else if (NestedArray.some((subarray) => subarray[0].startsWith("[ns")) || NestedArray.some((subarray) => subarray[0].startsWith("[s")) || Group !== 0) { // Selector, and selection?
         
         return <ProcessSelector array={NestedArray} group={Group} />;
 
@@ -84,9 +85,11 @@ export default function UniversalProcessor({ NestedArray, Group }) {
                 } else {
                     return ''
                 }
+            } else if (NestedArray.length === 1 && subarray.length === 1 && subarray[0] === "") {
+                return ""
             }
 
-            console.log("LADR: Unrecognized array format (not fontsizze, command, selector etc.), returning with null")
+            console.log("LADR: Unrecognized array format (not fontsize, command, selector etc.), returning with null")
             return "null";
         })
     }
