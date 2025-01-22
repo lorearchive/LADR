@@ -11,7 +11,7 @@ import { isPreviousDialogueReset, fetchPreviousDialogue, setPreviousDialogue, re
 
 export default function ProcessSelector({ array, group }) {
 
-    // In this casse, array should be a nested array!
+    // In this casse, array should be a nested array! why didnt i just name it nestedarray
 
     // If it is a selector
     if (group === 0) {

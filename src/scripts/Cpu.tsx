@@ -4,6 +4,8 @@ import ProcessCommand from "./ProcessCommand.jsx";
 import ProcessSelector from "./ProcessSelector.jsx";
 import { updateSprites } from "../../state/spriteids.js"
 
+import { CreateHtmlLine } from "./CreateLine.tsx";
+
 
 /** NOTES
  * 
@@ -32,8 +34,9 @@ import { updateSprites } from "../../state/spriteids.js"
  * 
  */
 
-
+let speaker: string                                                 // The speaker
 let dialogue: string                                                // The string which is said by a character.
+let fontsize: number  = 0                                           // Fontsize if any, defaulted at 0 to see if it changed
 
 let normal: (string | number)[]                                     // A line which is NORMAL. i.e. ['pos', 'char', 'sprite', 'dialogue']
 let commandArr: (string | number)[]                                 // A Command array
@@ -99,64 +102,52 @@ export function ProcessVariator( dialogue:string ): string {
 }
 
 
+export default function Cpu( NestedArray: (number | string)[][], Group: number ) {
 
-export default function Cpu({ NestedArray, Group }) {
 
     output = NestedArray.map((subarray: (string | number)[]) => {
+
+        fontsize = ProcessCommand({ array: subarray, NestedArray: NestedArray })
 
 
         if (typeof subarray[0] === 'number' && Number.isInteger(subarray[0]) && subarray[0] >= 1 && subarray[0] <= 5) {
 
-            normal = NestedArray.find((subarray: (string | number)[]) => [1, 2, 3, 4, 5].some(value => value === subarray[0]))
+            normal = NestedArray.find((subarray: (string | number)[]) => [1, 2, 3, 4, 5].some(value => value === subarray[0])) as []
             updateSprites(((normal[0] as number) - 1), normal[1])
-
-    
+            
             if (normal.length === 4) {
+                speaker = normal[1] as string
                 dialogue = normal[3] as string
+
+                if (fontsize !== 0) {
+                    dialogue = ProcessVariator(dialogue)
+                    return CreateHtmlLine("normal", dialogue, speaker, fontsize)
+                } else {
+                    dialogue = ProcessVariator(dialogue)
+                    return CreateHtmlLine("normal", dialogue, speaker)
+                }
     
             } else if (normal.length === 3) {
+                speaker = ""
                 dialogue = ''
+                return ""
     
             } else if (normal.length !== 4 && normal.length !== 3) {
-                console.log("LADR: A Normal Subarray of Nested Array is not of length value 4 AND 3. Proceeding with blank dialogue value.")
+                console.log("LADR: A Normal Subarray of Nested Array is not of length value 4 AND 3. Proceeding with blank dialogue and speaker value.")
+                speaker = ""
                 dialogue = ''
+                return ""
             }
-            
-
-            // Check for fontsize changes
-            // More often that not #fontsize is found in the last subarray. But we still check anyways
-
-
-            variator_fontsize = NestedArray.find((subarray: (string | number)[]) => subarray.includes("#fontsize")) || []
-
-            if (variator_fontsize.length !== 0) {
-
-                if (variator_fontsize.length === 2) {
-                    variator_fontsizeRaw = variator_fontsize[1] as number
-
-                } else {
-                    console.error("LADR: Fontsize VARIATOR array does not contain 2 elements. Continuing with raw fontsize = 30")
-                    variator_fontsizeRaw = 30
-                }
-
-                variator_size = variator_fontsizeRaw / 100 + 0.7; // Calculate the em value from raw fontsize
-
-                if (variator_size <= 1) {
-                    console.error("LADR: calculated font size to be equal to or less than 1em. Is this right? ", NestedArray)
-                }
-            }
-
-            return ProcessVariator(dialogue)
-
-
             
         } else if ((subarray[0] as string).startsWith("#")) {
 
-            // assign dialogue value before passing to ProcessCommand
+            if (fontsize !== 0) {
+                return ProcessCommand({array: subarray, fontSize: fontsize, NestedArray: NestedArray})
+            } else {
+                return ProcessCommand({array: subarray, NestedArray: NestedArray})
+            }
 
-            
-
-
+        } else if (NestedArray.some((subarray) => (subarray[0] as string).startsWith("[ns")) || NestedArray.some((subarray) => (subarray[0] as string).startsWith("[s")) || Group !== 0) {
 
         }
     

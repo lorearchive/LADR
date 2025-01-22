@@ -9,7 +9,6 @@ export default function UniversalProcessor({ NestedArray, Group }) {
 
     let lineNo;
     let output;
-    console.log(NestedArray)
 
 
     if (NestedArray.some((subarray) => subarray[0].startsWith("#fontsize"))) {
@@ -42,7 +41,7 @@ export default function UniversalProcessor({ NestedArray, Group }) {
 
             } else if (/^#(?!(?:na|fontsize)\b)/.test(subarray[0])) {
 
-                return <ProcessCommand array={subarray} />;
+                return <ProcessCommand array={subarray} NestedArray={NestedArray} />;
             }
         })
 

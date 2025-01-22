@@ -3,6 +3,7 @@ import { createContext } from "react";
 import ProcessCommand from "./ProcessCommand.jsx";
 import ProcessSelector from "./ProcessSelector.jsx";
 import UniversalProcessor from "./UniversalProcessor.jsx";
+import Cpu from "./Cpu.tsx"
 
 export const SpriteContext = createContext();
 
@@ -71,5 +72,6 @@ export function ProcessScript({ script, group }) {
      * for render.
      */
 
+    console.log(tokenGroup)
     return <UniversalProcessor NestedArray={tokenGroup} Group={group} />;
 }

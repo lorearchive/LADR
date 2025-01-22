@@ -1,10 +1,14 @@
+import PropTypes from 'prop-types'
+
 import { fetchSprites } from "../../state/spriteids";
+
 import ProcessSelector from "./ProcessSelector.jsx";
 import { ProcessVariator } from "./Cpu.tsx";
+
 import CreateLine from "./CreateLine.tsx";
 import { CreateHtmlLine } from "./CreateLine.tsx";
 
-export default function ProcessCommand({ array, fontSize = 0, dialogue = "" }) {
+export default function ProcessCommand({ array, fontSize = 0, dialogue = "", NestedArray = [...Array(2)].map(e => Array(2)) }) {
 
     const command = array[0];
     const instruction = array[1];
@@ -12,10 +16,10 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "" }) {
     const instruction3 = array[3];
     const instruction4 = array[4];
 
-    console.log(array)
+    let speaker
 
 
-    // If visualized, shit should look like the Collatz conjecture bruh
+    // sorry
 
     switch (command) {
         case "#title":
@@ -86,44 +90,24 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "" }) {
             }
 
         case "#na":
+        
             if (fontSize !== 0) {
                 if (array.length === 3) {
-                    return (
-                        <div className="flex p-2 rounded noto-serif-kr">
-                            <div id="speaker" className="flex justify-end flex-shrink-0 w-40 mr-2">
-                                <p className="font-semibold text-gray-600">{instruction}:</p>
-                            </div>
-                            <div id="dialogue" className="text-gray-200">
-                                <q style={{ fontSize: fontSize + "em" }}>{instruction2}</q>
-                            </div>
-                        </div>
-                    );
+
+                    dialogue = ProcessVariator(instruction2)
+                    speaker = instruction
+                    return CreateHtmlLine("normal", dialogue, speaker, fontSize)
                 
                 } else if (array.length === 2) {
-                    return (
-                        <div className="flex p-2 rounded noto-serif-kr">
-                            <div className="flex justify-end flex-shrink-0 w-40 mr-2" />
-                            <div id="narration" className="flex justify-end flex-shrink-0">
-                                <q className="text-gray-400" style={{ fontSize: fontSize + "em" }}>
-                                    {instruction}
-                                </q>
-                            </div>
-                        </div>
-                    );
+                    dialogue = ProcessVariator(instruction)
+                    return CreateHtmlLine("narration", dialogue, undefined, fontSize)
                 }
 
             } else {
                 if (array.length === 3) {
-                    return (
-                        <div className="flex p-2 rounded noto-serif-kr">
-                            <div id="speaker" className="flex justify-end flex-shrink-0 w-40 mr-2">
-                                <p className="font-semibold text-gray-600">{instruction}:</p>
-                            </div>
-                            <div id="dialogue" className="text-gray-200">
-                                <q>{instruction2}</q>
-                            </div>
-                        </div>
-                    );
+                    dialogue = ProcessVariator(instruction2)
+                    speaker = instruction
+                    return CreateHtmlLine("normal", dialogue, speaker)
 
                 } else if (array.length === 2) {
                     return (
@@ -180,10 +164,6 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "" }) {
         case "#clearST":
             return <br />;
 
-        case "#fontsize":
-            const fontsize = instruction / 100 + 0.7; // font size in em. 100 = 1.7em, 80 = 1.5em etc. Linear interpolation.
-            return fontsize;
-
         case "#all":
             if (instruction === "hide" || "HIDE") {
                 return "";
@@ -199,6 +179,29 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "" }) {
             } else {
                 return "";
             }
+
+        case "#fontsize":
+            let fontArray = NestedArray.find((array) => array.includes("#fontsize")) || []
+            let fontsizeRaw
+            let fontsize
+
+            if (fontArray.length === 2) {
+                fontsizeRaw = fontArray[1]
+                fontsize = fontsizeRaw / 100 + 0.7
+
+                if (fontsize > 1) {
+                    return fontsize
+                } else {
+                    console.error("LADR: calculated font size to be equal to or less than 1em. Is this right? ", NestedArray)
+                    return 1
+                }
+
+            } else if (fontArray.length === 0) {
+                return 0
+            } else {
+                throw new Error("LADR: Invalid fontsize array passed to #fontsize command processor.", NestedArray)
+            }
+
 
         case "#1":
         case "#2":
@@ -253,8 +256,8 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "" }) {
                     className="size-6"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"
                     />
                   </svg>
@@ -273,8 +276,8 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "" }) {
                     className="size-6"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
                     />
                   </svg>
@@ -306,8 +309,8 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "" }) {
                     className="size-6"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"
                     />
                   </svg>
@@ -418,3 +421,4 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "" }) {
       return "DEFAULTINCOM", command;
   }
 }
+
