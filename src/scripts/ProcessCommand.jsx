@@ -4,11 +4,9 @@ import { fetchSprites } from "../../state/spriteids";
 
 import ProcessSelector from "./ProcessSelector.jsx";
 import { ProcessVariator } from "./Cpu.tsx";
-
-import CreateLine from "./CreateLine.tsx";
 import { CreateHtmlLine } from "./CreateLine.tsx";
 
-export default function ProcessCommand({ array, fontSize = 0, dialogue = "", NestedArray = [...Array(2)].map(e => Array(2)) }) {
+export default function ProcessCommand({ array, fontSize = undefined, dialogue = "", NestedArray = [...Array(2)].map(e => Array(2)) }) {
 
     const command = array[0];
     const instruction = array[1];
@@ -91,7 +89,7 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", Nes
 
         case "#na":
         
-            if (fontSize !== 0) {
+            if (fontSize !== undefined) {
                 if (array.length === 3) {
 
                     dialogue = ProcessVariator(instruction2)
@@ -151,7 +149,7 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", Nes
 
         case "#st":
             if (array.length === 5) {
-                return CreateLine("white", ProcessVariator(array[4]))
+                return CreateHtmlLine("noSpeaker", ProcessVariator(array[4]))
             }
             break
 
@@ -197,7 +195,7 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", Nes
                 }
 
             } else if (fontArray.length === 0) {
-                return 0
+                return undefined
             } else {
                 throw new Error("LADR: Invalid fontsize array passed to #fontsize command processor.", NestedArray)
             }
@@ -232,6 +230,12 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", Nes
                 case "closeup":
                 case "greeting":
                     return "";
+
+                case "fx":
+                    switch (instruction2) {
+                        case "{shot}":
+                            return ""
+                    }
 
                 case "em":
                     switch (instruction2) {

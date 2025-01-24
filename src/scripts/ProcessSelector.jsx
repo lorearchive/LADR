@@ -16,18 +16,6 @@ export default function ProcessSelector({ array, group }) {
     // If it is a selector
     if (group === 0) {
 
-        if (array.some(subarray => subarray.some(item => /^\[([0-9A-F]{6})\]/.test(item)))) { // Check for text color overrides
-
-            array.some(subarray => subarray.some(item => {
-                const match = item.match(/^\[([0-9A-F]{6})\]/);
-                if (match) {
-                    let hex = match[1]; // Capture the XXXXXX part
-                    return true;
-                }
-                return false;
-            }));
-        }
-
 
         let line = array.filter(subArray => !subArray[0].startsWith('#'));
 

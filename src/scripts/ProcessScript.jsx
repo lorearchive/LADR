@@ -72,6 +72,5 @@ export function ProcessScript({ script, group }) {
      * for render.
      */
 
-    console.log(tokenGroup)
-    return <UniversalProcessor NestedArray={tokenGroup} Group={group} />;
+    return Cpu(tokenGroup, group)
 }

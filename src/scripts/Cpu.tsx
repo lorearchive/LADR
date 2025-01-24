@@ -36,7 +36,8 @@ import { CreateHtmlLine } from "./CreateLine.tsx";
 
 let speaker: string                                                 // The speaker
 let dialogue: string                                                // The string which is said by a character.
-let fontsize: number  = 0                                           // Fontsize if any, defaulted at 0 to see if it changed
+let fontsize: undefined | number = undefined                                   // Fontsize if any, defaulted at 0 to see if it changed
+let fontarray: (string | number)[] = []
 
 let normal: (string | number)[]                                     // A line which is NORMAL. i.e. ['pos', 'char', 'sprite', 'dialogue']
 let commandArr: (string | number)[]                                 // A Command array
@@ -104,22 +105,24 @@ export function ProcessVariator( dialogue:string ): string {
 
 export default function Cpu( NestedArray: (number | string)[][], Group: number ) {
 
+    fontarray = NestedArray.find(subarray => subarray[0] === "#fontsize") as []
+
+    if (fontarray !== undefined) {
+        fontsize =  fontarray[1] as number / 100 + 0.7
+    } else {
+        fontsize = undefined
+    }
+
 
     output = NestedArray.map((subarray: (string | number)[]) => {
 
-        fontsize = ProcessCommand({ array: subarray, NestedArray: NestedArray })
-
-
-        if (typeof subarray[0] === 'number' && Number.isInteger(subarray[0]) && subarray[0] >= 1 && subarray[0] <= 5) {
-
-            normal = NestedArray.find((subarray: (string | number)[]) => [1, 2, 3, 4, 5].some(value => value === subarray[0])) as []
-            updateSprites(((normal[0] as number) - 1), normal[1])
+        if (typeof subarray[0] === 'string' && /^[1-5]$/.test(subarray[0] as string)) {
             
-            if (normal.length === 4) {
-                speaker = normal[1] as string
-                dialogue = normal[3] as string
+            if (subarray.length === 4) {
+                speaker = subarray[1] as string
+                dialogue = subarray[3] as string
 
-                if (fontsize !== 0) {
+                if (fontsize !== undefined) {
                     dialogue = ProcessVariator(dialogue)
                     return CreateHtmlLine("normal", dialogue, speaker, fontsize)
                 } else {
@@ -127,28 +130,36 @@ export default function Cpu( NestedArray: (number | string)[][], Group: number )
                     return CreateHtmlLine("normal", dialogue, speaker)
                 }
     
-            } else if (normal.length === 3) {
+            } else if (subarray.length === 3) {
                 speaker = ""
                 dialogue = ''
                 return ""
     
-            } else if (normal.length !== 4 && normal.length !== 3) {
+            } else if (subarray.length !== 4 && subarray.length !== 3) {
                 console.log("LADR: A Normal Subarray of Nested Array is not of length value 4 AND 3. Proceeding with blank dialogue and speaker value.")
                 speaker = ""
                 dialogue = ''
                 return ""
             }
             
-        } else if ((subarray[0] as string).startsWith("#")) {
+        } else if (typeof subarray[0] === 'string' && subarray[0].startsWith("#") && subarray[0] !== "#fontsize") {
 
-            if (fontsize !== 0) {
+            if (fontsize !== undefined) {
                 return ProcessCommand({array: subarray, fontSize: fontsize, NestedArray: NestedArray})
             } else {
                 return ProcessCommand({array: subarray, NestedArray: NestedArray})
             }
 
+        } else if (typeof subarray[0] === 'string' &&  subarray[0] === "#fontsize") {
+            return ""
         } else if (NestedArray.some((subarray) => (subarray[0] as string).startsWith("[ns")) || NestedArray.some((subarray) => (subarray[0] as string).startsWith("[s")) || Group !== 0) {
 
+            return ProcessSelector({array: NestedArray, group: Group})
+            
+        } else if (subarray.length === 1 && subarray[0] === "") {
+            return ""
+        } else {
+            throw new Error("LADR: Unrecognized array type. Check the console.")
         }
     
 
