@@ -6,7 +6,9 @@ import ProcessSelector from "./ProcessSelector.jsx";
 import { ProcessVariator } from "./Cpu.tsx";
 import { CreateHtmlLine } from "./CreateLine.tsx";
 
-export default function ProcessCommand({ array, fontSize = undefined, dialogue = "", NestedArray = [...Array(2)].map(e => Array(2)) }) {
+
+
+export default function ProcessCommand({ array, fontSize = 0, dialogue = "", NestedArray = [...Array(2)].map(e => Array(2)) }) {
 
     const command = array[0];
     const instruction = array[1];
@@ -89,7 +91,7 @@ export default function ProcessCommand({ array, fontSize = undefined, dialogue =
 
         case "#na":
         
-            if (fontSize !== undefined) {
+            if (fontSize !== 0) {
                 if (array.length === 3) {
 
                     dialogue = ProcessVariator(instruction2)

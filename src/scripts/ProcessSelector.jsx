@@ -17,13 +17,13 @@ export default function ProcessSelector({ array, group }) {
     if (group === 0) {
 
 
-        let line = array.filter(subArray => !subArray[0].startsWith('#'));
+        let line = array.filter(subArray => /^\[ns\d+\]/.test(subArray[0]) || /^\[s\d+\]/.test(subArray[0]));
 
         line = line.map(subArray => {
             const [item] = subArray; // Extract the single string in the subarray
             const index = item.indexOf(" "); // Find the first space
             return [item.slice(0, index), item.slice(index + 1)]; // Split the string
-          });
+        });
 
 
         let selectorIDs = []
@@ -64,6 +64,8 @@ export default function ProcessSelector({ array, group }) {
                 }
 
             })
+            console.log(selectorIDs)
+
 
             selectorID = selectorIDs[0]
             selectorID2 = selectorIDs.length >= 2 ? selectorIDs[1] : null

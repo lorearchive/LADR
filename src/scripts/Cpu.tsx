@@ -3,8 +3,11 @@ import React from "react";
 import ProcessCommand from "./ProcessCommand.jsx";
 import ProcessSelector from "./ProcessSelector.jsx";
 import { updateSprites } from "../../state/spriteids.js"
+import { previousWasASelector, setPreviousSelector, resetPreviousSelector } from "../../state/previousSelector.js";
+
 
 import { CreateHtmlLine } from "./CreateLine.tsx";
+
 
 
 /** NOTES
@@ -104,6 +107,7 @@ export function ProcessVariator( dialogue:string ): string {
 
 
 export default function Cpu( NestedArray: (number | string)[][], Group: number ) {
+    console.log(NestedArray)
 
     fontarray = NestedArray.find(subarray => subarray[0] === "#fontsize") as []
 
@@ -152,12 +156,20 @@ export default function Cpu( NestedArray: (number | string)[][], Group: number )
 
         } else if (typeof subarray[0] === 'string' &&  subarray[0] === "#fontsize") {
             return ""
+
         } else if (NestedArray.some((subarray) => (subarray[0] as string).startsWith("[ns")) || NestedArray.some((subarray) => (subarray[0] as string).startsWith("[s")) || Group !== 0) {
 
-            return ProcessSelector({array: NestedArray, group: Group})
+            if(previousWasASelector()) {
+                resetPreviousSelector()
+                return ""
+            } else {
+                setPreviousSelector()
+                return ProcessSelector({array: NestedArray, group: Group})
+            }
             
         } else if (subarray.length === 1 && subarray[0] === "") {
             return ""
+
         } else {
             throw new Error("LADR: Unrecognized array type. Check the console.")
         }
