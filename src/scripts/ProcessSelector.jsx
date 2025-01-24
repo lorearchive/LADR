@@ -1,5 +1,8 @@
 import ProcessCommand from "./ProcessCommand.jsx";
+import { ProcessVariator, CpuNoGroup } from "./Cpu.tsx"
+
 import { isPreviousDialogueReset, fetchPreviousDialogue, setPreviousDialogue, resetPreviousDialogue } from "../../state/previousDialogue.js";
+
 
 // This script is responsible for processing the selector types and responses.
 
@@ -9,15 +12,14 @@ import { isPreviousDialogueReset, fetchPreviousDialogue, setPreviousDialogue, re
 
 
 
-export default function ProcessSelector({ array, group }) {
+export default function ProcessSelector({ nestedArray, group }) {
 
-    // In this casse, array should be a nested array! why didnt i just name it nestedarray
 
     // If it is a selector
     if (group === 0) {
 
 
-        let line = array.filter(subArray => /^\[ns\d+\]/.test(subArray[0]) || /^\[s\d+\]/.test(subArray[0]));
+        let line = nestedArray.filter(subArray => /^\[ns\d+\]/.test(subArray[0]) || /^\[s\d+\]/.test(subArray[0]));
 
         line = line.map(subArray => {
             const [item] = subArray; // Extract the single string in the subarray
@@ -64,8 +66,6 @@ export default function ProcessSelector({ array, group }) {
                 }
 
             })
-            console.log(selectorIDs)
-
 
             selectorID = selectorIDs[0]
             selectorID2 = selectorIDs.length >= 2 ? selectorIDs[1] : null
@@ -119,77 +119,34 @@ export default function ProcessSelector({ array, group }) {
             )
         }
 
-    }
-
-        // If group !== 0, handle responses
-
-
-    if (group !== 0) {
-
+    } else {
         let previousDialogue
         let script
         let groupNo
 
 
-        if (isPreviousDialogueReset()) { // Last script was not a selection
-            // wait
-            setPreviousDialogue(array, group)
-            return ''
+        if (isPreviousDialogueReset()) {
+            setPreviousDialogue(nestedArray, group)
+            return ""
 
-        } else { // the last script was a selection
-            /**
-             * previousDialogue[0] contains the script which should be rendered according to the rules.
-             * previousDialogue[1] contains the selection group.
-             */
-
+        } else { 
             previousDialogue = fetchPreviousDialogue()
             script = previousDialogue[0]
             groupNo = previousDialogue[1]
 
-            if (script.toString() === array.toString()) { // Selection is identical with the last one
 
-                const output = array.map(subarray => {
+            if (JSON.stringify(script) === JSON.stringify(nestedArray)) { // Selection is identical with the last one
+                resetPreviousDialogue()
+                return (
+                    <div id="MutualSelection" className="flex justify-center w-full py-4 my-3 border border-dotted dark:border-gray-600">
+                        {nestedArray}
+                    </div>
+                )
 
-                    if (subarray[0].startsWith('#')) {
-                        resetPreviousDialogue()
-                        return <ProcessCommand array={subarray} />
-
-
-                    } else if (/^[1-5]$/.test(subarray[0]) && subarray.length == 4) {
-
-                        const speaker = array[0][1]?.trim() ?? 'LADR.Err.NoSpeaker';
-                        const dialogue = array[0].slice(3);
-
-                        resetPreviousDialogue()
-                        return (
-                            <div id={`ResponseMutual`} className="flex p-2 rounded noto-serif-kr">
-                                <div id="speaker" className="flex justify-end flex-shrink-0 w-40 mr-2">
-                                    <p className="font-semibold text-gray-600">
-                                        {speaker}:
-                                    </p>
-                                </div>
-                                <div id="dialogue" className="text-gray-200">
-                                    <q>{dialogue}</q>
-                                </div>
-                            </div>
-                        );
-
-                    }
-
-                })
-
-                return output
-
-
+            } else {
+                throw new Error("LADR: Selection is different!", nestedArray)
             }
-
-
-
         }
 
     }
-
-
-
-
 }

@@ -1,6 +1,6 @@
 let previousDialogue = ['null', 'null']; // [dialogue array, selectiongroup]
 
-export const isPreviousDialogueReset = () => {
+export function isPreviousDialogueReset() {
     if (previousDialogue[0] === 'null' && previousDialogue[1] === 'null') {
         return true;
     } else {
@@ -16,6 +16,5 @@ export const setPreviousDialogue = (array, group) => {
 };
 
 export const resetPreviousDialogue = () => {
-    previousDialogue[0] = 'null';
-    previousDialogue[1] = 'null';
+    previousDialogue = ['null', 'null']
 };

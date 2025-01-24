@@ -1,5 +1,6 @@
 import React from "react";
 
+import { fetchSpritePos } from "../../state/spriteids.ts";
 
 
 
@@ -103,5 +104,28 @@ export function CreateHtmlLine(type: string, dialogue: string, speaker?: string,
         default:
             throw new Error("Invalid line type passed to CreateHtmlLine(): " + type)
     }
+
+}
+
+
+export function CreateEmLine(position: string, icon: JSX.Element): JSX.Element {
+
+    let speaker = fetchSpritePos(position)
+    if (speaker === 'null') {
+        throw new Error("LADR: Speaker value returned null.")
+    }
+
+    return (
+        <div className="flex p-2 rounded noto-serif-kr">
+            <div id="speaker" className="flex justify-end flex-shrink-0 w-40 mr-2">
+                <p className="font-semibold text-gray-600">{speaker}:</p>
+            </div>
+            <div id="dialogue" className="text-gray-200">
+                {icon}
+            </div>
+        </div>
+
+    )
+
 
 }
