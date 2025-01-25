@@ -207,12 +207,16 @@ export function CpuNoIgnore( NestedArray: (number | string)[][], Group: number )
         
         if (NestedArray.some((subarray) => (subarray[0] as string).startsWith("[ns")) || NestedArray.some((subarray) => (subarray[0] as string).startsWith("[s")) || Group !== 0) {
 
-            if(previousWasASelector() && Group === 0) {
+            console.log(subarray)
+
+            if (previousWasASelector() && Group === 0) {
                 resetPreviousSelector()
+
                 return ""
 
             } else if (!previousWasASelector() && Group === 0) {
                 setPreviousSelector()
+
                 return ProcessSelector({nestedArray: NestedArray, group: Group})
 
             } else if (Group !== 0) {

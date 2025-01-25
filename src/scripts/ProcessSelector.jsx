@@ -131,7 +131,12 @@ export default function ProcessSelector({ nestedArray, group }) {
         } else {
             if (JSON.stringify(fetchPreviousDialogue(0)) === JSON.stringify(nestedArray)) {
                 let output = CpuNoIgnore(nestedArray, 0)
-                return output
+
+                return (
+                    <div className="py-4 my-2 transition-colors border-2 border-dotted dark:border-slate-800 hover:dark:bg-slate-800">
+                        {output}
+                    </div>
+                )
             } else {
                 throw new Error("AHAHHAHAHHAH")
             }
