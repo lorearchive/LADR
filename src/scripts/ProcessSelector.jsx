@@ -1,5 +1,5 @@
 import ProcessCommand from "./ProcessCommand.jsx";
-import { ProcessVariator, CpuNoGroup } from "./Cpu.tsx"
+import Cpu, { CpuNoIgnore } from "./Cpu.tsx";
 
 import { isPreviousDialogueReset, fetchPreviousDialogue, setPreviousDialogue, resetPreviousDialogue } from "../../state/previousDialogue.js";
 
@@ -8,7 +8,7 @@ import { isPreviousDialogueReset, fetchPreviousDialogue, setPreviousDialogue, re
 
 // A selector is sensei's dialogue which can be clicked. A selection is the response to the selector.
 
-// AHHHHHHHHHHHHHHHHHH NESTINGgsdyhuiffffffffffffffffffffyffffffffyfyfyfyfyissssssssssssssbdifiiiifikiiiiiiikikikikikikikikikk09j78888888888888888888888888799
+let count = 1
 
 
 
@@ -119,34 +119,25 @@ export default function ProcessSelector({ nestedArray, group }) {
             )
         }
 
-    } else {
+    } else if (group !== 0) {
         let previousDialogue
         let script
         let groupNo
 
 
-        if (isPreviousDialogueReset()) {
+        if (group - 1 !== fetchPreviousDialogue(1)) {
             setPreviousDialogue(nestedArray, group)
             return ""
-
-        } else { 
-            previousDialogue = fetchPreviousDialogue()
-            script = previousDialogue[0]
-            groupNo = previousDialogue[1]
-
-
-            if (JSON.stringify(script) === JSON.stringify(nestedArray)) { // Selection is identical with the last one
-                resetPreviousDialogue()
-                return (
-                    <div id="MutualSelection" className="flex justify-center w-full py-4 my-3 border border-dotted dark:border-gray-600">
-                        {nestedArray}
-                    </div>
-                )
-
+        } else {
+            if (JSON.stringify(fetchPreviousDialogue(0)) === JSON.stringify(nestedArray)) {
+                let output = CpuNoIgnore(nestedArray, 0)
+                return output
             } else {
-                throw new Error("LADR: Selection is different!", nestedArray)
+                throw new Error("AHAHHAHAHHAH")
             }
         }
 
+    } else {
+        throw new Error("How did you get here?")
     }
 }

@@ -106,7 +106,6 @@ export function ProcessVariator( dialogue:string ): string {
     return dialogue
 }
 
-
 export default function Cpu( NestedArray: (number | string)[][], Group: number ) {
 
     fontarray = NestedArray.find(subarray => subarray[0] === "#fontsize") as []
@@ -193,11 +192,7 @@ export default function Cpu( NestedArray: (number | string)[][], Group: number )
     return output
 }
 
-
-
-
-
-export function CpuNoGroup(NestedArray: (number | string)[][]) {
+export function CpuNoIgnore( NestedArray: (number | string)[][], Group: number ) {
 
     fontarray = NestedArray.find(subarray => subarray[0] === "#fontsize") as []
 
@@ -209,8 +204,23 @@ export function CpuNoGroup(NestedArray: (number | string)[][]) {
 
 
     output = NestedArray.map((subarray: (string | number)[]) => {
+        
+        if (NestedArray.some((subarray) => (subarray[0] as string).startsWith("[ns")) || NestedArray.some((subarray) => (subarray[0] as string).startsWith("[s")) || Group !== 0) {
 
-        if (typeof subarray[0] === 'string' && /^[1-5]$/.test(subarray[0] as string)) {
+            if(previousWasASelector() && Group === 0) {
+                resetPreviousSelector()
+                return ""
+
+            } else if (!previousWasASelector() && Group === 0) {
+                setPreviousSelector()
+                return ProcessSelector({nestedArray: NestedArray, group: Group})
+
+            } else if (Group !== 0) {
+                ignoreFor = NestedArray.length - 1
+                return ProcessSelector({nestedArray: NestedArray, group: Group})
+            }
+            
+        } else if (typeof subarray[0] === 'string' && /^[1-5]$/.test(subarray[0] as string)) {
             
             if (subarray.length === 4) {
                 speaker = subarray[1] as string
@@ -262,8 +272,4 @@ export function CpuNoGroup(NestedArray: (number | string)[][]) {
 
     })
     return output
-
-
-
-
 }
