@@ -188,8 +188,16 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", Nes
             let fontsize
 
             if (fontArray.length === 2) {
+
                 fontsizeRaw = fontArray[1]
-                fontsize = fontsizeRaw / 100 + 0.7
+
+                let a = fontsizeRaw - 70
+
+                if (a > 0) {
+                    fontsize = (a / 10) - (0.75 * (a / 10)) + 0.55
+                } else {
+                    fontsize = (a / 10) - 4.1
+                }
 
                 if (fontsize > 1) {
                     return fontsize
