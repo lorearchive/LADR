@@ -1,4 +1,4 @@
-import React from "react";
+import React, { JSX } from "react";
 
 import { fetchSpritePos } from "../../state/spriteids.ts";
 
@@ -17,7 +17,7 @@ export function CreateHtmlLine(type: string, dialogue: string, speaker?: string,
                         <div id="speaker" className="flex justify-end flex-shrink-0 w-40 mr-2">
                             <p className="font-semibold text-gray-600">{speaker}:</p>
                         </div>
-                        <div id="dialogue" className="text-gray-200">
+                        <div id="dialogue">
                             <q dangerouslySetInnerHTML={{__html: dialogue}}></q>
                         </div>
                     </div>
@@ -28,7 +28,7 @@ export function CreateHtmlLine(type: string, dialogue: string, speaker?: string,
                         <div id="speaker" className="flex justify-end flex-shrink-0 w-40 mr-2">
                             <p className="font-semibold text-gray-600">{speaker}:</p>
                         </div>
-                        <div id="dialogue" className="text-gray-200">
+                        <div id="dialogue">
                             <q style={{ fontSize: fontsize + "em" }} className="alteredFontsize/" dangerouslySetInnerHTML={{__html: dialogue}}></q>
                         </div>
                     </div>
@@ -42,7 +42,7 @@ export function CreateHtmlLine(type: string, dialogue: string, speaker?: string,
                     <div className="flex p-2 rounded noto-serif-kr">
                         <div id="speakerSpace" className="flex justify-end flex-shrink-0 w-40 mr-2">
                         </div>
-                        <div id="dialogue" className="text-gray-200">
+                        <div id="dialogue">
                             <q dangerouslySetInnerHTML={{__html: dialogue}}></q>
                         </div>
                     </div>
@@ -53,7 +53,7 @@ export function CreateHtmlLine(type: string, dialogue: string, speaker?: string,
                     <div className="flex p-2 rounded noto-serif-kr">
                         <div id="speakerSpace" className="flex justify-end flex-shrink-0 w-40 mr-2">
                         </div>
-                        <div id="dialogue" className="text-gray-200">
+                        <div id="dialogue">
                             <q style={{ fontSize: fontsize + "em" }} dangerouslySetInnerHTML={{__html: dialogue}}></q>
                         </div>
                     </div>
@@ -80,8 +80,7 @@ export function CreateHtmlLine(type: string, dialogue: string, speaker?: string,
                 if (speaker === undefined) {
                     return (
                         <div className="flex p-2 rounded noto-serif-kr">
-                            <div id="speaker" className="flex justify-end flex-shrink-0 w-40 mr-2">
-                                <p className="font-semibold text-gray-600">{speaker}:</p>
+                            <div id="speakerSpace" className="flex justify-end flex-shrink-0 w-40 mr-2">
                             </div>
                             <div id="narration" className="flex justify-end flex-shrink-0">
                                 <q className="text-gray-400" style={{ fontSize: fontsize + "em" }} dangerouslySetInnerHTML={{__html: dialogue}}></q>

@@ -30,16 +30,7 @@ export default function Home() {
             <p className="font-serif">This app was built with <a href="https://react.dev/" className="text-blue-600 underline">React</a>, <a href="https://swc.rs/" className="text-blue-600 underline">SWC</a>, <a href="https://vite.dev/" className="text-blue-600 underline">Vite</a> and <a href="https://tailwindcss.com/" className="text-blue-600 underline">TailwindCSS</a>. If you would like to contribute to the development efforts of this web app, check out our <a href="https://github.com/lorearchive/LADR" className="text-blue-600 underline">source code</a>!</p>
             <br></br>
 
-            <h2>Acknowledgements</h2>
-            <p className="font-serif">Many thanks to the following people! Without them, the LADR would not have been possible.</p>
-            <br></br>
-            <ul className="list-disc list-inside">
-                <li><p className="inline"><strong>AlexMercer</strong></p></li>
-
-                <li><p className="inline"><strong>c10</strong></p></li>
-                <li><p className="inline"><em>and more to come...</em></p></li>
-
-            </ul>
+            
 
 
 

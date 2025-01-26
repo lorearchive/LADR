@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "target": "ES6",
+        "allowJs": true,
+        "moduleDetection": "force",
+
+        "strict": true,
+        "jsx": "react",
+        "lib": ["dom", "ES2022"],
+        "moduleResolution": "bundler",
+        "noEmit": true,
+        "allowImportingTsExtensions": true
+    }
+  }

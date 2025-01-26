@@ -64,7 +64,7 @@ let variator_rubified: string[] = []
 let output: string[]
 
 
-export function ProcessVariator( dialogue:string ): string {
+export function ProcessVariator( dialogue:string, telemetry?: boolean ): string {
 
     // Text color VARIATOR
 
@@ -86,14 +86,14 @@ export function ProcessVariator( dialogue:string ): string {
 
     if (dialogue.includes("[ruby=")) {
 
-        variator_rubified = [...dialogue.matchAll(variator_rubyHex)].flatMap(match => [match[1], match[2]]) // [rt, rb, rt, rb, rt, rb, ...]
+        variator_rubified = [...dialogue.matchAll(variator_rubyHex)].flatMap(match => [match[1], match[2]]) as [] // [rt, rb, rt, rb, rt, rb, ...]
 
         if (variator_rubified.length % 2 !== 0) {
             console.error("LADR: Rubified array does not contain an even amount of elements. Continuing with blank rubified array.")
             variator_rubified = []
         }
 
-        dialogue = dialogue.replace(variator_rubified[1], `<ruby>${variator_rubified[1]}<rp>(</rp><rt>${variator_rubified[0]}</rt><rp>)</rp></ruby>`)
+        dialogue = dialogue.replace(`[ruby=${variator_rubified[0]}]${variator_rubified[1]}[/ruby]`, `<ruby>${variator_rubified[1]}<rp>(</rp><rt>${variator_rubified[0]}</rt><rp>)</rp></ruby>`)
 
     }
 
@@ -103,6 +103,9 @@ export function ProcessVariator( dialogue:string ): string {
         dialogue = dialogue.replace(/#n/g, "<br />")
     }
 
+    if (telemetry) {
+        dialogue = dialogue.replace(dialogue, `<span style="font-style: oblique;">${dialogue}</span>`)
+    }
     return dialogue
 }
 
@@ -111,7 +114,17 @@ export default function Cpu( NestedArray: (number | string)[][], Group: number )
     fontarray = NestedArray.find(subarray => subarray[0] === "#fontsize") as []
 
     if (fontarray !== undefined) {
-        fontsize =  fontarray[1] as number / 100 + 0.7
+        let a: number = fontarray[1] as number - 70
+        if (a > 0) {
+            fontsize = 0.00714 * (fontarray[1] as number) + 0.886
+
+        } else if (a < 0) {
+            fontsize = 0.01 * (fontarray[1] as number) + 0.3
+
+        } else {
+            console.error("LADR: Fontsize is 0.", NestedArray)
+            throw new Error("LADR: Font size calculated to 0.")
+        }
     } else {
         fontsize = undefined
     }
@@ -125,16 +138,20 @@ export default function Cpu( NestedArray: (number | string)[][], Group: number )
 
         } else if (NestedArray.some((subarray) => (subarray[0] as string).startsWith("[ns")) || NestedArray.some((subarray) => (subarray[0] as string).startsWith("[s")) || Group !== 0) {
 
-            if(previousWasASelector() && Group === 0) {
-                resetPreviousSelector()
-                return ""
+            let nal = NestedArray.length
 
-            } else if (!previousWasASelector() && Group === 0) {
-                setPreviousSelector()
-                return ProcessSelector({nestedArray: NestedArray, group: Group})
+            if(Group === 0) {
+                let line = NestedArray.filter(subarray => {
+                    return (subarray[0] as string).startsWith("[ns") || (subarray[0] as string).startsWith("[s")
+                })
+
+                if (NestedArray.length > 1) {
+                    ignoreFor = nal - 1
+                }
+                return ProcessSelector({nestedArray: line, group: Group})
 
             } else if (Group !== 0) {
-                ignoreFor = NestedArray.length - 1
+                ignoreFor = nal - 1
                 return ProcessSelector({nestedArray: NestedArray, group: Group})
             }
             
@@ -147,10 +164,10 @@ export default function Cpu( NestedArray: (number | string)[][], Group: number )
                 updateSprites(subarray[0], speaker)
 
                 if (fontsize !== undefined) {
-                    dialogue = ProcessVariator(dialogue)
+                    dialogue = speaker.startsWith("통신") ? ProcessVariator(dialogue, true) : ProcessVariator(dialogue, false)
                     return CreateHtmlLine("normal", dialogue, speaker, fontsize)
                 } else {
-                    dialogue = ProcessVariator(dialogue)
+                    dialogue = speaker.startsWith("통신") ? ProcessVariator(dialogue, true) : ProcessVariator(dialogue, false)
                     return CreateHtmlLine("normal", dialogue, speaker)
                 }
     
@@ -183,21 +200,25 @@ export default function Cpu( NestedArray: (number | string)[][], Group: number )
         } else {
             throw new Error("LADR: Unrecognized array type. Check the console.")
         }
-    
-
-
-
 
     })
     return output
 }
+
+
+
 
 export function CpuNoIgnore( NestedArray: (number | string)[][], Group: number ) {
 
     fontarray = NestedArray.find(subarray => subarray[0] === "#fontsize") as []
 
     if (fontarray !== undefined) {
-        fontsize =  fontarray[1] as number / 100 + 0.7
+        let a: number = fontarray[1] as number - 70
+        if (a > 0) {
+            fontsize = a / 10 - 4
+        } else if (a < 0) {
+            fontsize = 0.01 * (fontarray[1] as number) + 0.3
+        }
     } else {
         fontsize = undefined
     }
@@ -206,8 +227,6 @@ export function CpuNoIgnore( NestedArray: (number | string)[][], Group: number )
     output = NestedArray.map((subarray: (string | number)[]) => {
         
         if (NestedArray.some((subarray) => (subarray[0] as string).startsWith("[ns")) || NestedArray.some((subarray) => (subarray[0] as string).startsWith("[s")) || Group !== 0) {
-
-            console.log(subarray)
 
             if (previousWasASelector() && Group === 0) {
                 resetPreviousSelector()

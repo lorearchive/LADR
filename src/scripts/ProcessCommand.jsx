@@ -152,8 +152,12 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", Nes
 
 
         case "#st":
-            if (array.length === 5) {
+            if (array.length === 5 && instruction2 !== "instant" && instruction4 !== "") {
                 return CreateHtmlLine("noSpeaker", ProcessVariator(array[4]))
+            } else if (array.length === 5 && instruction2 === "instant" && instruction4 === "") {
+                return ""
+            } else {
+                return "#st error!", array
             }
             break
 
