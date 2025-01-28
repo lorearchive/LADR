@@ -92,6 +92,9 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", Nes
             }
 
         case "#na":
+            if (array.length !== 3 && array.length !== 2) {
+                throw new Error("LADR: #na ARR LENGTH NOT 3 AND 2", array)
+            }
         
             if (fontSize !== 0) {
                 if (array.length === 3) {
@@ -112,14 +115,9 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", Nes
                     return CreateHtmlLine("normal", dialogue, speaker)
 
                 } else if (array.length === 2) {
-                    return (
-                        <div className="flex p-2 rounded noto-serif-kr">
-                            <div className="flex justify-end flex-shrink-0 w-40 mr-2" />
-                            <div id="narration" className="flex justify-end flex-shrink-0">
-                                <q className="text-gray-400 ">{instruction}</q>
-                            </div>
-                        </div>
-                    );
+                    dialogue = ProcessVariator(instruction)
+                    return CreateHtmlLine("narration", dialogue)
+
                 }
             }
 
@@ -298,6 +296,7 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", Nes
                     
                         case "[반응]":
                         case "[속상함]":
+                        case "[///]":
                             return ""
                     
                         case "[반짝]":

@@ -1,7 +1,7 @@
 import ProcessCommand from "./ProcessCommand.jsx";
 import Cpu, { CpuNoIgnore } from "./Cpu.tsx";
 
-import { isPreviousDialogueReset, fetchPreviousDialogue, setPreviousDialogue, resetPreviousDialogue } from "../../state/previousDialogue.js";
+import { fetchPreviousDialogue, setPreviousDialogue, resetPreviousDialogue, prevGroup, pushPreviousDialogue } from "../../state/previousDialogue.ts";
 
 
 // This script is responsible for processing the selector types and responses.
@@ -15,6 +15,8 @@ export default function ProcessSelector({ nestedArray, group }) {
     // If it is a selector
     if (group === 0) {
 
+        prevGroup(0)
+
         let selectorIDs = []
         let selectorID = 0
         let selectorID2 = 0
@@ -25,11 +27,11 @@ export default function ProcessSelector({ nestedArray, group }) {
         let dialogue2
         
         if (nestedArray.length === 1) {
-
-            if (nestedArray[0][0].startsWith("[ns]")) {
-                dialogue = nestedArray[0][0].slice(5)
-            } else {
+            
+            if (nestedArray[0][0].startsWith("[ns")) {
                 dialogue = nestedArray[0][0].slice(4)
+            } else {
+                dialogue = nestedArray[0][0].slice(3)
             }
 
             return (
@@ -61,9 +63,9 @@ export default function ProcessSelector({ nestedArray, group }) {
 
             line = nestedArray.map(subarray => {
                 if (subarray[0].startsWith("[ns")) {
-                    return subarray[0].slice(5)
+                    return subarray[0].slice(subarray[0].indexOf("]") + 2)
                 } else if (subarray[0].startsWith("[s")) {
-                    return subarray[0].slice(4)
+                    return subarray[0].slice(subarray[0].indexOf("]") + 2)
                 }
             });
 
@@ -88,37 +90,27 @@ export default function ProcessSelector({ nestedArray, group }) {
         }
 
         
-    } else if (group !== 0) {
+    } else {
 
-        if (group - 1 !== fetchPreviousDialogue(1)) {
-            setPreviousDialogue(nestedArray, group)
+        let currentHtml = CpuNoIgnore(nestedArray, 0)
+
+        if (prevGroup() === 0) {
+            prevGroup(group)
+            setPreviousDialogue(currentHtml)
             return ""
-        } else {
-            if (JSON.stringify(fetchPreviousDialogue(0)) === JSON.stringify(nestedArray)) {
-                let output = CpuNoIgnore(nestedArray, 0)
+            
+        } else if (group - 1 === prevGroup()) {
+            pushPreviousDialogue(currentHtml)
+            return ""
 
-                console.log("ASDH", nestedArray, output)
+        } else if (group - 2 === prevGroup()) {
 
-                if (output.every(element => element === "")) {
-                    return ""
-                    
-                } else {
-                    return (
-                        <div id="CommonSelection" className="my-2 transition-colors border-2 border-dotted dark:border-slate-600 hover:dark:bg-slate-800">
-                            {output}
-                        </div>
-                    )
-                }
-            } else {
-                let output = [CpuNoIgnore(fetchPreviousDialogue(0)), CpuNoIgnore(nestedArray)]
+           throw new Error("THREE SELCEFCIO4TNREDS")
 
-                return (
-                    <div id="SelectionID">
-                        {output}
-                    </div>
-                )
-            }
         }
+
 
     }
 }
+
+

@@ -75,6 +75,26 @@ export function CreateHtmlLine(type: string, dialogue: string, speaker?: string,
         case "narration":
 
             if (fontsize === undefined) {
+                if (speaker === undefined) {
+                    return (
+                        <div className="flex p-2 rounded noto-serif-kr">
+                            <div id="speakerSpace" className="flex justify-end flex-shrink-0 w-40 mr-2">
+                            </div>
+                            <div id="narration" className="flex justify-end flex-shrink-0">
+                                <q className="text-gray-400" dangerouslySetInnerHTML={{__html: dialogue}}></q>
+                            </div>
+                        </div>
+                    )
+                } else {
+                    return (
+                        <div className="flex p-2 rounded noto-serif-kr">
+                            <div className="flex justify-end flex-shrink-0 w-40 mr-2" />
+                            <div id="narration" className="flex justify-end flex-shrink-0">
+                                <q className="text-gray-400" dangerouslySetInnerHTML={{__html: dialogue}}></q>
+                            </div>
+                        </div>
+                    )
+                }
 
             } else {
                 if (speaker === undefined) {

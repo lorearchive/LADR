@@ -7,6 +7,7 @@ import { previousWasASelector, setPreviousSelector, resetPreviousSelector } from
 
 
 import { CreateHtmlLine } from "./CreateLine.tsx";
+import { fetchPreviousDialogue, prevGroup } from "../../state/previousDialogue.ts";
 
 
 
@@ -78,7 +79,7 @@ export function ProcessVariator( dialogue:string, telemetry?: boolean ): string 
         dialogue = `<span class="colouredText" style="color: #${variator_colour} ">${variator_colouredText}</span>`
 
     } else if (variator_colour_generalRegex.test(dialogue)) {
-        console.log("LADR: Received general match for custom text colouring. ", dialogue)
+        console.error("LADR: Received general match for custom text colouring. ", dialogue)
     }
 
 
@@ -108,6 +109,10 @@ export function ProcessVariator( dialogue:string, telemetry?: boolean ): string 
     }
     return dialogue
 }
+
+
+
+
 
 export default function Cpu( NestedArray: (number | string)[][], Group: number ) {
 
@@ -177,7 +182,7 @@ export default function Cpu( NestedArray: (number | string)[][], Group: number )
                 return ""
     
             } else if (subarray.length !== 4 && subarray.length !== 3) {
-                console.log("LADR: A Normal Subarray of Nested Array is not of length value 4 AND 3. Proceeding with blank dialogue and speaker value.")
+                console.error("LADR: A Normal Subarray of Nested Array is not of length value 4 AND 3. Proceeding with blank dialogue and speaker value.")
                 speaker = ""
                 dialogue = ''
                 return ""
@@ -202,6 +207,14 @@ export default function Cpu( NestedArray: (number | string)[][], Group: number )
         }
 
     })
+
+    if (Group === 0 && prevGroup() !== 0) {
+        console.log("GRP 0 AND PREVGRP NOT0,", fetchPreviousDialogue())
+        prevGroup(0)
+
+        output.unshift(...fetchPreviousDialogue())
+    }
+
     return output
 }
 
@@ -265,7 +278,7 @@ export function CpuNoIgnore( NestedArray: (number | string)[][], Group: number )
                 return ""
     
             } else if (subarray.length !== 4 && subarray.length !== 3) {
-                console.log("LADR: A Normal Subarray of Nested Array is not of length value 4 AND 3. Proceeding with blank dialogue and speaker value.")
+                console.error("LADR: A Normal Subarray of Nested Array is not of length value 4 AND 3. Proceeding with blank dialogue and speaker value.")
                 speaker = ""
                 dialogue = ''
                 return ""
