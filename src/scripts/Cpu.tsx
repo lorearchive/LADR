@@ -7,8 +7,8 @@ import { previousWasASelector, setPreviousSelector, resetPreviousSelector } from
 
 
 import { CreateHtmlLine } from "./CreateLine.tsx";
-import { fetchPreviousDialogue, prevGroup } from "../../state/previousDialogue.ts";
-import { greasemonkey } from "globals";
+import { previous } from '../../state/prevGroup.js'
+
 
 
 
@@ -135,11 +135,15 @@ export default function Cpu( NestedArray: (number | string)[][], Group: number )
         fontsize = undefined
     }
 
+    if (previous.group !== 0 && Group === 0) {
+        previous.group = 0
+    }
+
 
     output = NestedArray.map((subarray: (string | number)[]) => {
         
-        if (ignoreFor !== 0) {
-            ignoreFor--
+        if (previous.ignoreFor !== 0) {
+            previous.ignoreFor = previous.ignoreFor - 1
             return ""
 
         } else if (NestedArray.some((subarray) => (subarray[0] as string).startsWith("[ns")) || NestedArray.some((subarray) => (subarray[0] as string).startsWith("[s")) || Group !== 0) {
@@ -152,13 +156,12 @@ export default function Cpu( NestedArray: (number | string)[][], Group: number )
                 })
 
                 if (NestedArray.length > 1) {
-                    ignoreFor = nal - 1
+                    previous.ignoreFor = nal - 1
                 }
                 return ProcessSelector({nestedArray: line, group: Group})
 
             } else if (Group !== 0) {
-                ignoreFor = nal - 1
-                console.log(NestedArray, Group)
+                previous.ignoreFor = NestedArray.length !== 1 ? nal - 1 : 0
                 return ProcessSelector({nestedArray: NestedArray, group: Group})
             }
             
@@ -241,24 +244,7 @@ export function CpuNoIgnore( NestedArray: (number | string)[][], Group: number )
 
     output = NestedArray.map((subarray: (string | number)[]) => {
         
-        if (NestedArray.some((subarray) => (subarray[0] as string).startsWith("[ns")) || NestedArray.some((subarray) => (subarray[0] as string).startsWith("[s")) || Group !== 0) {
-
-            if (previousWasASelector() && Group === 0) {
-                resetPreviousSelector()
-
-                return ""
-
-            } else if (!previousWasASelector() && Group === 0) {
-                setPreviousSelector()
-
-                return ProcessSelector({nestedArray: NestedArray, group: Group})
-
-            } else if (Group !== 0) {
-                ignoreFor = NestedArray.length - 1
-                return ProcessSelector({nestedArray: NestedArray, group: Group})
-            }
-            
-        } else if (typeof subarray[0] === 'string' && /^[1-5]$/.test(subarray[0] as string)) {
+        if (typeof subarray[0] === 'string' && /^[1-5]$/.test(subarray[0] as string)) {
             
             if (subarray.length === 4) {
                 speaker = subarray[1] as string

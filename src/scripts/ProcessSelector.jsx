@@ -1,8 +1,7 @@
-import ProcessCommand from "./ProcessCommand.jsx";
+import React from "react";
 import Cpu, { CpuNoIgnore } from "./Cpu.tsx";
 
-import { fetchPreviousDialogue, setPreviousDialogue, resetPreviousDialogue, prevGroup, pushPreviousDialogue } from "../../state/previousDialogue.ts";
-
+import { previous } from '../../state/prevGroup.js'
 
 // This script is responsible for processing the selector types and responses.
 
@@ -15,7 +14,7 @@ export default function ProcessSelector({ nestedArray, group }) {
     // If it is a selector
     if (group === 0) {
 
-        prevGroup(0)
+        previous.group = 0
 
         let selectorIDs = []
         let selectorID = 0
@@ -92,35 +91,54 @@ export default function ProcessSelector({ nestedArray, group }) {
         
     } else {
 
-        let currentHtml = CpuNoIgnore(nestedArray, 0)
-        let prevDialogue = fetchPreviousDialogue()
-        let previousGroup = prevGroup()
+        const currentHtml = CpuNoIgnore(nestedArray, 0)
+        const prevDialogue = previous.dialogue
+        const previousGroup = previous.group
 
         if (previousGroup === 0) {
-            console.log(nestedArray)
 
-            setPreviousDialogue(currentHtml)
-            return (
-                <>
-                    <div id="SelectionDivider" className="border-t border-dashed dark:border-slate-500"></div>
-                    {currentHtml}
-                </>
-            )
-            
+            previous.group = group
+            previous.dialogue = currentHtml
+
+            if (currentHtml.every(element => element === "" || (React.isValidElement(element) && element.type === 'br'))) {
+                return ( <div id="SelectionDivider" className="mb-2 border-t border-dashed dark:border-slate-500"></div> )
+            } else {
+                return (
+                    <>
+                        <div id="SelectionDivider" className="mb-2 border-t border-dashed dark:border-slate-500"></div>
+                        {currentHtml}
+                    </>
+    
+                )
+
+            }
+
         } else if (group - 1 === previousGroup) {
 
             if (prevDialogue.length === currentHtml.length && prevDialogue.every((element, index) => element === currentHtml[index])) {
                 return ""
+            } else {
+                console.log(group, nestedArray)
+                return (
+                    <>
+                        <div id="SelectionDivider" className="mb-2 border-t border-dashed dark:border-slate-500"></div>
+                        {currentHtml}
+                    </>
+                )
+
             }
+        } else if (group === previousGroup) {
+            return (
+                <>
+                    <div id="SelectionDivider" className="mb-2 border-t border-dashed dark:border-slate-500"></div>
+                    {currentHtml}
+                </>
 
-            pushPreviousDialogue(currentHtml)
-            return ""
-
-        } else if (group - 2 === prevGroup()) {
-
-           throw new Error("THREE SELFECITIONES")
-
+            )
         }
+
+
+        
 
 
     }
