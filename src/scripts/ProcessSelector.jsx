@@ -93,19 +93,32 @@ export default function ProcessSelector({ nestedArray, group }) {
     } else {
 
         let currentHtml = CpuNoIgnore(nestedArray, 0)
+        let prevDialogue = fetchPreviousDialogue()
+        let previousGroup = prevGroup()
 
-        if (prevGroup() === 0) {
-            prevGroup(group)
+        if (previousGroup === 0) {
+            console.log(nestedArray)
+
             setPreviousDialogue(currentHtml)
-            return ""
+            return (
+                <>
+                    <div id="SelectionDivider" className="border-t border-dashed dark:border-slate-500"></div>
+                    {currentHtml}
+                </>
+            )
             
-        } else if (group - 1 === prevGroup()) {
+        } else if (group - 1 === previousGroup) {
+
+            if (prevDialogue.length === currentHtml.length && prevDialogue.every((element, index) => element === currentHtml[index])) {
+                return ""
+            }
+
             pushPreviousDialogue(currentHtml)
             return ""
 
         } else if (group - 2 === prevGroup()) {
 
-           throw new Error("THREE SELCEFCIO4TNREDS")
+           throw new Error("THREE SELFECITIONES")
 
         }
 

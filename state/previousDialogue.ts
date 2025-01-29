@@ -5,7 +5,6 @@ let previousDialogue: any[] = []
 let previousGroup: number
 
 export function prevGroup(assign?: number): number | void {
-
     if (assign !== undefined) {
         previousGroup = assign
     } else {
@@ -26,6 +25,6 @@ export function pushPreviousDialogue(array: any[]): void {
 }
 
 
-export const resetPreviousDialogue = () => {
+export function resetPreviousDialogue(): void {
     previousDialogue = []
 };

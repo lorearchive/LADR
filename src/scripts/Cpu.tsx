@@ -8,6 +8,7 @@ import { previousWasASelector, setPreviousSelector, resetPreviousSelector } from
 
 import { CreateHtmlLine } from "./CreateLine.tsx";
 import { fetchPreviousDialogue, prevGroup } from "../../state/previousDialogue.ts";
+import { greasemonkey } from "globals";
 
 
 
@@ -157,6 +158,7 @@ export default function Cpu( NestedArray: (number | string)[][], Group: number )
 
             } else if (Group !== 0) {
                 ignoreFor = nal - 1
+                console.log(NestedArray, Group)
                 return ProcessSelector({nestedArray: NestedArray, group: Group})
             }
             
@@ -208,12 +210,12 @@ export default function Cpu( NestedArray: (number | string)[][], Group: number )
 
     })
 
-    if (Group === 0 && prevGroup() !== 0) {
-        console.log("GRP 0 AND PREVGRP NOT0,", fetchPreviousDialogue())
-        prevGroup(0)
+    //if (Group === 0 && prevGroup() !== 0) {
+      //  console.log("GRP 0 AND PREVGRP NOT0,", fetchPreviousDialogue())
+        //prevGroup(0)
 
-        output.unshift(...fetchPreviousDialogue())
-    }
+        //output.unshift(...fetchPreviousDialogue())
+//    }
 
     return output
 }
