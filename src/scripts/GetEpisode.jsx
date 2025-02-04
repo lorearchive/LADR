@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ProcessScript } from './ProcessScript.jsx';
+import ProcessScript from './ProcessScript.tsx';
 
 export default function GetEpisode() {
     const [data, setData] = useState(null);
@@ -44,7 +44,8 @@ export default function GetEpisode() {
                 const dataList = episodeData.DataList;
 
                 if (dataList) {
-                    const scriptData = dataList.map((item) => <ProcessScript script={item.ScriptKr} group={item.SelectionGroup} />);
+                    const scriptData = ProcessScript(dataList)
+                    //const scriptData = dataList.map((item) => <ProcessScript script={item.ScriptKr} group={item.SelectionGroup} />);
                     setData(scriptData);
 
                 } else {

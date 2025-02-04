@@ -1,0 +1,354 @@
+import React, { useState } from "react";
+import ProcessTokens from "./ProcessTokens.jsx";
+
+import Cpu, { CpuNoIgnore } from "./Cpu.tsx";
+import ProcessCommand from "./ProcessCommand.jsx";
+
+import { updateSprites } from "../../state/spriteids.ts";
+import { CreateHtmlLine } from "./CreateLine.tsx";
+
+interface Object {
+    SelectionGroup: number
+    Transition: number
+    ScriptKr: string
+}
+
+let speaker: string                                                 // The speaker
+let dialogue: string                                                // The
+let fontsize: undefined | number = undefined                        // Font
+let fontarray: (string | number)[] = []
+let ignoreFor: number = 0  
+
+let variator_fontsize: (string | number)[]  = []                    // An array which contains the fontsize variator
+let variator_fontsizeRaw = variator_fontsize[1] as number           // The raw integer font size provided by JSON
+let variator_size = 1                                               // Font size calulcated into em unit, defaulting at 1
+
+const variator_colour_regex = /^\[[0-9A-F]{6}\].*?\[-\]$/             // Matches EXACTLY "[HEXADECIMAL]...[-]"
+const variator_colour_regexCapture = /^\[([0-9A-F]{6})\](.*?)\[-\]$/
+const variator_colour_generalRegex = /\[([0-9A-F]{6})\](.*?)\[-\]/g   // Matches GENERALLY "...[HEXADECIMAL]...[-]..."
+let variator_colour = "0"                                           // The captured hex code, defaulted at 0 to check if it has been changed later
+let variator_colouredText: string                                   // The captured text
+
+
+const variator_rubyHex = /\[ruby=(.*?)\](.*?)\[\/ruby\]/g             // Captures both ABC and DEF in "foo foo [ruby=ABC]DEF[/ruby] bar bar"
+let variator_rubified: string[] = []
+
+let previousGroup = 0
+let previousDial = [""]
+
+
+
+export default function ProcessScript( DataList: Object[]) {
+
+    return DataList.map((item) => {
+        const Group = item.SelectionGroup
+        const Transition = item.Transition
+        const script = item.ScriptKr
+        const tokens = script.split(";")
+        const NestedArray = ProcessTokens(tokens);
+
+        fontarray = NestedArray.find(subarray => subarray[0] === "#fontsize") as []
+
+        if (fontarray !== undefined) {
+            let a: number = fontarray[1] as number - 70
+            if (a > 0) {
+                fontsize = 0.00714 * (fontarray[1] as number) + 0.886
+
+            } else if (a < 0) {
+                fontsize = 0.01 * (fontarray[1] as number) + 0.3
+
+            } else {
+                console.error("LADR: Fontsize is 0.", NestedArray)
+                throw new Error("LADR: Font size calculated to 0.")
+            }
+        } else {
+            fontsize = undefined
+        }
+
+
+        return NestedArray.map((subarray: (string | number)[]) => {
+            // two .map()s, one for the objects inside the DataList array, another for each of the lines inside nestedarray.
+
+            if (ignoreFor !== 0) {
+                // Ignore the arrays inside nested array for ignoreFor amount of times. Used if the entire nestedarray is passed to another function.
+                ignoreFor--
+                return ""
+
+            } else if(Transition !== 0) {
+
+                switch(Transition) {
+                    case 1122508889:         // Fade to black
+                    case 1173843909:         // Dissolve?
+                    case 1974926776:         // Fade from black
+                    case 2130373248:         // Blink black
+                    case 2136104277:         // Ease fade to black
+                    case 2243764445:         // Slow fade to black
+                    case 2482233134:         // Slow from black
+                    case 2752031158:         // Very slow ease fade to black
+                    case 3182852162:         // Slow to white, quick ease from white
+                    case 3656288287:         // Instant to black
+                    case 3785883235:         // Fade To and from white
+                    case 4004024664:         // Ease dissolve
+                    case 42187309:           // Slow fade to and from white
+                    case 509674679:          // Ease to black?
+                        return <br />
+
+                    case 1027503790:
+                    case 2046503352:
+                    case 2127590351:         // Ease out of black
+                        return ""
+                    default:
+                        console.error("LADR: Unrecognized transition type! Transition:", Transition)
+                        throw new Error("Unrecognized transition type! Refer to the console for more info.")
+                }
+
+            } else if (NestedArray.some((subarray) => (subarray[0] as string).startsWith("[ns")) || NestedArray.some((subarray) => (subarray[0] as string).startsWith("[s")) || Group !== 0) {
+
+                let nal = NestedArray.length
+
+                if(Group === 0) {
+                    let line = NestedArray.filter(subarray => {
+                        return (subarray[0] as string).startsWith("[ns") || (subarray[0] as string).startsWith("[s")
+                    })
+
+                    if (NestedArray.length > 1) {
+                        ignoreFor = nal - 1
+                    }
+                    return ProcessSelector(line, Group)
+
+                } else if (Group !== 0) {
+                    ignoreFor = NestedArray.length !== 1 ? nal - 1 : 0
+                    return ProcessSelector(NestedArray, Group)
+                }
+                
+            } else if (typeof subarray[0] === 'string' && /^[1-5]$/.test(subarray[0] as string)) {
+                
+                if (subarray.length === 4) {
+                    speaker = subarray[1] as string
+                    dialogue = subarray[3] as string
+
+                    updateSprites(subarray[0], speaker)
+
+                    if (fontsize !== undefined) {
+                        dialogue = speaker.startsWith("통신") ? ProcessVariator(dialogue, true) : ProcessVariator(dialogue, false)
+                        return CreateHtmlLine("normal", dialogue, speaker, fontsize)
+                    } else {
+                        dialogue = speaker.startsWith("통신") ? ProcessVariator(dialogue, true) : ProcessVariator(dialogue, false)
+                        return CreateHtmlLine("normal", dialogue, speaker)
+                    }
+        
+                } else if (subarray.length === 3) {
+                    speaker = ""
+                    dialogue = ''
+                    return ""
+        
+                } else if (subarray.length !== 4 && subarray.length !== 3) {
+                    console.error("LADR: A Normal Subarray of Nested Array is not of length value 4 AND 3. Proceeding with blank dialogue and speaker value.")
+                    speaker = ""
+                    dialogue = ''
+                    return ""
+                }
+                
+            } else if (typeof subarray[0] === 'string' && subarray[0].startsWith("#") && subarray[0] !== "#fontsize") {
+
+                if (fontsize !== undefined) {
+                    return ProcessCommand({array: subarray, fontSize: fontsize, NestedArray: NestedArray})
+                } else {
+                    return ProcessCommand({array: subarray, NestedArray: NestedArray})
+                }
+
+            } else if (typeof subarray[0] === 'string' &&  subarray[0] === "#fontsize") {
+                return ""
+
+            } else if (subarray.length === 1 && subarray[0] === "") {
+                return ""
+
+            } else {
+                throw new Error("LADR: Unrecognized array type. Check the console.")
+            }
+        })
+    })
+}
+
+
+
+export function ProcessVariator( dialogue: string, telemetry?: boolean ): string {
+
+    // Text color VARIATOR
+
+    if (variator_colour_regex.test(dialogue)) {
+
+        let matches = variator_colour_regexCapture.exec(dialogue) as RegExpExecArray
+        variator_colour = matches[1]
+        variator_colouredText = matches[2]
+
+
+        dialogue = `<span class="colouredText" style="color: #${variator_colour} ">${variator_colouredText}</span>`
+
+    } else if (variator_colour_generalRegex.test(dialogue)) {
+        console.error("LADR: Received general match for custom text colouring. ", dialogue)
+    }
+
+
+    // RUBY TEXT VARIATOR
+
+    if (dialogue.includes("[ruby=")) {
+
+        variator_rubified = [...dialogue.matchAll(variator_rubyHex)].flatMap(match => [match[1], match[2]]) as [] // [rt, rb, rt, rb, rt, rb, ...]
+
+        if (variator_rubified.length % 2 !== 0) {
+            console.error("LADR: Rubified array does not contain an even amount of elements. Continuing with blank rubified array.")
+            variator_rubified = []
+        }
+
+        dialogue = dialogue.replace(`[ruby=${variator_rubified[0]}]${variator_rubified[1]}[/ruby]`, `<ruby>${variator_rubified[1]}<rp>(</rp><rt>${variator_rubified[0]}</rt><rp>)</rp></ruby>`)
+
+    }
+
+    // newlineVARIATOR
+
+    if (dialogue.includes("#n")) {
+        dialogue = dialogue.replace(/#n/g, "<br />")
+    }
+
+    if (telemetry) {
+        dialogue = dialogue.replace(dialogue, `<span style="font-style: oblique;">${dialogue}</span>`)
+    }
+    return dialogue
+}
+
+
+
+export function ProcessSelector( nestedArray: (string | number)[][], group: number ) {
+
+    // If it is a selector
+    if (group === 0) {
+
+        previousGroup = 0
+
+        let selectorIDs = []
+        let selectorID: string
+        let selectorID2: string
+        let selectorID3 = 0
+
+        let line
+        let dialogue
+        let dialogue2
+        
+        if (nestedArray.length === 1) {
+            
+            if ((nestedArray[0][0] as string).startsWith("[ns")) {
+                dialogue = (nestedArray[0][0] as string).slice(4)
+            } else {
+                dialogue = (nestedArray[0][0] as string).slice(3)
+            }
+
+            return (
+                <div id="SingleSelector" className="flex flex-col items-center justify-center p-2 my-6 rounded noto-serif-kr">
+                  <div className="flex justify-center flex-shrink-0 w-6/12 p-2 m-2 transition-colors rounded-md dark:bg-slate-800 hover:dark:bg-slate-700">
+                    <q className="font-semibold">
+                        {dialogue}
+                    </q>
+                  </div>
+                </div>
+
+            )
+        } else if (nestedArray.length === 2) {
+
+
+            selectorIDs = nestedArray.map(subArray => {
+
+                if ((subArray[0] as string).startsWith('[ns')) {
+                    return (subArray[0] as string).slice(3, (subArray[0] as string).indexOf("]"))
+
+                } else if ((subArray[0] as string).startsWith('[s')) {
+                    return (subArray[0] as string).slice(2, (subArray[0] as string).indexOf("]"))
+                }
+
+            })
+
+            selectorID = selectorIDs[0] as string
+            selectorID2 = selectorIDs[1] as string
+
+            line = nestedArray.map(subarray => {
+                if ((subarray[0] as string).startsWith("[ns")) {
+                    return (subarray[0] as string).slice((subarray[0] as string).indexOf("]") + 2)
+                } else if ((subarray[0] as string).startsWith("[s")) {
+                    return (subarray[0] as string).slice((subarray[0] as string).indexOf("]") + 2)
+                }
+            });
+
+
+            dialogue = line[0]
+            dialogue2 = line[1]
+
+            return (
+                <div id="Selectors" className="flex flex-col items-center justify-center p-2 my-6 rounded noto-serif-kr">
+                    <div id={`Selector${selectorID}`} className="flex justify-center flex-shrink-0 w-6/12 p-2 m-2 transition-colors rounded-md dark:bg-slate-800 hover:dark:bg-slate-700">
+                        <q className="font-semibold">
+                            {dialogue}
+                        </q>
+                    </div>
+                    <div id={`Selector${selectorID2}`} className="flex justify-center flex-shrink-0 w-6/12 p-2 m-2 transition-colors rounded-md dark:bg-slate-800 hover:dark:bg-slate-700">
+                        <q className="font-semibold">
+                            {dialogue2}
+                        </q>
+                    </div>
+                </div>
+            )
+        }
+
+        
+    } else {
+
+        const currentHtml = CpuNoIgnore(nestedArray, 0)
+
+        if (previousGroup === 0) {
+
+            previousGroup = group
+            previousDial = currentHtml
+            console.log(nestedArray, previousDial)
+            if (currentHtml.every(element => element === "" || (React.isValidElement(element) && element.type === 'br'))) {
+                return ( <div id="SelectionDivider" className="mt-2 mb-2 border-t border-dashed dark:border-slate-500"></div> )
+            } else {
+                return (
+                    <>
+                        <div id="SelectionDivider" className="mt-2 mb-2 border-t border-dashed dark:border-slate-500"></div>
+                        {currentHtml}
+                    </> 
+                )
+            }
+        } else if (group - 1 === previousGroup) {
+
+            console.log(nestedArray, previousDial)
+            previousGroup = group
+
+            if (JSON.stringify(previousDial) === JSON.stringify(currentHtml)) {
+                return ""
+            } else {
+                if (currentHtml.every(element => element === "" || (React.isValidElement(element) && element.type === 'br'))) {
+                    return ( <div id="SelectionDivider" className="mt-2 mb-2 border-t border-dashed dark:border-slate-500"></div> )
+                } else {
+                    return (
+                        <>
+                            <div id="SelectionDivider" className="mt-2 mb-2 border-t border-dashed dark:border-slate-500"></div>
+                            {currentHtml}
+                        </>
+                    )
+
+                }
+            }
+        } else if (group === previousGroup) {
+            previousDial = currentHtml
+            return currentHtml
+        }
+    }
+}
+
+
+
+
+
+
+
+    
