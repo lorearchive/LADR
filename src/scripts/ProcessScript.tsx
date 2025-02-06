@@ -175,8 +175,8 @@ export default function ProcessScript( DataList: Object[]) {
             }
         })
 
-        console.log(htmlSelection2.length, Group)
         if (htmlSelection2.length !== 0 && Group === 0) {
+            // We know htmlSelection1 is always going to be populated. We know htmlSelection3 is often not populated. Checking htmlSelection2 as well as the current group seems good to see if we have any leftover selections to render.
             const commonSelectionDivider = <div id="CommonSelectionDivider" data-selection="Common"  className="mt-2 mb-2 border-t border-dashed dark:border-slate-500"></div>
             const selectionDivider = <div id="SelectionDivider" data-selection="Common"  className="mt-2 mb-2 border-t border-dashed dark:border-slate-500"></div>
 
