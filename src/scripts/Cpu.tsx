@@ -1,7 +1,6 @@
 import React from "react";
 
 import ProcessCommand from "./ProcessCommand.jsx";
-import ProcessSelector from "./ProcessSelector.jsx";
 import { updateSprites } from "../../state/spriteids.ts"
 import { previousWasASelector, setPreviousSelector, resetPreviousSelector } from "../../state/previousSelector.ts";
 
@@ -158,11 +157,9 @@ export default function Cpu( NestedArray: (number | string)[][], Group: number )
                 if (NestedArray.length > 1) {
                     previous.ignoreFor = nal - 1
                 }
-                return ProcessSelector({nestedArray: line, group: Group})
 
             } else if (Group !== 0) {
                 previous.ignoreFor = NestedArray.length !== 1 ? nal - 1 : 0
-                return ProcessSelector({nestedArray: NestedArray, group: Group})
             }
             
         } else if (typeof subarray[0] === 'string' && /^[1-5]$/.test(subarray[0] as string)) {
