@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { JSX, useState } from "react";
 import ProcessTokens from "./ProcessTokens.jsx";
 
 import Cpu, { CpuNoIgnore } from "./Cpu.tsx";
@@ -10,6 +10,7 @@ import { CreateHtmlLine } from "./CreateLine.tsx";
 interface Object {
     SelectionGroup: number
     Transition: number
+    BGName: number
     ScriptKr: string
 }
 
@@ -34,8 +35,11 @@ const variator_rubyHex = /\[ruby=(.*?)\](.*?)\[\/ruby\]/g             // Capture
 let variator_rubified: string[] = []
 
 let previousGroup = 0
-let previousDial = [""]
-
+let previousDial: (string | JSX.Element)[] = []
+let previousSingleDial: (string | JSX.Element)[]
+let htmlSelection1: (string | JSX.Element)[] = []
+let htmlSelection2: (string | JSX.Element)[] = []
+let htmlSelection3: (string | JSX.Element)[] = []
 
 
 export default function ProcessScript( DataList: Object[]) {
@@ -66,7 +70,7 @@ export default function ProcessScript( DataList: Object[]) {
         }
 
 
-        return NestedArray.map((subarray: (string | number)[]) => {
+        let output = NestedArray.map((subarray: (string | number)[]) => {
             // two .map()s, one for the objects inside the DataList array, another for each of the lines inside nestedarray.
 
             if (ignoreFor !== 0) {
@@ -79,6 +83,7 @@ export default function ProcessScript( DataList: Object[]) {
                 switch(Transition) {
                     case 1122508889:         // Fade to black
                     case 1173843909:         // Dissolve?
+                    case 1369285246:         // ?
                     case 1974926776:         // Fade from black
                     case 2130373248:         // Blink black
                     case 2136104277:         // Ease fade to black
@@ -88,6 +93,7 @@ export default function ProcessScript( DataList: Object[]) {
                     case 3182852162:         // Slow to white, quick ease from white
                     case 3656288287:         // Instant to black
                     case 3785883235:         // Fade To and from white
+                    case 3854440696:         // ?
                     case 4004024664:         // Ease dissolve
                     case 42187309:           // Slow fade to and from white
                     case 509674679:          // Ease to black?
@@ -96,6 +102,7 @@ export default function ProcessScript( DataList: Object[]) {
                     case 1027503790:
                     case 2046503352:
                     case 2127590351:         // Ease out of black
+                    case 348351892:          // ?
                         return ""
                     default:
                         console.error("LADR: Unrecognized transition type! Transition:", Transition)
@@ -130,10 +137,10 @@ export default function ProcessScript( DataList: Object[]) {
                     updateSprites(subarray[0], speaker)
 
                     if (fontsize !== undefined) {
-                        dialogue = speaker.startsWith("통신") ? ProcessVariator(dialogue, true) : ProcessVariator(dialogue, false)
+                        dialogue = ProcessVariator(dialogue)
                         return CreateHtmlLine("normal", dialogue, speaker, fontsize)
                     } else {
-                        dialogue = speaker.startsWith("통신") ? ProcessVariator(dialogue, true) : ProcessVariator(dialogue, false)
+                        dialogue = ProcessVariator(dialogue)
                         return CreateHtmlLine("normal", dialogue, speaker)
                     }
         
@@ -167,9 +174,43 @@ export default function ProcessScript( DataList: Object[]) {
                 throw new Error("LADR: Unrecognized array type. Check the console.")
             }
         })
+
+        console.log(htmlSelection2.length, Group)
+        if (htmlSelection2.length !== 0 && Group === 0) {
+            const commonSelectionDivider = <div id="CommonSelectionDivider" data-selection="Common"  className="mt-2 mb-2 border-t border-dashed dark:border-slate-500"></div>
+            const selectionDivider = <div id="SelectionDivider" data-selection="Common"  className="mt-2 mb-2 border-t border-dashed dark:border-slate-500"></div>
+
+
+            if (htmlSelection3.length === 0) {
+
+                if (JSON.stringify(htmlSelection1) === JSON.stringify(htmlSelection2)) {
+                    output.unshift(commonSelectionDivider, ...htmlSelection1)
+                    htmlSelection1 = []
+                    htmlSelection2 = []
+                } else {
+                    output.unshift(selectionDivider, ...htmlSelection1, selectionDivider, ...htmlSelection2)
+                    htmlSelection1 = []
+                    htmlSelection2 = []
+                }
+
+            } else {
+                if (JSON.stringify(htmlSelection1) === JSON.stringify(htmlSelection2) && JSON.stringify(htmlSelection2) === JSON.stringify(htmlSelection3)) {
+                    output.unshift(commonSelectionDivider, ...htmlSelection1)
+                    htmlSelection1 = []
+                    htmlSelection2 = []
+                    htmlSelection3 = []
+                } else {
+                    output.unshift(selectionDivider, ...htmlSelection1, selectionDivider, ...htmlSelection2, selectionDivider, ...htmlSelection3)
+                    htmlSelection1 = []
+                    htmlSelection2 = []
+                    htmlSelection3 = []
+                }
+            }
+
+        }
+        return output
     })
 }
-
 
 
 export function ProcessVariator( dialogue: string, telemetry?: boolean ): string {
@@ -304,43 +345,40 @@ export function ProcessSelector( nestedArray: (string | number)[][], group: numb
         const currentHtml = CpuNoIgnore(nestedArray, 0)
 
         if (previousGroup === 0) {
-
             previousGroup = group
-            previousDial = currentHtml
-            console.log(nestedArray, previousDial)
             if (currentHtml.every(element => element === "" || (React.isValidElement(element) && element.type === 'br'))) {
-                return ( <div id="SelectionDivider" className="mt-2 mb-2 border-t border-dashed dark:border-slate-500"></div> )
+                htmlSelection1 = [""]
             } else {
-                return (
-                    <>
-                        <div id="SelectionDivider" className="mt-2 mb-2 border-t border-dashed dark:border-slate-500"></div>
-                        {currentHtml}
-                    </> 
-                )
+                htmlSelection1 = currentHtml
             }
-        } else if (group - 1 === previousGroup) {
+            return ""
 
-            console.log(nestedArray, previousDial)
-            previousGroup = group
-
-            if (JSON.stringify(previousDial) === JSON.stringify(currentHtml)) {
-                return ""
-            } else {
-                if (currentHtml.every(element => element === "" || (React.isValidElement(element) && element.type === 'br'))) {
-                    return ( <div id="SelectionDivider" className="mt-2 mb-2 border-t border-dashed dark:border-slate-500"></div> )
-                } else {
-                    return (
-                        <>
-                            <div id="SelectionDivider" className="mt-2 mb-2 border-t border-dashed dark:border-slate-500"></div>
-                            {currentHtml}
-                        </>
-                    )
-
-                }
-            }
         } else if (group === previousGroup) {
-            previousDial = currentHtml
-            return currentHtml
+
+            if (htmlSelection2.length !== 0) {
+                htmlSelection2.push(...currentHtml)
+
+            } else if (htmlSelection1.length !== 0) {
+                htmlSelection1.push(...currentHtml)
+            } else {
+                htmlSelection3.push(...currentHtml)
+            }
+            return ""
+
+        } else if (group - 1 === previousGroup) {
+        
+            previousGroup = group
+            if (htmlSelection2.length === 0) {
+
+                if (currentHtml.every(element => element === "" || (React.isValidElement(element) && element.type === 'br'))) {
+                    htmlSelection2 = [""]
+                } else {
+                    htmlSelection2 = currentHtml
+                }            
+            } else {
+                htmlSelection3 = currentHtml
+            }
+
         }
     }
 }

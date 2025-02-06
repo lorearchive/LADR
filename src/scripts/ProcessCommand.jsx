@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 
 import { fetchSprites } from "../../state/spriteids.ts";
 
-import ProcessSelector from "./ProcessSelector.jsx";
 import { ProcessVariator } from "./Cpu.tsx";
 import { CreateEmLine, CreateHtmlLine } from "./CreateLine.tsx";
 
