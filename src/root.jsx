@@ -13,7 +13,7 @@ import './index.css'
 import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
 
-import GetDirectory from './scripts/GetDirectory.jsx'
+import GetDirectory from './scripts/GetDirectory.tsx'
 import GetEpisode from './scripts/GetEpisode.jsx'
 
 // Wrap page components with motion
@@ -29,53 +29,51 @@ const PageWrapper = ({ children }) => (
 );
 
 function App() {
-  const location = useLocation();
+    const location = useLocation();
   
-  return (
-    <main>
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<Navigate to="/home" />} />
-          <Route path="/mainstory" element={<Navigate to="/main" />} />
-          
-          <Route path="/home" element={ <PageWrapper><Home /></PageWrapper> } />
-          <Route path="/main" element={ <PageWrapper><MainSto /></PageWrapper> } />
-          <Route path="/main/test" element={ <PageWrapper><GetDirectory path="/test" chapter="Test" /></PageWrapper> } />
+    return (
+        <main>
+            <AnimatePresence mode="wait">
+                <Routes location={location} key={location.pathname}>
+                    <Route path="/"                     element={<Navigate to="/home" />} />
+                    <Route path="/mainstory"            element={<Navigate to="/main" />} />
+                    
+                    <Route path="/home"                 element={ <PageWrapper><Home /></PageWrapper> } />
+                    <Route path="/main"                 element={ <PageWrapper><MainSto /></PageWrapper> } />
+
+                    <Route path="/main/:level1"         element={ <PageWrapper><GetDirectory dir="true" /></PageWrapper> } />
+                    <Route path="/main/:level1/:level2" element={ <PageWrapper><GetDirectory /></PageWrapper> } />
 
 
 
-         <Route path="/main/test/*" element={ <PageWrapper><GetEpisode /></PageWrapper> } />
-
-
-
-          <Route path="/relationship" element={ <PageWrapper><RelSto /></PageWrapper> } />
-        </Routes>
-      </AnimatePresence>
-    </main>
-  );
+                    <Route path="/relationship"         element={ <PageWrapper><RelSto /></PageWrapper> } />
+                </Routes>
+            </AnimatePresence>
+        </main>
+    );
 }
 
 function Root() {
-  return (
-    <Router>
-      <StrictMode>
-          <div id="ladr-header" className="top-0 z-50 flex items-center justify-center w-full">
-            <div id="ladr-header-root" className="flex items-center justify-center flex-grow">
-              <Header />
-            </div>
-          </div>
+    return (
+        <Router>
+            <StrictMode>
+                <div id="ladr-header" className="top-0 z-50 flex items-center justify-center w-full">
+                    <div id="ladr-header-root" className="flex items-center justify-center flex-grow">
+                    <Header />
+                    </div>
+                </div>
 
-          <div id="ladr-page">
-            <div id="ladr-window" className="flex justify-center pt-10 bg-transparent">
-              <App />
-            </div>
-          </div>
+                <div id="ladr-page">
+                    <div id="ladr-window" className="flex justify-center pt-10 bg-transparent">
+                    <App />
+                    </div>
+                </div>
 
 
-          <Footer />
-      </StrictMode>
-    </Router>
-  )
+                <Footer />
+            </StrictMode>
+        </Router>
+    )
 }
 
 createRoot(document.getElementById('ladr-site')).render(<Root />)
