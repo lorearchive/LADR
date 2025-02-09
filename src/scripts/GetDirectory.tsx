@@ -35,7 +35,11 @@ export default function GetDirectory({ dir }: {dir: string}) {
                 chapter = match[2];
             }
         } else {
-            throw new Error("LADR: Malformed URL!")
+            kind = "any"
+            path = path.replace(/[^A-Za-z0-9\s/]/g, '') // Removes all special characters other than slash, for sanitization
+            if (path.startsWith("/main")) {
+                path = path.slice(5)
+            }
         }
     } else {
         throw new Error("LADR: Not ready for that URL yet! (Or it is malformed)")
@@ -56,7 +60,9 @@ export default function GetDirectory({ dir }: {dir: string}) {
                         `https://api.github.com/repos/lorearchive/ladr-json/contents/Volume${volume}/Chapter${chapter}`
                     );
                 } else {
-                    throw new Error("LADR: Not ready for that URL yet!");
+                    response = await fetch(
+                        `https://api.github.com/repos/lorearchive/ladr-json/contents${path}`
+                    )
                 }
 
                 if (!response.ok) {
@@ -81,22 +87,34 @@ export default function GetDirectory({ dir }: {dir: string}) {
                         }));
 
                     setData(names);
+                } else if (kind === "any") {
+                    const names = result
+                    .filter((item: { name: string}) => item.name.endsWith(".json"))
+                    .map((item: { name:string, sha: string}) => ({ name: item.name.replace('.json', ''), sha: item.sha }));
+
+                    setData(names);
+
                 } else {
                     const names = result
                         .filter((item: { name: string }) => item.name.endsWith(".json"))
                         .map((item: { name: string; sha: string }) => {
                             const match = item.name.match(/^Episode(\d+)[-_]?/);
-                            const episodeNo = item.name.match(/-(\d+)_/)
-                            if (episodeNo === null) {
+                            const episodeNo = match ? match[1] : null
+                            const sector = item.name.match(/-s(\d+)/)
+                            const sectorNo = sector ? sector[1] : null
+
+                            
+                            if (sectorNo === null) {
                                 return {
-                                    order: match ? match[1] : null, // Extract the digits
-                                    name: `Episode ${match}`, 
+                                    order: match ? match[1] : null,
+                                    name: `Episode ${episodeNo}`, 
                                     sha: item.sha 
                                 };
                             } else {
                                 return {
                                     order: match ? match[1] : null,
-                                    name: `Episode ${match} - Sector ${episodeNo[1]}`,
+                                    sector: sectorNo,
+                                    name: `Episode ${episodeNo} - Sector ${sectorNo}`,
                                     sha: item.sha
                                 };
                             }
@@ -152,7 +170,7 @@ export default function GetDirectory({ dir }: {dir: string}) {
                         {data.map((item, index) => {
                             return (
                                 <div key={item.sha || index} id="chapter" className="h-14 flex items-center justify-between transition-colors border-2 rounded-md mb-7 dark:bg-defaultGray dark:border-gray-500 hover:dark:bg-black min-h-[3rem]">
-                                    <NavLink to={`${path}${item.name}`} className="flex items-center w-full p-3 h-14">
+                                    <NavLink to={`${path}/${item.order}`} className="flex items-center w-full p-3 h-14">
                                         <p className="flex items-center m-0">
                                             <strong>{item.name}</strong>
                                         </p>
@@ -164,6 +182,26 @@ export default function GetDirectory({ dir }: {dir: string}) {
                 </div>
             )
 
+        case "any":
+            return (
+                <div id="chapterList">
+                  <h1>Chapter {chapter}</h1>
+                  <div id="chapters">
+                    {data.map((item, index) => {
+                      return (
+                        <div key={item.sha || index} id="chapter" className="h-14 flex items-center justify-between transition-colors border-2 rounded-md mb-7 dark:bg-defaultGray dark:border-gray-500 hover:dark:bg-black min-h-[3rem]">
+                          <NavLink to={`${window.location.pathname}${item.name}`} className="flex items-center w-full p-3 h-14">
+                              <p className="flex items-center m-0">
+                                <strong>{item.name}</strong>
+                              </p>
+                          </NavLink>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+    
         default:
             return <p>LADR: Invalid path, kind: {kind}</p>;
     }

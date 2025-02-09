@@ -22,15 +22,19 @@ export default function GetEpisode() {
                 const chapter = segments[2] ?? '';
                 const episode = segments[3] ?? '';
 
+                if (episode.includes("-")) {
+                    
+                }
+
                 let url = '';
                 if (volume === '') {
-                url = `https://media.githubusercontent.com/media/lorearchive/ladr-json/${storytype}.json`;
+                    url = `https://media.githubusercontent.com/media/lorearchive/ladr-json/${storytype}.json`;
                 } else if (chapter === '') {
-                url = `https://media.githubusercontent.com/media/lorearchive/ladr-json/${storytype}/${volume}.json`;
+                    url = `https://media.githubusercontent.com/media/lorearchive/ladr-json/${storytype}/Volume${volume}.json`;
                 } else if (episode === '') {
-                url = `https://media.githubusercontent.com/media/lorearchive/ladr-json/${storytype}/${volume}/${chapter}.json`;
+                    url = `https://media.githubusercontent.com/media/lorearchive/ladr-json/${storytype}/Volume${volume}/Chapter${chapter}.json`;
                 } else {
-                url = `https://media.githubusercontent.com/media/lorearchive/ladr-json/${storytype}/${volume}/${chapter}/${episode}.json`;
+                    url = `https://media.githubusercontent.com/media/lorearchive/ladr-json/${storytype}/Volume${volume}/Chapter${chapter}/Episode${episode}.json`;
                 }
 
                 const response = await fetch(url);
@@ -45,7 +49,6 @@ export default function GetEpisode() {
 
                 if (dataList) {
                     const scriptData = ProcessScript(dataList)
-                    //const scriptData = dataList.map((item) => <ProcessScript script={item.ScriptKr} group={item.SelectionGroup} />);
                     setData(scriptData);
 
                 } else {
@@ -68,20 +71,18 @@ export default function GetEpisode() {
 
 
     return (
-      <div id="episode">
-        <h1>Episode</h1>
-        <div id="scriptData">
-          {data ? (
-            data.map((item) => (
-              <>
-                {item}
-              </>
-            ))
-          ) : (
-            <p>No script data available</p>
-          )}
+        <div id="episode">
+            <h1>Episode</h1>
+            <div id="scriptData">
+            {
+                data.map((item) => (
+                <>
+                    {item}
+                </>
+                ))
+            }
+            </div>
         </div>
-      </div>
     );
   
 }
