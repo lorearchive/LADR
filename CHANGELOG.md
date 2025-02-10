@@ -22,6 +22,7 @@ Date format: `YYYY-MMM-DD`
 
 ### Removed
 - Unused script.js
+- DropdownLang.jsx now deprecated thus deleted
 
 
 ## [0.2.0] - 2025-Feb-09
