@@ -1,15 +1,19 @@
 import { NavLink } from 'react-router-dom'
-import DropdownLang from './DropdownLang.jsx'
+import ModalButton from './Preferences/ModalButton';
+import { usePrefStore } from '../store';
 
 export default function Header() {
+
+    const lang = usePrefStore((state) => state.lang)
+    
     return (
         <nav className="flex justify-between flex-grow text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
             <ul className="flex flex-wrap mx-auto -mb-px">
                 <li id="ladr-header-li" className="me-2">
-                    <NavLink to="/home" className="ladr-header-links">Home</NavLink>
+                    <NavLink to={`/${lang}/home`} className="ladr-header-links">Home</NavLink>
                 </li>
                 <li id="ladr-header-li" className="me-2">
-                    <NavLink to="/main" className="ladr-header-links" >Main Story</NavLink>
+                    <NavLink to={`/${lang}/main`} className="ladr-header-links" >Main Story</NavLink>
                 </li>
                 <li id="ladr-header-li" className="me-2">
                     <NavLink to="/relationship" className="ladr-header-links">Relationship Story</NavLink>
@@ -40,7 +44,8 @@ export default function Header() {
                 </button>
             </form>
 
-            <DropdownLang />
+            <ModalButton />
+
         </nav>
     );
 }

@@ -14,7 +14,8 @@ export default function GetDirectory({ dir }: {dir: string}) {
     const [error, setError] = useState<string | null>(null)
 
     let path = window.location.pathname;
-    path = path.replace(/\/$/, '')
+    path = path.slice(3) // slices the first slash then the language code. The language code always consists of 2 characters, and follows the ISO 639-1 standard.
+    path = path.replace(/\/$/, '') // Removes trailing slash
     let kind: string = "";
     let volume: string = "";
     let chapter: string = "";
@@ -143,7 +144,7 @@ export default function GetDirectory({ dir }: {dir: string}) {
         case "volume":
             return (
                 <div id="chapterList">
-                    <h1>Volume {volume}</h1>
+                    <h1 className="mb-5">Volume {volume}</h1>
                     <div id="chapters">
 
                         {data.map((item, index) => {
@@ -164,7 +165,7 @@ export default function GetDirectory({ dir }: {dir: string}) {
         case "chapter":
             return (
                 <div id="chapterList">
-                    <h1>Volume {volume}, Chapter {chapter}</h1>
+                    <h1 className="mb-5">Volume {volume}, Chapter {chapter}</h1>
                     <div id="chapters">
 
                         {data.map((item, index) => {
@@ -185,7 +186,7 @@ export default function GetDirectory({ dir }: {dir: string}) {
         case "any":
             return (
                 <div id="chapterList">
-                  <h1>Chapter {chapter}</h1>
+                  <h1 className="mb-5">Chapter {chapter}</h1>
                   <div id="chapters">
                     {data.map((item, index) => {
                       return (

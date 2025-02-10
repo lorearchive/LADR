@@ -55,7 +55,6 @@ h1 {
   line-height: 1.1;
   border-left: 5px solid #2563eb;
   padding-left: .5em;
-  margin: 0 0 1.5em 0;
 }
 h2 {
   font-size: 1.8em;
@@ -150,4 +149,17 @@ main {
   top: 0px;
   right: 40%;
   content: "";
+}
+
+
+.preference-modal {
+    width: clamp(50%, 700px, 90%);
+    height: min(50%, 300px);
+
+    margin: auto;
+    padding: 0 2rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
