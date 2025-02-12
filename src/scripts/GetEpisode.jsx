@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ProcessScript from './ProcessScript.tsx';
 
 export default function GetEpisode() {
@@ -6,6 +7,9 @@ export default function GetEpisode() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+
+    const location = useLocation()
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchEpisode = async () => {
@@ -21,21 +25,29 @@ export default function GetEpisode() {
                 const storytype = segments[0] ?? '';
                 const volume = segments[1] ?? '';
                 const chapter = segments[2] ?? '';
-                const episode = segments[3] ?? '';
+                let episode = segments[3] ?? '';
+                let sector
 
                 if (episode.includes("-")) {
-                    
+                    sector = episode.slice(episode.indexOf("-") + 1)
+                    episode = episode.slice(0, episode.indexOf("-"))
+                } else {
+                    sector = 1
                 }
 
+                if (!/.*-\d+$/.test(location.pathname)) {
+                    navigate(`${location.pathname}-${sector}`, { replace: true });
+                }
+                
                 let url = '';
                 if (volume === '') {
-                    url = `https://media.githubusercontent.com/media/lorearchive/ladr-json/${storytype}.json`;
+                    url = `https://raw.githubusercontent.com/lorearchive/ladr-json/${storytype}.json`
                 } else if (chapter === '') {
-                    url = `https://media.githubusercontent.com/media/lorearchive/ladr-json/${storytype}/Volume${volume}.json`;
+                    url = `https://raw.githubusercontent.com/lorearchive/ladr-json/${storytype}/Volume${volume}.json`
                 } else if (episode === '') {
-                    url = `https://media.githubusercontent.com/media/lorearchive/ladr-json/${storytype}/Volume${volume}/Chapter${chapter}.json`;
+                    url = `https://raw.githubusercontent.com/lorearchive/ladr-json/${storytype}/Volume${volume}/Chapter${chapter}.json`
                 } else {
-                    url = `https://media.githubusercontent.com/media/lorearchive/ladr-json/${storytype}/Volume${volume}/Chapter${chapter}/Episode${episode}.json`;
+                    url = `https://raw.githubusercontent.com/lorearchive/ladr-json/${storytype}/Volume${volume}/Chapter${chapter}/Episode${episode}-s${sector}.json`
                 }
 
                 const response = await fetch(url);
@@ -65,7 +77,7 @@ export default function GetEpisode() {
         window.scrollTo(0, 0);
         fetchEpisode();
 
-    }, []);
+    }, [location.pathname, navigate]);
 
     if (loading) return <p>Loading episode...</p>;
     if (error) return <p>Error: {error}</p>;

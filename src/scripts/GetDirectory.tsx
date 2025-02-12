@@ -38,7 +38,7 @@ export default function GetDirectory({ dir }: {dir: string}) {
         } else {
             kind = "any"
             path = path.replace(/[^A-Za-z0-9\s/]/g, '') // Removes all special characters other than slash, for sanitization
-            if (path.startsWith("/main")) {
+            if (path.startsWith("/test")) {
                 path = path.slice(5)
             }
         }

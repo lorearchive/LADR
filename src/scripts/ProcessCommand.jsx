@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { fetchSprites } from "../../state/spriteids.ts";
 
 import { ProcessVariator } from "./Cpu.tsx";
-import { CreateEmLine, CreateHtmlLine } from "./CreateLine.tsx";
+import { CreateHtmlLine } from "./CreateLine.tsx";
 
 
 
@@ -90,6 +90,7 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", Nes
                 );
             }
 
+        case "#NA":
         case "#na":
             if (array.length !== 3 && array.length !== 2) {
                 throw new Error("LADR: #na ARR LENGTH NOT 3 AND 2", array)
@@ -184,35 +185,15 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", Nes
             }
 
         case "#fontsize":
-            let fontArray = NestedArray.find((array) => array.includes("#fontsize")) || []
-            let fontsizeRaw
-            let fontsize
+            // unused
+            throw new Error("ajf")
 
-            if (fontArray.length === 2) {
+        case "#continued":
+            return <p id="tbc"  className="flex justify-end w-full mt-5 mb-2"><strong>To Be Continued...</strong></p>
 
-                fontsizeRaw = fontArray[1]
-
-                let a = fontsizeRaw - 70
-
-                if (a > 0) {
-                    fontsize = (a / 10) - (0.75 * (a / 10)) + 0.55
-                } else {
-                    fontsize = (a / 10) - 4.1
-                }
-
-                if (fontsize > 1) {
-                    return fontsize
-                } else {
-                    console.error("LADR: calculated font size to be equal to or less than 1em. Is this right? ", NestedArray)
-                    return 1
-                }
-
-            } else if (fontArray.length === 0) {
-                return undefined
-            } else {
-                throw new Error("LADR: Invalid fontsize array passed to #fontsize command processor.", NestedArray)
-            }
-
+        case "#nextepisode":
+            // unused
+            return ""
 
         case "#1":
         case "#2":
@@ -229,6 +210,7 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", Nes
                     return <br />;
 
                 case "a":
+                case "H":
                 case "h":
                 case "m1":
                 case "m2":

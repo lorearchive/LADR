@@ -19,6 +19,7 @@ import GetDirectory from './scripts/GetDirectory.tsx'
 import GetEpisode from './scripts/GetEpisode.jsx'
 import { usePrefStore } from './store.ts'
 import LangUpdater from './components/Preferences/LangUpdater.tsx'
+import BackToTop from './utils/BackToTop.tsx'
 
 // Wrap page components with motion
 const PageWrapper = ({ children }) => (
@@ -73,7 +74,8 @@ function App() {
             <AnimatePresence mode="wait">
                 <Routes location={location} key={location.pathname}>
                     <Route path="/"                                     element={<Navigate to={`/${lang}/home`} />} />
-                    
+                    <Route path="/:lang"                                element={<Navigate to={`/${lang}/home`} />} />
+
                     <Route path="/:lang/home"                           element={ <PageWrapper><Home /></PageWrapper> } />
                     <Route path="/:lang/main"                           element={ <PageWrapper><MainSto /></PageWrapper> } />
 
@@ -81,6 +83,7 @@ function App() {
                     <Route path="/:lang/main/:level1/:level2"           element={ <NumberGuard2><PageWrapper><GetDirectory /></PageWrapper></NumberGuard2> } />
                     <Route path="/:lang/main/:level1/:level2/:level3"   element={ <NumberGuard3><PageWrapper><GetEpisode /></PageWrapper></NumberGuard3> } />
 
+                    <Route path="/:lang/test"                           element={ <PageWrapper><GetDirectory /></PageWrapper> } />
 
                     <Route path="/relationship"                         element={ <PageWrapper><RelSto /></PageWrapper> } />
                 </Routes>
@@ -123,6 +126,7 @@ function Root() {
                     </div>
                 </div>
 
+                <BackToTop />
 
                 <Footer />
             </StrictMode>

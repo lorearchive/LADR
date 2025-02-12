@@ -56,7 +56,7 @@ export default function ProcessScript( DataList: Object[]) {
         if (fontarray !== undefined) {
             let a: number = fontarray[1] as number - 70
             if (a > 0) {
-                fontsize = 0.00714 * (fontarray[1] as number) + 0.886
+                fontsize = 0.007 * (fontarray[1] as number) + 0.886
 
             } else if (a < 0) {
                 fontsize = 0.01 * (fontarray[1] as number) + 0.3
@@ -97,9 +97,11 @@ export default function ProcessScript( DataList: Object[]) {
                     case 4004024664:         // Ease dissolve
                     case 42187309:           // Slow fade to and from white
                     case 509674679:          // Ease to black?
+                    case 704731093:          // Some weird ass white slow-fast-ease-in white fade
                         return <br />
 
                     case 1027503790:
+                    case 1626584722:         // Goofy white transition (there are so many of them which look similar )
                     case 2046503352:
                     case 2127590351:         // Ease out of black
                     case 348351892:          // ?
@@ -149,8 +151,11 @@ export default function ProcessScript( DataList: Object[]) {
                     dialogue = ''
                     return ""
         
-                } else if (subarray.length !== 4 && subarray.length !== 3) {
-                    console.error("LADR: A Normal Subarray of Nested Array is not of length value 4 AND 3. Proceeding with blank dialogue and speaker value.")
+                } else if (subarray.length === 2) {
+                    speaker = ""
+                    dialogue = ""
+                } else if (subarray.length !== 4 && subarray.length !== 3 && subarray.length !==2) {
+                    console.error("LADR: A Normal Subarray of Nested Array is not of length value 4 AND 3 AND 2. Proceeding with blank dialogue and speaker value.", subarray)
                     speaker = ""
                     dialogue = ''
                     return ""

@@ -10,6 +10,27 @@ Date format: `YYYY-MMM-DD`
 ## [Unreleased]
 - Nothing yet
 
+## [0.3.1] - 2025-Feb-13
+### Added
+- Back to top button, stored in utils directory
+- Paths for `/:lang`, and `/:/lang/test`
+- A store for directory - will be used in the future by GetAdjDirectory and breadcrumbs?
+- User is redirected automatically to a URL with episode-sector if sector is not in the URL
+- Case command for `#NA`
+
+
+### Fixed
+- Selecting Korean in the preferences modal sets lang as ko, instead of kr
+- The way GetEpisode pulls the sector from URL
+- The JSON repository does not use Git LFS anymore; so the URLs were changed
+- The gradient for the fontsize equation to 0.007
+- Added extra transition types
+
+### Removed
+- Simplified MainSto page
+- Removed CreateEmLine function
+
+
 ## [0.3.0] - 2025-Feb-10
 ### Added
 - Zustand for global state management; used to store preferences
@@ -22,7 +43,6 @@ Date format: `YYYY-MMM-DD`
 
 ### Removed
 - Unused script.js
-- DropdownLang.jsx now deprecated thus deleted
 
 
 ## [0.2.0] - 2025-Feb-09
@@ -49,7 +69,7 @@ Date format: `YYYY-MMM-DD`
 ### Added
 - Everything!
 
-
-[0.3.0]: https://github.com/lorearchive/LADR/compare/v0.2.0...v0.3.0 
+[0.2.0]: https://github.com/lorearchive/LADR/compare/v0.3.0...v0.3.1
+[0.2.0]: https://github.com/lorearchive/LADR/compare/v0.2.0...v0.3.0 
 [0.2.0]: https://github.com/lorearchive/LADR/compare/v0.1.1...v0.2.0 
 [0.1.1]: https://github.com/lorearchive/LADR/compare/v0.1.0...v0.1.1

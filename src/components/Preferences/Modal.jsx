@@ -29,7 +29,7 @@ const Modal = ({ handleClose }) => {
                             <button type="button" onClick={() => setLang("en")} className={`px-4 py-2 border-t-3 border-b-3 text-sm dark:border-gray-700 font-medium rounded-s-lg focus:z-10 ${lang === "en" ? "bg-blue-700 text-white dark:bg-blue-600" : "bg-white text-gray-900 hover:bg-gray-100 hover:text-blue-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"}`}>
                                 English (en)
                             </button>
-                            <button type="button" onClick={() => setLang("kr")} className={`px-4 py-2 border-t-3 border-b-3 text-sm dark:border-gray-700 font-medium focus:z-10 ${lang === "kr" ? "bg-blue-700 text-white dark:bg-blue-600" : "bg-white text-gray-900 hover:bg-gray-100 hover:text-blue-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"}`}>
+                            <button type="button" onClick={() => setLang("ko")} className={`px-4 py-2 border-t-3 border-b-3 text-sm dark:border-gray-700 font-medium focus:z-10 ${lang === "kr" ? "bg-blue-700 text-white dark:bg-blue-600" : "bg-white text-gray-900 hover:bg-gray-100 hover:text-blue-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"}`}>
                                 Korean (ko)
                             </button>
                             <button type="button" onClick={() => setLang("ja")} className={`px-4 py-2 border-t-3 border-b-3 text-sm dark:border-gray-700 rounded-e-lg font-medium focus:z-10 ${lang === "ja" ? "bg-blue-700 text-white dark:bg-blue-600" : "bg-white text-gray-900 hover:bg-gray-100 hover:text-blue-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"}`}>
