@@ -12,7 +12,7 @@ Date format: `YYYY-MMM-DD`
 
 
 
-## [0.3.2] - 2025-Feb-17
+## [0.3.2] - 2025-Feb-15
 ### Added
 - GetAdjEpisodes enable quick navigation to adjacent stories using buttons
 - Partial i18n support for ProcessCommand
