@@ -1,7 +1,7 @@
 import React, { JSX, useState } from "react";
 import ProcessTokens from "./ProcessTokens.jsx";
 
-import Cpu, { CpuNoIgnore } from "./Cpu.tsx";
+import { CpuNoIgnore } from "./Cpu.tsx";
 import ProcessCommand from "./ProcessCommand.jsx";
 
 import { updateSprites } from "../../state/spriteids.ts";
@@ -12,6 +12,10 @@ interface Object {
     Transition: number
     BGName: number
     ScriptKr: string
+    TextJp: string
+    TextTh: string
+    TextTw: string
+    TextEn: string
 }
 
 let speaker: string                                                 // The speaker
@@ -44,10 +48,27 @@ let htmlSelection3: (string | JSX.Element)[] = []
 
 export default function ProcessScript( DataList: Object[]) {
 
+    const lang = window.location.pathname.slice(1, 3)
+
     return DataList.map((item) => {
         const Group = item.SelectionGroup
         const Transition = item.Transition
         const script = item.ScriptKr
+        let scriptTh
+        let scriptTw
+        let scriptJp
+        let scriptEn
+
+        switch (lang) {
+            case "ja":
+                scriptJp = item.TextJp
+            case "th":
+                scriptTh = item.TextTh
+            case "zh":
+                scriptTw = item.TextTw // im not so sure why it is named Tw...
+            case "en":
+                scriptEn = item.TextEn
+        }
         const tokens = script.split(";")
         const NestedArray = ProcessTokens(tokens);
 
@@ -164,9 +185,9 @@ export default function ProcessScript( DataList: Object[]) {
             } else if (typeof subarray[0] === 'string' && subarray[0].startsWith("#") && subarray[0] !== "#fontsize") {
 
                 if (fontsize !== undefined) {
-                    return ProcessCommand({array: subarray, fontSize: fontsize, NestedArray: NestedArray})
+                    return ProcessCommand({array: subarray, fontSize: fontsize})
                 } else {
-                    return ProcessCommand({array: subarray, NestedArray: NestedArray})
+                    return ProcessCommand({array: subarray})
                 }
 
             } else if (typeof subarray[0] === 'string' &&  subarray[0] === "#fontsize") {

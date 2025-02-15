@@ -18,7 +18,7 @@ import Footer from './components/Footer.jsx'
 import GetDirectory from './scripts/GetDirectory.tsx'
 import GetEpisode from './scripts/GetEpisode.jsx'
 import { usePrefStore } from './store.ts'
-import LangUpdater from './components/Preferences/LangUpdater.tsx'
+import LangSync from './utils/LangSync.tsx'
 import BackToTop from './utils/BackToTop.tsx'
 
 // Wrap page components with motion
@@ -102,8 +102,6 @@ function Root() {
     return (
         <Router>
             <StrictMode>
-
-                <LangUpdater />
                 
                 <AnimatePresence
                     initial={false}
@@ -125,6 +123,8 @@ function Root() {
                         <App />
                     </div>
                 </div>
+                
+                <LangSync />
 
                 <BackToTop />
 

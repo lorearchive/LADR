@@ -2,7 +2,6 @@ import React from "react";
 
 import ProcessCommand from "./ProcessCommand.jsx";
 import { updateSprites } from "../../state/spriteids.ts"
-import { previousWasASelector, setPreviousSelector, resetPreviousSelector } from "../../state/previousSelector.ts";
 
 
 import { CreateHtmlLine } from "./CreateLine.tsx";
@@ -193,9 +192,9 @@ export default function Cpu( NestedArray: (number | string)[][], Group: number )
         } else if (typeof subarray[0] === 'string' && subarray[0].startsWith("#") && subarray[0] !== "#fontsize") {
 
             if (fontsize !== undefined) {
-                return ProcessCommand({array: subarray, fontSize: fontsize, NestedArray: NestedArray})
+                return ProcessCommand({array: subarray, fontSize: fontsize })
             } else {
-                return ProcessCommand({array: subarray, NestedArray: NestedArray})
+                return ProcessCommand({array: subarray })
             }
 
         } else if (typeof subarray[0] === 'string' &&  subarray[0] === "#fontsize") {
@@ -272,9 +271,9 @@ export function CpuNoIgnore( NestedArray: (number | string)[][], Group: number )
         } else if (typeof subarray[0] === 'string' && subarray[0].startsWith("#") && subarray[0] !== "#fontsize") {
 
             if (fontsize !== undefined) {
-                return ProcessCommand({array: subarray, fontSize: fontsize, NestedArray: NestedArray})
+                return ProcessCommand({array: subarray, fontSize: fontsize })
             } else {
-                return ProcessCommand({array: subarray, NestedArray: NestedArray})
+                return ProcessCommand({array: subarray })
             }
 
         } else if (typeof subarray[0] === 'string' &&  subarray[0] === "#fontsize") {

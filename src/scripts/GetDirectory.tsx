@@ -12,7 +12,8 @@ export default function GetDirectory({ dir }: {dir: string}) {
     const [data, setData] = useState<DirectoryItem[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
-
+    
+    
     let path = window.location.pathname;
     path = path.slice(3) // slices the first slash then the language code. The language code always consists of 2 characters, and follows the ISO 639-1 standard.
     path = path.replace(/\/$/, '') // Removes trailing slash
@@ -74,7 +75,7 @@ export default function GetDirectory({ dir }: {dir: string}) {
 
                 const result = await response.json();
 
-                if (dir !== undefined) {
+                if (dir !== undefined) { // The argument of the GetDirectory component "dir" is used to check if the given URL path leads to a directory of directories (true) or directory of files (false)
                     const names = result
                         .filter((item: { type: string }) => item.type === "dir")
                         .map((item: { name: string; sha: string }) => ({
@@ -86,7 +87,6 @@ export default function GetDirectory({ dir }: {dir: string}) {
                                 : item.name,
                             sha: item.sha
                         }));
-
                     setData(names);
                 } else if (kind === "any") {
                     const names = result
@@ -121,8 +121,6 @@ export default function GetDirectory({ dir }: {dir: string}) {
                             }
                             
                         });
-
-
                     setData(names);
                 }
             } catch (err: unknown) {
@@ -133,6 +131,7 @@ export default function GetDirectory({ dir }: {dir: string}) {
         };
 
         fetchFiles();
+
         window.scrollTo(0, 0);
     }, [path]); // Re-run when path changes
 

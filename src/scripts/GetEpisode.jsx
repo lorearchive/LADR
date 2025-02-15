@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ProcessScript from './ProcessScript.tsx';
+import GetAdjEpisodes from './GetAdjEpisodes.tsx';
+
+
 
 export default function GetEpisode() {
     const [data, setData] = useState(null);
@@ -60,13 +63,9 @@ export default function GetEpisode() {
                 const episodeData = await response.json();
                 const dataList = episodeData.DataList;
 
-                if (dataList) {
-                    const scriptData = ProcessScript(dataList)
-                    setData(scriptData);
+                const scriptData = ProcessScript(dataList)
+                setData(scriptData);
 
-                } else {
-                    throw new Error('LADR: DataList not found in the JSON response');
-                }
 
             } catch (err) {
                 setError(err.message);
@@ -84,18 +83,23 @@ export default function GetEpisode() {
 
 
     return (
-        <div id="episode">
-            <h1>Episode</h1>
-            <div id="scriptData">
-            {
-                data.map((item) => (
-                <>
-                    {item}
-                </>
-                ))
-            }
+        <>
+            <div id="episode">
+                <h1>Episode</h1>
+                <div id="scriptData">
+                {
+                    data.map((item) => (
+                    <>
+                        {item}
+                    </>
+                    ))
+                }
+                </div>
             </div>
-        </div>
+            <div id="adjEpisodes">
+                <GetAdjEpisodes />
+            </div>
+        </>
     );
   
 }

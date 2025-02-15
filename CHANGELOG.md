@@ -10,6 +10,24 @@ Date format: `YYYY-MMM-DD`
 ## [Unreleased]
 - Nothing yet
 
+
+
+## [0.3.2] - 2025-Feb-17
+### Added
+- GetAdjEpisodes enable quick navigation to adjacent stories using buttons
+- Partial i18n support for ProcessCommand
+- ProcessScript now also fetches other language texts
+
+### Changed
+- Renamed LangUpdater to LangSync
+- ProcessCommand imports and parameters
+- Cpu's ProcessCommmand usage to respect the new parameters
+- GetEpisode imports and cleanup - adds support for GetAdjEpisodes
+
+### Removed
+- Directory store in store.ts, because it is not used anymore
+- Cpu imports
+
 ## [0.3.1] - 2025-Feb-13
 ### Added
 - Back to top button, stored in utils directory
@@ -69,7 +87,8 @@ Date format: `YYYY-MMM-DD`
 ### Added
 - Everything!
 
-[0.2.0]: https://github.com/lorearchive/LADR/compare/v0.3.0...v0.3.1
-[0.2.0]: https://github.com/lorearchive/LADR/compare/v0.2.0...v0.3.0 
+[0.3.2]: https://github.com/lorearchive/LADR/compare/v0.3.1...v0.3.2
+[0.3.1]: https://github.com/lorearchive/LADR/compare/v0.3.0...v0.3.1
+[0.3.0]: https://github.com/lorearchive/LADR/compare/v0.2.0...v0.3.0 
 [0.2.0]: https://github.com/lorearchive/LADR/compare/v0.1.1...v0.2.0 
 [0.1.1]: https://github.com/lorearchive/LADR/compare/v0.1.0...v0.1.1

@@ -1,43 +1,47 @@
-import PropTypes from 'prop-types'
-
-import { fetchSprites } from "../../state/spriteids.ts";
-
+import { usePrefStore } from "../store.ts";
 import { ProcessVariator } from "./Cpu.tsx";
 import { CreateHtmlLine } from "./CreateLine.tsx";
 
 
 
-export default function ProcessCommand({ array, fontSize = 0, dialogue = "", NestedArray = [...Array(2)].map(e => Array(2)) }) {
-
+export default function ProcessCommand({ array, fontSize = 0, dialogue = "", scriptEn = "", scriptJp = "", scriptTw = "", scriptTh = "" }) {
+                                                                                          
     const command = array[0];
-    const instruction = array[1];
-    const instruction2 = array[2];
-    const instruction3 = array[3];
-    const instruction4 = array[4];
+    let instruction = array[1];
+    let instruction2 = array[2];
+    let instruction3 = array[3];
+    let instruction4 = array[4];
 
     let speaker
     let position = command.replace(/^#/, "")
     let svg
 
+    const lang = window.location.pathname.slice(1, 3)
 
-    // sorry
+
+    // sorry...
 
     switch (command) {
         case "#title":
-            if (instruction2) {
-                return (
-                    <h2 id="EpTitle" className="noto-serif-kr text-2xl my-1 mb-6 font-bold relative pl-4 before:content-[''] before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-gradient-to-b before:from-transparent before:to-blue-600">
-                        {instruction} // {instruction2}
-                    </h2>
-                 );
-
-            } else {
-                return (
-                    <h2 id="EpTitle" className="noto-serif-kr text-2xl my-1 mb-6 font-bold relative pl-4 before:content-[''] before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-gradient-to-b before:from-transparent before:to-blue-600">
-                        {instruction}
-                    </h2>
-                );
+            switch (lang) {
+                case "ko":
+                    if (instruction2) {
+                        return (
+                            <h2 id="EpTitle" className="noto-serif-kr text-2xl my-1 mb-6 font-bold relative pl-4 before:content-[''] before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-gradient-to-b before:from-transparent before:to-blue-600">
+                                {instruction} // {instruction2}
+                            </h2>
+                        );
+        
+                    } else {
+                        return (
+                            <h2 id="EpTitle" className="noto-serif-kr text-2xl my-1 mb-6 font-bold relative pl-4 before:content-[''] before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-gradient-to-b before:from-transparent before:to-blue-600">
+                                {instruction}
+                            </h2>
+                        );
+                    }
+                default:
             }
+
 
         case "#place":
             if (instruction2) {
