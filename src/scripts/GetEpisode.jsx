@@ -21,8 +21,7 @@ export default function GetEpisode() {
                 setLoading(true);
                 setError(null);
 
-                let path = window.location.pathname;
-                path = path.slice(3) // slices the first slash then the language code. The language code always consists of 2 characters, and follows the ISO 639-1 standard.
+                let path = window.location.pathname.slice(3) // slices the first slash then the language code. The language code always consists of 2 characters, and follows the ISO 639-1 standard.
                 const segments = path.split('/').filter(Boolean);
 
                 const storytype = segments[0] ?? '';
@@ -39,6 +38,7 @@ export default function GetEpisode() {
                 }
 
                 if (!/.*-\d+$/.test(location.pathname)) {
+                    console.log('Redirecting to:', `${location.pathname}-${sector}`);
                     navigate(`${location.pathname}-${sector}`, { replace: true });
                 }
                 

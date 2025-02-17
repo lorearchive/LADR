@@ -10,7 +10,10 @@ Date format: `YYYY-MMM-DD`
 ## [Unreleased]
 - Nothing yet
 
-
+## [0.3.3] - 2025-Feb-17
+### Fixed
+- npm packages updated - upgraded esbuild
+- Small attempts for code cleanup
 
 ## [0.3.2] - 2025-Feb-15
 ### Added
@@ -87,6 +90,8 @@ Date format: `YYYY-MMM-DD`
 ### Added
 - Everything!
 
+
+[0.3.3]: https://github.com/lorearchive/LADR/compare/v0.3.2...v0.3.3
 [0.3.2]: https://github.com/lorearchive/LADR/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/lorearchive/LADR/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/lorearchive/LADR/compare/v0.2.0...v0.3.0 

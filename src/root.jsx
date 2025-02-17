@@ -50,8 +50,11 @@ const NumberGuard3 = ({ children }) => {
     const { level1 } = useParams()
     const { level2 } = useParams()
     const { level3 } = useParams()
+    const navigate = useNavigate()
+    const location = useLocation()
 
-    return (/^\d+$/.test(level1) && /^\d+$/.test(level2) && /^[\d-]+$/.test(level3)) ? children : <PageWrapper><GetDirectory /></PageWrapper>
+    return (/^\d+$/.test(level1) && /^\d+$/.test(level2) && /^\d+-\d+$/.test(level3)) ? children : <PageWrapper><GetDirectory /></PageWrapper>
+
 }
 
 // NumberGuards check if the path is made up of only numbers. This is paramount for Quick URL Navigation.
