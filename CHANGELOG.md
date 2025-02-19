@@ -10,6 +10,22 @@ Date format: `YYYY-MMM-DD`
 ## [Unreleased]
 - Nothing yet
 
+
+## [0.3.4] - 2025-Feb-20
+### Changed
+- Renamed "PageWrapper" to "PageAnim" in root.jsx
+- Renamed `ladr-site` to `ladr-app`
+- Added `defer` to root.jsx script import
+- Changed and actually enforced LangGuard in root.jsx
+- Gathered all utilities in Root()
+
+### Fixed
+- Bugs with root path URL `"localhost:5173/"` redirecting to `"home/"` in LangSync 
+
+### Removed
+- NumberGuard3 in root.jsx because it was causing issues
+
+
 ## [0.3.3] - 2025-Feb-17
 ### Fixed
 - npm packages updated - upgraded esbuild
@@ -91,6 +107,7 @@ Date format: `YYYY-MMM-DD`
 - Everything!
 
 
+[0.3.4]: https://github.com/lorearchive/LADR/compare/v0.3.3...v0.3.4
 [0.3.3]: https://github.com/lorearchive/LADR/compare/v0.3.2...v0.3.3
 [0.3.2]: https://github.com/lorearchive/LADR/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/lorearchive/LADR/compare/v0.3.0...v0.3.1

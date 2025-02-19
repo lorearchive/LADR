@@ -11,11 +11,13 @@ export default function LangSync() { // Updates the lang on URL manipulaion and 
 
     useEffect(() => { // sets lang when URL changes
 
-        const pathParts = location.pathname.split("/")
-        const newLang = decodeURIComponent(pathParts[1]);
-        if (newLang !== lang) {
-            setLang(newLang);
+        const pathParts = location.pathname.split("/").filter(Boolean)
+        if (pathParts[0] !== lang && pathParts[0] === undefined) {
+            setLang("en")
+        } else if (pathParts[0] !== lang && pathParts[0] !== undefined) {
+            setLang(pathParts[0])
         }
+        
     }, [location.pathname])
 
     useEffect(() => { // sets URL when lang changes
