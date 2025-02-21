@@ -6,6 +6,7 @@ import ProcessCommand from "./ProcessCommand.jsx";
 
 import { updateSprites } from "../../state/spriteids.ts";
 import { CreateHtmlLine } from "./CreateLine.tsx";
+import GetImage from "./GetImage.tsx";
 
 interface Object {
     SelectionGroup: number
@@ -25,8 +26,6 @@ let fontarray: (string | number)[] = []
 let ignoreFor: number = 0  
 
 let variator_fontsize: (string | number)[]  = []                    // An array which contains the fontsize variator
-let variator_fontsizeRaw = variator_fontsize[1] as number           // The raw integer font size provided by JSON
-let variator_size = 1                                               // Font size calulcated into em unit, defaulting at 1
 
 const variator_colour_regex = /^\[[0-9A-F]{6}\].*?\[-\]$/             // Matches EXACTLY "[HEXADECIMAL]...[-]"
 const variator_colour_regexCapture = /^\[([0-9A-F]{6})\](.*?)\[-\]$/
@@ -45,32 +44,31 @@ let htmlSelection1: (string | JSX.Element)[] = []
 let htmlSelection2: (string | JSX.Element)[] = []
 let htmlSelection3: (string | JSX.Element)[] = []
 
+let previousImageID: (number | null) = null
 
-export default function ProcessScript( DataList: Object[]) {
+
+function arrEqual(arr1: any[], arr2: any[]): boolean {
+    if (arr1.length !== arr2.length) return false
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) return false
+    }
+    return true
+}
+
+
+export default function ProcessScript( {DataList}: {DataList: Object[]}) {
 
     const lang = window.location.pathname.slice(1, 3)
 
     return DataList.map((item) => {
+        const BGID = item.BGName
         const Group = item.SelectionGroup
         const Transition = item.Transition
         const script = item.ScriptKr
-        let scriptTh
-        let scriptTw
-        let scriptJp
-        let scriptEn
 
-        switch (lang) {
-            case "ja":
-                scriptJp = item.TextJp
-            case "th":
-                scriptTh = item.TextTh
-            case "zh":
-                scriptTw = item.TextTw // im not so sure why it is named Tw...
-            case "en":
-                scriptEn = item.TextEn
-        }
         const tokens = script.split(";")
         const NestedArray = ProcessTokens(tokens);
+
 
         fontarray = NestedArray.find(subarray => subarray[0] === "#fontsize") as []
 
@@ -201,6 +199,10 @@ export default function ProcessScript( DataList: Object[]) {
             }
         })
 
+        if (BGID !== 0) {
+            output.push(GetImage("BG", BGID))
+        }
+
         if (htmlSelection2.length !== 0 && Group === 0) {
             // We know htmlSelection1 is always going to be populated. We know htmlSelection3 is often not populated. Checking htmlSelection2 as well as the current group seems good to see if we have any leftover selections to render.
             const commonSelectionDivider = <div id="CommonSelectionDivider" data-selection="Common"  className="mt-2 mb-2 border-t border-dashed dark:border-slate-500"></div>
@@ -209,7 +211,7 @@ export default function ProcessScript( DataList: Object[]) {
 
             if (htmlSelection3.length === 0) {
 
-                if (JSON.stringify(htmlSelection1) === JSON.stringify(htmlSelection2)) {
+                if (arrEqual(htmlSelection1, htmlSelection2)) {
                     output.unshift(commonSelectionDivider, ...htmlSelection1)
                     htmlSelection1 = []
                     htmlSelection2 = []
@@ -234,7 +236,7 @@ export default function ProcessScript( DataList: Object[]) {
             }
 
         }
-        return output
+        return output.map((element) => element)
     })
 }
 

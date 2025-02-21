@@ -6,10 +6,11 @@ import GetAdjEpisodes from './GetAdjEpisodes.tsx';
 
 
 export default function GetEpisode() {
-    const [data, setData] = useState(null);
+    const [dataList, setDataList] = useState(null)
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    let dataarray
 
     const location = useLocation()
     const navigate = useNavigate()
@@ -29,6 +30,7 @@ export default function GetEpisode() {
                 const chapter = segments[2] ?? '';
                 let episode = segments[3] ?? '';
                 let sector
+
 
                 if (episode.includes("-")) {
                     sector = episode.slice(episode.indexOf("-") + 1)
@@ -61,10 +63,9 @@ export default function GetEpisode() {
                 }
 
                 const episodeData = await response.json();
-                const dataList = episodeData.DataList;
+                const fetchedDataList = episodeData.DataList
+                setDataList(fetchedDataList)
 
-                const scriptData = ProcessScript(dataList)
-                setData(scriptData);
 
 
             } catch (err) {
@@ -87,13 +88,7 @@ export default function GetEpisode() {
             <div id="episode">
                 <h1>Episode</h1>
                 <div id="scriptData">
-                {
-                    data.map((item) => (
-                    <>
-                        {item}
-                    </>
-                    ))
-                }
+                    <ProcessScript DataList={dataList} />
                 </div>
             </div>
             <div id="adjEpisodes">

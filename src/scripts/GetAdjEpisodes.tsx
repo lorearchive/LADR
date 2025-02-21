@@ -36,8 +36,8 @@ export default function GetAdjEpisodes() {
                     const prevEp = parseInt(episode) - 1;
                     const nextEp = parseInt(episode) + 1;
 
-                    if (sector === "1") {
-                        if (sectorCount === sector) {
+                    if (sector === "1") { // That is, current sector
+                        if (sectorCount === sector) { // sector count of current episode is 1
                             setAdjNavigate(
                                 <div id="adjNavigate" className="flex justify-between h-5">
                                     <NavLink to={`${basePath}/${prevEp}-${prevSectorCount}`} id="prevEpisodeNavigate" className="flex">

@@ -10,6 +10,36 @@ Date format: `YYYY-MMM-DD`
 ## [Unreleased]
 - Nothing yet
 
+## [0.4.0] - 2025-Feb-21
+### Added
+- Root.jsx now updates the HTML lang as well as the internal lang
+- Chinese and Thai in the Preferences modal for preferred lang
+- Background images now are displayed, cropped to stripes. Only works if the image is present in the LADR images repository (LIR)
+
+### Changed
+- ProcessScript is now a functional **component**, and is moved outside useEffect in GetEpisode. ProcessScript now can use hooks
+- ProcessScript maps its outputs itself instead of GetEpisode mapping it
+- Cleaned up unused code
+- Slight changes to htmlSelection array checking in ProcessScript (may be removed later)
+
+### Fixed
+- The highlighting of the Korean button in the Preferences modal
+
+## [0.3.4] - 2025-Feb-20
+### Changed
+- Renamed "PageWrapper" to "PageAnim" in root.jsx
+- Renamed `ladr-site` to `ladr-app`
+- Added `defer` to root.jsx script import
+- Changed and actually enforced LangGuard in root.jsx
+- Gathered all utilities in Root()
+
+### Fixed
+- Bugs with root path URL `"localhost:5173/"` redirecting to `"home/"` in LangSync 
+
+### Removed
+- NumberGuard3 in root.jsx because it was causing issues
+
+
 ## [0.3.3] - 2025-Feb-17
 ### Fixed
 - npm packages updated - upgraded esbuild
@@ -91,6 +121,8 @@ Date format: `YYYY-MMM-DD`
 - Everything!
 
 
+[0.4.0]: https://github.com/lorearchive/LADR/compare/v0.3.4...v0.4.0
+[0.3.4]: https://github.com/lorearchive/LADR/compare/v0.3.3...v0.3.4
 [0.3.3]: https://github.com/lorearchive/LADR/compare/v0.3.2...v0.3.3
 [0.3.2]: https://github.com/lorearchive/LADR/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/lorearchive/LADR/compare/v0.3.0...v0.3.1

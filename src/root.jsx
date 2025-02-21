@@ -22,7 +22,7 @@ import LangSync from './utils/LangSync.tsx'
 import BackToTop from './utils/BackToTop.tsx'
 
 // Wrap page components with motion
-const PageWrapper = ({ children }) => (
+const PageAnim = ({ children }) => (
   <motion.div
     initial={{ opacity: 0, x: 20 }}
     animate={{ opacity: 1, x: 0 }}
@@ -36,25 +36,14 @@ const PageWrapper = ({ children }) => (
 const NumberGuard1 = ({ children }) => {
     const { level1 } = useParams()
 
-    return /^\d+$/.test(level1) ? children : <PageWrapper><GetDirectory /></PageWrapper>
+    return /^\d+$/.test(level1) ? children : <PageAnim><GetDirectory /></PageAnim>
 }
 
 const NumberGuard2 = ({ children }) => {
     const { level1 } = useParams()
     const { level2 } = useParams()
 
-    return (/^\d+$/.test(level1) && /^\d+$/.test(level2)) ? children : <PageWrapper><GetEpisode /></PageWrapper>
-}
-
-const NumberGuard3 = ({ children }) => {
-    const { level1 } = useParams()
-    const { level2 } = useParams()
-    const { level3 } = useParams()
-    const navigate = useNavigate()
-    const location = useLocation()
-
-    return (/^\d+$/.test(level1) && /^\d+$/.test(level2) && /^\d+-\d+$/.test(level3)) ? children : <PageWrapper><GetDirectory /></PageWrapper>
-
+    return (/^\d+$/.test(level1) && /^\d+$/.test(level2)) ? children : <PageAnim><GetEpisode /></PageAnim>
 }
 
 // NumberGuards check if the path is made up of only numbers. This is paramount for Quick URL Navigation.
@@ -63,7 +52,11 @@ const NumberGuard3 = ({ children }) => {
 const LangGuard = ({ children }) => {
     const { lang } = useParams()
 
-    return (/^[a-z]{2}$/.test(lang) ? children : <Navigate to={`/${lang}/home`} />)
+    if (/^[a-z]{2}$/.test(lang)) {
+        return children
+    } else {
+        throw new Error("LADR: Invalid language code")
+    }
 }
 
 
@@ -76,19 +69,19 @@ function App() {
         <main>
             <AnimatePresence mode="wait">
                 <Routes location={location} key={location.pathname}>
-                    <Route path="/"                                     element={<Navigate to={`/${lang}/home`} />} />
-                    <Route path="/:lang"                                element={<Navigate to={`/${lang}/home`} />} />
+                    <Route path="/"                                     element={ <Navigate to={`/${lang}/home`} /> } />
+                    <Route path="/:lang"                                element={ <LangGuard><Navigate to={`/${lang}/home`} /></LangGuard> } />
 
-                    <Route path="/:lang/home"                           element={ <PageWrapper><Home /></PageWrapper> } />
-                    <Route path="/:lang/main"                           element={ <PageWrapper><MainSto /></PageWrapper> } />
+                    <Route path="/:lang/home"                           element={ <PageAnim><Home /></PageAnim> } />
+                    <Route path="/:lang/main"                           element={ <PageAnim><MainSto /></PageAnim> } />
 
-                    <Route path="/:lang/main/:level1"                   element={ <NumberGuard1><PageWrapper><GetDirectory dir="true" /></PageWrapper></NumberGuard1> } />
-                    <Route path="/:lang/main/:level1/:level2"           element={ <NumberGuard2><PageWrapper><GetDirectory /></PageWrapper></NumberGuard2> } />
-                    <Route path="/:lang/main/:level1/:level2/:level3"   element={ <NumberGuard3><PageWrapper><GetEpisode /></PageWrapper></NumberGuard3> } />
+                    <Route path="/:lang/main/:level1"                   element={ <NumberGuard1><PageAnim><GetDirectory dir="true" /></PageAnim></NumberGuard1> } />
+                    <Route path="/:lang/main/:level1/:level2"           element={ <NumberGuard2><PageAnim><GetDirectory /></PageAnim></NumberGuard2> } />
+                    <Route path="/:lang/main/:level1/:level2/:level3"   element={ <PageAnim><GetEpisode /></PageAnim> } />
 
-                    <Route path="/:lang/test"                           element={ <PageWrapper><GetDirectory /></PageWrapper> } />
+                    <Route path="/:lang/test"                           element={ <PageAnim><GetDirectory /></PageAnim> } />
 
-                    <Route path="/relationship"                         element={ <PageWrapper><RelSto /></PageWrapper> } />
+                    <Route path="/relationship"                         element={ <PageAnim><RelSto /></PageAnim> } />
                 </Routes>
             </AnimatePresence>
         </main>
@@ -100,11 +93,18 @@ function Root() {
     const [modalOpen, setModalOpen] = useState(false)
     const close = () => setModalOpen(false)
     const open = () => setModalOpen(true)
+    const lang = usePrefStore((state) => state.lang)
 
+    useEffect(() => {
+        document.documentElement.lang = lang
+    }, [lang])
 
     return (
         <Router>
             <StrictMode>
+
+                <LangSync />
+                <BackToTop />
                 
                 <AnimatePresence
                     initial={false}
@@ -127,9 +127,6 @@ function Root() {
                     </div>
                 </div>
                 
-                <LangSync />
-
-                <BackToTop />
 
                 <Footer />
             </StrictMode>
@@ -137,4 +134,4 @@ function Root() {
     )
 }
 
-createRoot(document.getElementById('ladr-site')).render(<Root />)
+createRoot(document.getElementById('ladr-app')).render(<Root />)
