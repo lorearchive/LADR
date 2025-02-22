@@ -1,4 +1,4 @@
-import React, { JSX, useState } from "react";
+import React, { JSX, isValidElement } from "react";
 import ProcessTokens from "./ProcessTokens.jsx";
 
 import { CpuNoIgnore } from "./Cpu.tsx";
@@ -47,13 +47,6 @@ let htmlSelection3: (string | JSX.Element)[] = []
 let previousImageID: (number | null) = null
 
 
-function arrEqual(arr1: any[], arr2: any[]): boolean {
-    if (arr1.length !== arr2.length) return false
-    for (let i = 0; i < arr1.length; i++) {
-        if (arr1[i] !== arr2[i]) return false
-    }
-    return true
-}
 
 
 export default function ProcessScript( {DataList}: {DataList: Object[]}) {
@@ -65,6 +58,20 @@ export default function ProcessScript( {DataList}: {DataList: Object[]}) {
         const Group = item.SelectionGroup
         const Transition = item.Transition
         const script = item.ScriptKr
+        let textEn
+        let textJp
+        let textCh
+        let textTh
+
+        if (lang === "en") {
+            textEn = item.TextEn
+        } else if (lang === "ja") {
+            textJp = item.TextJp
+        } else if (lang === "zh") {
+            textCh = item.TextTw
+        } else if (lang === "th") {
+            textTh = item.TextTh
+        }
 
         const tokens = script.split(";")
         const NestedArray = ProcessTokens(tokens);
@@ -101,6 +108,7 @@ export default function ProcessScript( {DataList}: {DataList: Object[]}) {
 
                 switch(Transition) {
                     case 1122508889:         // Fade to black
+                    case 1127535352:         // Black gradient slide in from left
                     case 1173843909:         // Dissolve?
                     case 1369285246:         // ?
                     case 1974926776:         // Fade from black
@@ -206,12 +214,12 @@ export default function ProcessScript( {DataList}: {DataList: Object[]}) {
         if (htmlSelection2.length !== 0 && Group === 0) {
             // We know htmlSelection1 is always going to be populated. We know htmlSelection3 is often not populated. Checking htmlSelection2 as well as the current group seems good to see if we have any leftover selections to render.
             const commonSelectionDivider = <div id="CommonSelectionDivider" data-selection="Common"  className="mt-2 mb-2 border-t border-dashed dark:border-slate-500"></div>
-            const selectionDivider = <div id="SelectionDivider" data-selection="Common"  className="mt-2 mb-2 border-t border-dashed dark:border-slate-500"></div>
+            const selectionDivider = <div id="SelectionDivider"  className="mt-2 mb-2 border-t border-dashed dark:border-slate-500"></div>
 
 
             if (htmlSelection3.length === 0) {
 
-                if (arrEqual(htmlSelection1, htmlSelection2)) {
+                if (_.isEqual(htmlSelection1, htmlSelection2)) {
                     output.unshift(commonSelectionDivider, ...htmlSelection1)
                     htmlSelection1 = []
                     htmlSelection2 = []
@@ -222,7 +230,9 @@ export default function ProcessScript( {DataList}: {DataList: Object[]}) {
                 }
 
             } else {
-                if (JSON.stringify(htmlSelection1) === JSON.stringify(htmlSelection2) && JSON.stringify(htmlSelection2) === JSON.stringify(htmlSelection3)) {
+                console.log(arrEqual(htmlSelection1, htmlSelection2), htmlSelection1, htmlSelection2)
+
+                if (arrEqual(htmlSelection1, htmlSelection2) && arrEqual(htmlSelection2, htmlSelection3)) {
                     output.unshift(commonSelectionDivider, ...htmlSelection1)
                     htmlSelection1 = []
                     htmlSelection2 = []
@@ -298,11 +308,12 @@ export function ProcessSelector( nestedArray: (string | number)[][], group: numb
         let selectorIDs = []
         let selectorID: string
         let selectorID2: string
-        let selectorID3 = 0
+        let selectorID3: string
 
         let line
         let dialogue
         let dialogue2
+        let dialogue3
         
         if (nestedArray.length === 1) {
             
@@ -365,6 +376,58 @@ export function ProcessSelector( nestedArray: (string | number)[][], group: numb
                     </div>
                 </div>
             )
+        } else if (nestedArray.length === 3) {
+
+            selectorIDs = nestedArray.map(subArray => {
+
+                if ((subArray[0] as string).startsWith('[ns')) {
+                    return (subArray[0] as string).slice(3, (subArray[0] as string).indexOf("]"))
+
+                } else if ((subArray[0] as string).startsWith('[s')) {
+                    return (subArray[0] as string).slice(2, (subArray[0] as string).indexOf("]"))
+                }
+
+            })
+
+            selectorID = selectorIDs[0] as string
+            selectorID2 = selectorIDs[1] as string
+            selectorID3 = selectorIDs[2] as string
+
+            line = nestedArray.map(subarray => {
+                if ((subarray[0] as string).startsWith("[ns")) {
+                    return (subarray[0] as string).slice((subarray[0] as string).indexOf("]") + 2)
+                } else if ((subarray[0] as string).startsWith("[s")) {
+                    return (subarray[0] as string).slice((subarray[0] as string).indexOf("]") + 2)
+                }
+            })
+
+            dialogue = line[0]
+            dialogue2 = line[1]
+            dialogue3 = line[2]
+
+            return (
+                <div id="Selectors" className="flex flex-col items-center justify-center p-2 my-6 rounded noto-serif-kr">
+                    <div id={`Selector${selectorID}`} className="flex justify-center flex-shrink-0 w-6/12 p-2 m-2 transition-colors rounded-md dark:bg-slate-800 hover:dark:bg-slate-700">
+                        <q className="font-semibold">
+                            {dialogue}
+                        </q>
+                    </div>
+                    <div id={`Selector${selectorID2}`} className="flex justify-center flex-shrink-0 w-6/12 p-2 m-2 transition-colors rounded-md dark:bg-slate-800 hover:dark:bg-slate-700">
+                        <q className="font-semibold">
+                            {dialogue2}
+                        </q>
+                    </div>
+                    <div id={`Selector${selectorID3}`} className="flex justify-center flex-shrink-0 w-6/12 p-2 m-2 transition-colors rounded-md dark:bg-slate-800 hover:dark:bg-slate-700">
+                        <q className="font-semibold">
+                            {dialogue3}
+                        </q>
+                    </div>
+                </div>
+            )
+
+        } else {
+            console.error(nestedArray)
+            throw new Error("LADR: This is most likely a selector. Not of length 1, 2, OR 3. Check the console for more info.")
         }
 
         
@@ -406,7 +469,6 @@ export function ProcessSelector( nestedArray: (string | number)[][], group: numb
             } else {
                 htmlSelection3 = currentHtml
             }
-
         }
     }
 }

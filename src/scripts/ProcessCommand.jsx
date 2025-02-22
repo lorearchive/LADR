@@ -211,6 +211,8 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", scr
                 case "dl":
                 case "dr":
                 case "black":
+                case "falldownR":
+                case "falldownL":
                     return <br />;
 
                 case "a":
