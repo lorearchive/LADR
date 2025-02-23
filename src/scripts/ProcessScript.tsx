@@ -1,4 +1,5 @@
 import React, { JSX, isValidElement } from "react";
+import _ from 'lodash';
 import ProcessTokens from "./ProcessTokens.jsx";
 
 import { CpuNoIgnore } from "./Cpu.tsx";
@@ -230,9 +231,9 @@ export default function ProcessScript( {DataList}: {DataList: Object[]}) {
                 }
 
             } else {
-                console.log(arrEqual(htmlSelection1, htmlSelection2), htmlSelection1, htmlSelection2)
+                console.log(_.isEqual(htmlSelection1, htmlSelection2), htmlSelection1, htmlSelection2)
 
-                if (arrEqual(htmlSelection1, htmlSelection2) && arrEqual(htmlSelection2, htmlSelection3)) {
+                if (_.isEqual(htmlSelection1, htmlSelection2) && _.isEqual(htmlSelection2, htmlSelection3)) {
                     output.unshift(commonSelectionDivider, ...htmlSelection1)
                     htmlSelection1 = []
                     htmlSelection2 = []
