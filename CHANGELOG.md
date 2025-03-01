@@ -30,11 +30,11 @@ Get ready for the biggest update log yet!
  
 #### FRONTEND:
 - TL2TJ information in the Home page - subject to change!
-- 
+
 #### RENDERER:
-- English translation support
+- English translation support (applies to many files)
 - New npm package: xxhashjs is added to be used by GetImage function. 
-- Two ExcelTables, stripped off raw from the game, used for t9n and image displaying.
+- Two ExcelTables, stripped off rawtext-right from the game, used for t9n and image displaying.
 - ProcessT9nHash is used to process hashes for t9n.
 
 ### Changed
