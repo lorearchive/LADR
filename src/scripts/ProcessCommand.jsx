@@ -1,10 +1,10 @@
-import { usePrefStore } from "../store.ts";
-import { ProcessVariator } from "./Cpu.tsx";
+import { ProcessVariator } from "./ProcessScript.tsx";
 import { CreateHtmlLine } from "./CreateLine.tsx";
+import { useParams } from "react-router-dom";
 
 
 
-export default function ProcessCommand({ array, fontSize = 0, dialogue = "", scriptEn = "", scriptJp = "", scriptTw = "", scriptTh = "" }) {
+export default function ProcessCommand({ array, fontSize = 0, dialogue = "", TextEn = "", TextJp = "", TextTw = "", TextTh = "" }) {
                                                                                           
     const command = array[0];
     let instruction = array[1];
@@ -13,11 +13,8 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", scr
     let instruction4 = array[4];
 
     let speaker
-    let position = command.replace(/^#/, "")
-    let svg
 
-    const lang = window.location.pathname.slice(1, 3)
-
+    const { lang } = useParams();
 
     // sorry...
 
@@ -39,60 +36,138 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", scr
                             </h2>
                         );
                     }
+                
+                case "en":
+                    let script = TextEn.split(";")
+                    if (script.length === 2) {
+                        return (
+                            <h2 id="EpTitle" className="noto-serif-kr text-2xl my-1 mb-6 font-bold relative pl-4 before:content-[''] before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-gradient-to-b before:from-transparent before:to-blue-600">
+                                {script[0]} // {script[1]}
+                            </h2>
+                        );
+        
+                    } else {
+                        return (
+                            <h2 id="EpTitle" className="noto-serif-kr text-2xl my-1 mb-6 font-bold relative pl-4 before:content-[''] before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-gradient-to-b before:from-transparent before:to-blue-600">
+                                {script[0]}
+                            </h2>
+                        );
+                    }
+
+
                 default:
             }
 
 
         case "#place":
-            if (instruction2) {
-                return (
-                    <div id="EpPlace" className="flex items-center p-2 pr-3 my-1 mb-6 text-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="gray" className="mr-2 size-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                        </svg>
+            switch (lang) {
+                case "ko":
+                if (instruction2) {
+                    return (
+                        <div id="EpPlace" className="flex items-center p-2 pr-3 my-1 mb-6 text-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="gray" className="mr-2 size-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                            </svg>
+    
+                            <h5 id="EpPlaceTag" className="flex items-center noto-serif-kr dark:text-gray-400">
+                                <em>
+                                    {instruction} // {instruction2}
+                                </em>
+                            </h5>
+                        </div>
+                    );
+    
+                } else {
+    
+                    return (
+                        <div id="EpPlace" className="flex items-center p-2 pr-3 mb-4 text-sm mt-11">
+                            <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="gray"
+                            className="flex items-center justify-center mr-2 size-6"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                />
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                                />
+                            </svg>
+    
+                            <h5
+                            id="EpPlaceTag"
+                            className="flex items-center noto-serif-kr dark:text-gray-400"
+                            >
+                                <em>{instruction}</em>
+                            </h5>
+                        </div>
+                    );
+                }
 
-                        <h5 id="EpPlaceTag" className="flex items-center noto-serif-kr dark:text-gray-400">
-                            <em>
-                                {instruction} // {instruction2}
-                            </em>
-                        </h5>
-                    </div>
-                );
+            case "en":
+                let script = TextEn.split(";")
+                if (script.length === 2) {
+                    return (
+                        <div id="EpPlace" className="flex items-center p-2 pr-3 my-1 mb-6 text-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="gray" className="mr-2 size-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                            </svg>
+    
+                            <h5 id="EpPlaceTag" className="flex items-center noto-serif-kr dark:text-gray-400">
+                                <em>
+                                    {script[0]} // {script[1]}
+                                </em>
+                            </h5>
+                        </div>
+                    );
+    
+                } else {
+    
+                    return (
+                        <div id="EpPlace" className="flex items-center p-2 pr-3 mb-4 text-sm mt-11">
+                            <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="gray"
+                            className="flex items-center justify-center mr-2 size-6"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                />
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                                />
+                            </svg>
+    
+                            <h5
+                            id="EpPlaceTag"
+                            className="flex items-center noto-serif-kr dark:text-gray-400"
+                            >
+                                <em>{script[0]}</em>
+                            </h5>
+                        </div>
+                    );
+                }
 
-            } else {
+            default:
 
-                return (
-                    <div id="EpPlace" className="flex items-center p-2 pr-3 mb-4 text-sm mt-11">
-                        <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="gray"
-                        className="flex items-center justify-center mr-2 size-6"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                            />
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-                            />
-                        </svg>
-
-                        <h5
-                        id="EpPlaceTag"
-                        className="flex items-center noto-serif-kr dark:text-gray-400"
-                        >
-                            <em>{instruction}</em>
-                        </h5>
-                    </div>
-                );
             }
+            
 
         case "#NA":
         case "#na":
@@ -101,32 +176,60 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", scr
             }
         
             if (fontSize !== 0) {
-                if (array.length === 3) {
+                switch (lang) {
+                    case "ko":
+                        if (array.length === 3) {
 
-                    dialogue = ProcessVariator(instruction2)
-                    speaker = instruction
-                    return CreateHtmlLine("normal", dialogue, speaker, fontSize)
-                
-                } else if (array.length === 2) {
-                    dialogue = ProcessVariator(instruction)
-                    return CreateHtmlLine("narration", dialogue, undefined, fontSize)
+                            dialogue = ProcessVariator(instruction2)
+                            speaker = instruction
+                            return CreateHtmlLine({type: "normal", dialogue, speaker, fontsize: fontSize})
+                        
+                        } else if (array.length === 2) {
+                            dialogue = ProcessVariator(instruction)
+                            return CreateHtmlLine({type: "narration", dialogue, undefined, fontsize: fontSize})
+                        }
+                    case "en":
+                        if (array.length === 3) {
+
+                            dialogue = ProcessVariator(instruction2)
+                            speaker = instruction
+                            return CreateHtmlLine({type: "normal", dialogue, speaker, fontsize: fontSize, TextEn})
+                        
+                        } else if (array.length === 2) {
+                            dialogue = ProcessVariator(instruction)
+                            return CreateHtmlLine({type: "narration", dialogue, undefined, fontsize: fontSize, TextEn})
+                        }
+                    default:
+                        throw new Error("LADR: Not yet implemented for", lang)    
                 }
+                
 
             } else {
-                if (array.length === 3) {
-                    dialogue = ProcessVariator(instruction2)
-                    speaker = instruction
-                    return CreateHtmlLine("normal", dialogue, speaker)
-
-                } else if (array.length === 2) {
-                    dialogue = ProcessVariator(instruction)
-                    return CreateHtmlLine("narration", dialogue)
-
+                switch (lang) {
+                    case "ko":
+                        if (array.length === 3) {
+                            dialogue = ProcessVariator(instruction2)
+                            speaker = instruction
+                            return CreateHtmlLine({type: "normal", dialogue, speaker})
+        
+                        } else if (array.length === 2) {
+                            dialogue = ProcessVariator(instruction)
+                            return CreateHtmlLine({type: "narration", dialogue})
+        
+                        }
+                    case "en":
+                        if (array.length === 3) {
+                            dialogue = ProcessVariator(instruction2)
+                            speaker = instruction
+                            return CreateHtmlLine({type: "normal", dialogue, speaker, TextEn})
+        
+                        } else if (array.length === 2) {
+                            dialogue = ProcessVariator(instruction)
+                            return CreateHtmlLine({type: "narration", dialogue, TextEn})
+        
+                        }
                 }
             }
-
-
-
         case "#zmc":
             switch (instruction) {
                 case "instant":
@@ -225,6 +328,8 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", scr
                 case "m5":
                 case "hide":
                 case "jump":
+                case "closeup":
+                case "CLOSEUP":
                 case "shake":
                 case "stiff":
                 case "hophop":

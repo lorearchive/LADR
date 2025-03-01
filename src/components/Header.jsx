@@ -1,11 +1,14 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 import ModalButton from './Preferences/ModalButton';
-import { usePrefStore } from '../store';
 
 export default function Header() {
 
-    const lang = usePrefStore((state) => state.lang)
+    let lang = window.location.pathname.split("/")[1]
     
+    if (lang === "") {
+        lang = navigator.language.split("-")[0]
+    }
+
     return (
         <nav className="flex justify-between flex-grow text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
             <ul className="flex flex-wrap mx-auto -mb-px">

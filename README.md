@@ -2,6 +2,15 @@
 
 # Lore Archive's Dialogue Reader
 
+<div align="center">
+
+![GitHub License](https://img.shields.io/github/license/lorearchive/LADR)
+![GitHub branch status](https://img.shields.io/github/checks-status/lorearchive/ladr-json/main?label=LJR)
+![GitHub branch status](https://img.shields.io/github/checks-status/lorearchive/ladr-images/main?label=LIR)
+
+</div>
+
+
 ## For local developments
 Clone the repository, then run
 ```bash
@@ -19,7 +28,15 @@ Currently, two official plugins are available:
 
 ## About the reader
 
-Lore Archive's Dialogue Reader for Blue Archive, often shortened to just LADR, is an online, web-based text story viewer for Blue Archive built from the ground up. It is written primarily in TypeScript and JavaScript.
+*Lore Archive's Dialogue Reader for Blue Archive*, often shortened to just **LADR**, is an online, web-based text story viewer for Blue Archive built from the ground up. It is written primarily in TypeScript and JavaScript.
+
+
+## Files
+The project's file stucture largely consists of the following directories:
+- **data/** contains files which do not belong to src, public, or state
+- **public/** contains image files which are used outside of the story render
+- **src/** contains files responsible for the website & rendering of the website
+
 
 
 ## For power users

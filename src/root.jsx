@@ -63,7 +63,11 @@ const LangGuard = ({ children }) => {
 function App() {
 
     const location = useLocation();
-    const lang = usePrefStore((state) => state.lang)
+    let lang = window.location.pathname.split('/')[1]
+
+    if (lang === "") {
+        lang = navigator.language.split('-')[0]
+    }
 
     return (
         <main>
@@ -93,7 +97,7 @@ function Root() {
     const [modalOpen, setModalOpen] = useState(false)
     const close = () => setModalOpen(false)
     const open = () => setModalOpen(true)
-    const lang = usePrefStore((state) => state.lang)
+    const lang = window.location.pathname.split('/')[1]
 
     useEffect(() => {
         document.documentElement.lang = lang
@@ -103,7 +107,6 @@ function Root() {
         <Router>
             <StrictMode>
 
-                <LangSync />
                 <BackToTop />
                 
                 <AnimatePresence

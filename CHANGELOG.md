@@ -10,6 +10,48 @@ Date format: `YYYY-MMM-DD`
 ## [Unreleased]
 - Nothing yet
 
+
+## [1.0.0] - 2025-Mar-01
+
+I was going to make the v1 update which was planned to be the final update before LADR was going live, but this update was so big I couldn't do anything but to increment the major version.
+
+The biggest change v1.0.0 brings is the english translation support. It also brings some performance optimizations and frontend updates!
+
+Ignoring the minor bugs, you could argue that the LADR is ready to be shipped. All functionalities, at this stage, work as expected.
+
+The v1.0.0 changelog brings its own new changelog style, which now categorizes changes into two groups: FRONTEND, and RENDERER. Each groups contain changes made to its respective groups. Learn more about it in the contributing guide.
+
+Get ready for the biggest update log yet!
+
+\- Cieron
+
+### Added
+- README - not finished!
+ 
+#### FRONTEND:
+- TL2TJ information in the Home page - subject to change!
+- 
+#### RENDERER:
+- English translation support
+- New npm package: xxhashjs is added to be used by GetImage function. 
+- Two ExcelTables, stripped off raw from the game, used for t9n and image displaying.
+- ProcessT9nHash is used to process hashes for t9n.
+
+### Changed
+- Zustand is not used anymore to store user's preferred lang - that is done via URL.
+- If user accesses webpage with no prior preferred lang info, LADR uses the browser's preferred lang.
+- The modal has been changed to reflect this change
+
+#### RENDERER:
+- Speaker name is aligned to the right
+- GetImage function is changed so it respects the actual file structure of the game.
+- CpuNoIgnore is now removed - replaced with ProcessNestedArray!
+
+### Removed
+- LangSync, because Zustand is not used anymore to store user's preferred lang - so no need to sync!
+#### RENDERER:
+- Cpu is not used anymore
+
 ## [0.4.0] - 2025-Feb-21
 ### Added
 - Root.jsx now updates the HTML lang as well as the internal lang
@@ -121,6 +163,7 @@ Date format: `YYYY-MMM-DD`
 - Everything!
 
 
+[1.0.0]: https://github.com/lorearchive/LADR/compare/v0.4.0...v1.0.0
 [0.4.0]: https://github.com/lorearchive/LADR/compare/v0.3.4...v0.4.0
 [0.3.4]: https://github.com/lorearchive/LADR/compare/v0.3.3...v0.3.4
 [0.3.3]: https://github.com/lorearchive/LADR/compare/v0.3.2...v0.3.3

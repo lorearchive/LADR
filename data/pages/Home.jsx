@@ -30,6 +30,13 @@ export default function Home() {
             <p className="font-serif">This app was built with <a href="https://react.dev/" className="text-blue-600 underline">React</a>, <a href="https://swc.rs/" className="text-blue-600 underline">SWC</a>, <a href="https://vite.dev/" className="text-blue-600 underline">Vite</a> and <a href="https://tailwindcss.com/" className="text-blue-600 underline">TailwindCSS</a>. If you would like to contribute to the development efforts of this web app, check out our <a href="https://github.com/lorearchive/LADR" className="text-blue-600 underline">source code</a>!</p>
             <br></br>
 
+
+            <h2>TL2TJ</h2>
+            <p className="font-serif"><em>TL2TJ version: v1.14</em></p>
+            <br />
+            <p className="font-serif">LADR uses the translations provided by TL2TJ to translate stories. TL2TJ is a Blue Archive mod which attempts to fix the "mistakes" the Blue Archive localizers have made.</p>
+
+
             
 
 
