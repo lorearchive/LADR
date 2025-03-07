@@ -4,9 +4,10 @@
 
 <div align="center">
 
-![GitHub License](https://img.shields.io/github/license/lorearchive/LADR)
-![GitHub branch status](https://img.shields.io/github/checks-status/lorearchive/ladr-json/main?label=LJR)
-![GitHub branch status](https://img.shields.io/github/checks-status/lorearchive/ladr-images/main?label=LIR)
+![GitHub License](https://img.shields.io/github/license/lorearchive/LADR?style=flat)
+![GitHub repo size](https://img.shields.io/github/repo-size/lorearchive/LADR?style=flat)
+![GitHub branch status](https://img.shields.io/github/checks-status/lorearchive/ladr-json/main?label=LJR&style=flat)
+![GitHub branch status](https://img.shields.io/github/checks-status/lorearchive/ladr-images/main?label=LIR&style=flat)
 
 </div>
 

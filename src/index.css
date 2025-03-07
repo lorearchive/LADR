@@ -26,7 +26,7 @@
 }
 
 
-
+/* ********************************************************* */
 .noto-serif-kr {
   font-family: "Noto Serif KR", serif;
   font-optical-sizing: auto;
@@ -87,10 +87,6 @@ body:has(#ladr-window > main > div > #episode) #ladr-header {
 } 
 
 
-
-
-
-
 #ladr-header-root {
   position: relative;
 }
@@ -106,10 +102,6 @@ body:has(#ladr-window > main > div > #episode) #ladr-header {
   content: "";
 }
 
-
-
-
-
 #ladr-page {
   margin: 54px 0 0 0;
   min-width: 320px;
@@ -122,15 +114,10 @@ body:has(#ladr-window > main > div > #episode) #ladr-header {
   margin: 0;
 }
 
-
-
-
-
 main {
   width: 900px;
 
 }
-
 
 #display-block {
   display: block !important;

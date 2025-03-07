@@ -20,5 +20,5 @@ If you find a vulnerability - that is, a weakness in the computational logic fou
 - Email me at `cirrow@proton.me`: if severity is high or lower (If you email me, and you do not receive a response in 36 hours, message me on Discord at `c3ro`)
 
 
-You should receive a response from me in 24 hours. If not, feel free to contact me once more.
-...
+You should receive a response from me in 36 hours. If not, feel free to contact me once more.
+

@@ -165,6 +165,7 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", Tex
                 }
 
             default:
+                throw new Error("LADR: This language isn't supported yet.")
 
             }
             
@@ -264,11 +265,12 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", Tex
             } else {
                 return "#st error!", array
             }
-            break
 
         case "#stm":
             if (array.length === 5) {
                 return CreateHtmlLine("center", ProcessVariator(array[4]))
+            } else {
+                throw new Error("LADR: #stm array is not of length 5.")
             }
             break
 
@@ -328,12 +330,11 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", Tex
                 case "m5":
                 case "hide":
                 case "jump":
-                case "closeup":
-                case "CLOSEUP":
                 case "shake":
                 case "stiff":
                 case "hophop":
                 case "closeup":
+                case "CLOSEUP":
                 case "greeting":
                     return "";
 
@@ -451,7 +452,7 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", Tex
 
         default:
           return "DEFAULTININS", instruction;
-      }
+        }
     default:
       return "DEFAULTINCOM", command;
   }

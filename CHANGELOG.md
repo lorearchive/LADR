@@ -11,6 +11,19 @@ Date format: `YYYY-MMM-DD`
 - Nothing yet
 
 
+## [1.0.1] - 2025-Mar-7
+### Added
+- Npm packages `image-size`, `axios`, and `buffer`
+
+### Changed
+- Minor code cleanup
+- Bumped esbuild from `0.24.2` to `0.25.0`
+
+#### Renderer
+- GetImage crops images too
+- Minor ProcessCommand fixes
+
+
 ## [1.0.0] - 2025-Mar-01
 
 I was going to make the v1 update which was planned to be the final update before LADR was going live, but this update was so big I couldn't do anything but to increment the major version.
@@ -163,6 +176,7 @@ Get ready for the biggest update log yet!
 - Everything!
 
 
+[1.0.1]: https://github.com/lorearchive/LADR/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/lorearchive/LADR/compare/v0.4.0...v1.0.0
 [0.4.0]: https://github.com/lorearchive/LADR/compare/v0.3.4...v0.4.0
 [0.3.4]: https://github.com/lorearchive/LADR/compare/v0.3.3...v0.3.4
