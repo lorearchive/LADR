@@ -31,7 +31,7 @@ Currently, two official plugins are available:
 - LADR's JSON Repository (LJR): https://github.com/lorearchive/ladr-json
 - LADR's Images Repository (LIR): https://github.com/lorearchive/ladr-json
 
-Note that the contents of the two files are NOT owned by the Lore Archive Project.
+Note that the contents of the two repositories are NOT owned by the Lore Archive Project.
 
 
 ## About the reader
