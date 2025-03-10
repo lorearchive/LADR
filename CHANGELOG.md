@@ -10,6 +10,11 @@ Date format: `YYYY-MMM-DD`
 ## [Unreleased]
 - Nothing yet
 
+## [1.1.1] - 2025-Mar-11
+### Fixed
+- Bumped axios to version 1.8.2
+- Removed version 18.x check in GitHub Actions
+
 ## [1.1.0] - 2025-Mar-11
 Now that most of the backend is done, I move on to the frontend...
 
@@ -195,6 +200,7 @@ Get ready for the biggest update log yet!
 - Everything!
 
 
+[1.1.1]: https://github.com/lorearchive/LADR/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/lorearchive/LADR/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/lorearchive/LADR/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/lorearchive/LADR/compare/v0.4.0...v1.0.0
