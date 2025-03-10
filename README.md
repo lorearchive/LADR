@@ -27,19 +27,25 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
 
+## Related repositories
+- LADR's JSON Repository (LJR): https://github.com/lorearchive/ladr-json
+- LADR's Images Repository (LIR): https://github.com/lorearchive/ladr-json
+
+Note that the contents of the two files are NOT owned by the Lore Archive Project.
+
+
 ## About the reader
 
-*Lore Archive's Dialogue Reader for Blue Archive*, often shortened to just **LADR**, is an online, web-based text story viewer for Blue Archive built from the ground up. It is written primarily in TypeScript and JavaScript.
+*Lore Archive's Dialogue Reader for Blue Archive*, often shortened to just **LADR**, is an online, web-based text story viewer for Blue Archive built from the ground up. It is written primarily in TypeScript and JavaScript, and uses React.
 
+### License
+The codebase of LADR (excludes the Excel Tables found in `/data/ExcelTable` and the contents of the LJR and LIR) is licensed under the [MIT License](https://github.com/lorearchive/LADR/blob/main/LICENSE).
 
-## Files
+### Files
 The project's file stucture largely consists of the following directories:
-- **data/** contains files which do not belong to src, public, or state
+
+- **data/** contains files which do not belong to src, public, or state. Sometimes actual data.
 - **public/** contains image files which are used outside of the story render
-- **src/** contains files responsible for the website & rendering of the website
+- **src/** contains files responsible for the website & rendering of the website - the "Renderer".
+- **state/** a makeshift globally-scoped variable (obsolete)
 
-
-
-## For power users
-### QUN
-Quick URL Navigation, or QUN, is just a fancy word for the URL structuring protocol at LADR. It omits words like "Volume", "Chapter" or "Episode" and lets users quickly navigate to an episode of their choice by simply writing the numbers only.

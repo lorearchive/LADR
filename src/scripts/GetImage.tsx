@@ -106,13 +106,13 @@ export default function GetImage(id: number) {
         if (imgDim?.width === 1280 && imgDim?.height === 900) {
             return (
                 <div id="bgImage" className="my-4 mb-8">
-                    <img src={imageUrl} alt={`Image ${id}`} style={{ maxWidth: `80%`, height: `auto`, aspectRatio: `${720}/200`,objectFit: "cover", margin: "0 auto" }}/>
+                    <img src={imageUrl} alt={`Image ${id}`} loading="lazy" style={{ maxWidth: `80%`, height: `auto`, aspectRatio: `${720}/200`,objectFit: "cover", margin: "0 auto" }}/>
                 </div>
             )
         } else if (imgDim?.width === 1600 && imgDim?.height === 1124) {
             return (
                 <div id="bgImage" className="my-4 mb-8">
-                    <img src={imageUrl} alt={`Image ${id}`} style={{ maxWidth: `80%`, height: `auto`, aspectRatio: `${720}/200`,objectFit: "cover", margin: "0 auto" }}/>
+                    <img src={imageUrl} alt={`Image ${id}`} loading="lazy" style={{ maxWidth: `80%`, height: `auto`, aspectRatio: `${720}/200`,objectFit: "cover", margin: "0 auto" }}/>
                 </div>
             )
         }

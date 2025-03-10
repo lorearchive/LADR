@@ -17,19 +17,18 @@ import Footer from './components/Footer.jsx'
 
 import GetDirectory from './scripts/GetDirectory.tsx'
 import GetEpisode from './scripts/GetEpisode.jsx'
-import { usePrefStore } from './store.ts'
-import LangSync from './utils/LangSync.tsx'
 import BackToTop from './utils/BackToTop.tsx'
+import ScrollToTop from './utils/ScrollToTop.tsx'
 
 // Wrap page components with motion
 const PageAnim = ({ children }) => (
-  <motion.div
-    initial={{ opacity: 0, x: 20 }}
-    animate={{ opacity: 1, x: 0 }}
-    exit={{ opacity: 0, x: -20 }}
-    transition={{ duration: 0.13 }}
-  >
-    {children}
+    <motion.div
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -20 }}
+        transition={{ duration: 0.13 }}
+    >
+        {children}
   </motion.div>
 );
 
@@ -76,8 +75,8 @@ function App() {
                     <Route path="/"                                     element={ <Navigate to={`/${lang}/home`} /> } />
                     <Route path="/:lang"                                element={ <LangGuard><Navigate to={`/${lang}/home`} /></LangGuard> } />
 
-                    <Route path="/:lang/home"                           element={ <PageAnim><Home /></PageAnim> } />
-                    <Route path="/:lang/main"                           element={ <PageAnim><MainSto /></PageAnim> } />
+                    <Route path="/:lang/home"                           element={ <PageAnim><ScrollToTop /><Home /></PageAnim> } />
+                    <Route path="/:lang/main"                           element={ <PageAnim><ScrollToTop /><MainSto /></PageAnim> } />
 
                     <Route path="/:lang/main/:level1"                   element={ <NumberGuard1><PageAnim><GetDirectory dir="true" /></PageAnim></NumberGuard1> } />
                     <Route path="/:lang/main/:level1/:level2"           element={ <NumberGuard2><PageAnim><GetDirectory /></PageAnim></NumberGuard2> } />

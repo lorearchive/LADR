@@ -10,6 +10,25 @@ Date format: `YYYY-MMM-DD`
 ## [Unreleased]
 - Nothing yet
 
+## [1.1.0] - 2025-Mar-11
+Now that most of the backend is done, I move on to the frontend...
+
+### Added
+- A Contributing guide. Unfinished
+- More npm packages
+#### Frotend
+- shadcn/ui package for frontend components
+- ScrollToTop component to scroll the page to top when it comes into view
+
+### Changed
+- Edited some files to respect the shadcn/ui
+- Updated home page
+- Minor code cleanup
+
+### Fixed
+#### Frontend
+- Modal lang highlighting issues
+
 
 ## [1.0.1] - 2025-Mar-7
 ### Added
@@ -176,6 +195,7 @@ Get ready for the biggest update log yet!
 - Everything!
 
 
+[1.1.0]: https://github.com/lorearchive/LADR/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/lorearchive/LADR/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/lorearchive/LADR/compare/v0.4.0...v1.0.0
 [0.4.0]: https://github.com/lorearchive/LADR/compare/v0.3.4...v0.4.0

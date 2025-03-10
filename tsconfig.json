@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "baseUrl": ".",
         "esModuleInterop": true,
         "skipLibCheck": true,
         "target": "ES6",
@@ -11,6 +12,9 @@
         "lib": ["dom", "ES2022"],
         "moduleResolution": "bundler",
         "noEmit": true,
-        "allowImportingTsExtensions": true
+        "allowImportingTsExtensions": true,
+        "paths": {
+            "@/*": ["./src/*"]
+          }
     }
   }

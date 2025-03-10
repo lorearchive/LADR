@@ -3,8 +3,7 @@ import { NavLink } from "react-router-dom";
 export default function MainSto() {
     return (
         <>
-
-            <h2>Test</h2>
+            <h1 className="mb-7">Main Story</h1>
             <div href="#" className="flex flex-row mb-10 bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700 dark:bg-gray-800">
                 <div className="flex flex-col justify-between p-4 pl-6 leading-normal">
                     <hgroup>
@@ -23,9 +22,6 @@ export default function MainSto() {
 
                 </div>
             </div>
-
-
-
         </>
     );
 }

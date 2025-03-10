@@ -1,10 +1,10 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import Backdrop from "./Backdrop";
 
 const Modal = ({ handleClose }) => {
 
-    const { lang } = useParams()
+    const lang = window.location.pathname.split("/").filter(Boolean).slice(0, -1)[0]
     const navigate = useNavigate()
     const handleNavigate = (lang) => {
         navigate(`/${lang}/` + window.location.pathname.split("/").filter(Boolean).slice(1).join("/"));
@@ -48,7 +48,7 @@ const Modal = ({ handleClose }) => {
                     </div>
                 </div>
 
-                <button onClick={handleClose} className="p-3 rounded-md dark:bg-slate-400">Close</button>
+                <button onClick={handleClose} className="p-3 rounded-md dark:bg-gray-900">Close</button>
             </motion.div>
         </Backdrop>
     );

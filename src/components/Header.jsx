@@ -1,10 +1,11 @@
 import { NavLink, useParams } from 'react-router-dom'
 import ModalButton from './Preferences/ModalButton';
+import { useEffect } from 'react';
 
 export default function Header() {
 
     let lang = window.location.pathname.split("/")[1]
-    
+
     if (lang === "") {
         lang = navigator.language.split("-")[0]
     }

@@ -10,8 +10,6 @@ export default function GetEpisode() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    let dataarray
-
     const location = useLocation()
     const navigate = useNavigate()
 
@@ -38,6 +36,7 @@ export default function GetEpisode() {
                 } else {
                     sector = 1
                 }
+                // Sector check. Read more about sectors in the contributing guide!
 
                 if (!/.*-\d+$/.test(location.pathname)) {
                     console.log('Redirecting to:', `${location.pathname}-${sector}`);
@@ -54,6 +53,7 @@ export default function GetEpisode() {
                 } else {
                     url = `https://raw.githubusercontent.com/lorearchive/ladr-json/${storytype}/Volume${volume}/Chapter${chapter}/Episode${episode}-s${sector}.json`
                 }
+                // I've added many kinds of URLs just in case
 
                 const response = await fetch(url);
 
