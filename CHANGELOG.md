@@ -10,6 +10,18 @@ Date format: `YYYY-MMM-DD`
 ## [Unreleased]
 - Nothing yet
 
+
+## [1.1.2] - 2025-Mar-19
+### Added
+- Minor text in Home
+
+### Fixed
+- GetDirectory now supports the lang code in the URL
+#### RENDERER
+- GetImage supports images that are NOT .jpg extensions
+- Minor ProcessCommand fixes for t9n support
+- ProcessScript's new ruby variator rendering logic
+
 ## [1.1.1] - 2025-Mar-11
 ### Fixed
 - Bumped axios to version 1.8.2
@@ -200,6 +212,7 @@ Get ready for the biggest update log yet!
 - Everything!
 
 
+[1.1.2]: https://github.com/lorearchive/LADR/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/lorearchive/LADR/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/lorearchive/LADR/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/lorearchive/LADR/compare/v1.0.0...v1.0.1

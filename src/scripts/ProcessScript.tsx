@@ -39,8 +39,6 @@ const variator_rubyHex = /\[ruby=(.*?)\](.*?)\[\/ruby\]/g             // Capture
 let variator_rubified: string[] = []
 
 let previousGroup = 0
-let previousDial: (string | JSX.Element)[] = []
-let previousSingleDial: (string | JSX.Element)[]
 let htmlSelection1: (string | JSX.Element)[] = []
 let htmlSelection2: (string | JSX.Element)[] = []
 let htmlSelection3: (string | JSX.Element)[] = []
@@ -235,10 +233,13 @@ export default function ProcessScript( { DataList }: {DataList: Object[]}) {
                     break
 
                 case 1027503790:
+                case 1272583944:         // ?
                 case 1626584722:         // Goofy white transition (there are so many of them which look similar )
                 case 2046503352:
                 case 2127590351:         // Ease out of black
+                case 2457385855:         // ?
                 case 348351892:          // ?
+                case 4075662009:         // ?
                     break
                 default:
                     console.error("LADR: Unrecognized transition type! Transition:", Transition)
@@ -252,8 +253,13 @@ export default function ProcessScript( { DataList }: {DataList: Object[]}) {
 }
 
 
-
 export function ProcessVariator( dialogue: string, telemetry?: boolean ): string {
+
+
+    // Text delay VARIATOR
+    if (/\[wa:\d+\]/.test(dialogue)) {
+        dialogue = dialogue.replace(/\[wa:\d+\]/g, "")
+    }
 
     // Text color VARIATOR
 
@@ -274,17 +280,12 @@ export function ProcessVariator( dialogue: string, telemetry?: boolean ): string
     // RUBY TEXT VARIATOR
 
     if (dialogue.includes("[ruby=")) {
-
-        variator_rubified = [...dialogue.matchAll(variator_rubyHex)].flatMap(match => [match[1], match[2]]) as [] // [rt, rb, rt, rb, rt, rb, ...]
-
-        if (variator_rubified.length % 2 !== 0) {
-            console.error("LADR: Rubified array does not contain an even amount of elements. Continuing with blank rubified array.")
-            variator_rubified = []
-        }
-
-        dialogue = dialogue.replace(`[ruby=${variator_rubified[0]}]${variator_rubified[1]}[/ruby]`, `<ruby>${variator_rubified[1]}<rp>(</rp><rt>${variator_rubified[0]}</rt><rp>)</rp></ruby>`)
-
+        dialogue = dialogue.replace(/\[ruby=(.*?)\](.*?)\[\/ruby\]/g, (_, small, base) => {
+            return `<ruby>${base}<rp>(</rp><rt>${small}</rt><rp>)</rp></ruby>`
+        })
     }
+    
+    
 
     // newlineVARIATOR
 

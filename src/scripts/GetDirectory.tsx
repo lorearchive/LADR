@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 
 // Add interface for the item type
 interface DirectoryItem {
@@ -12,10 +12,11 @@ export default function GetDirectory({ dir }: {dir: string}) {
     const [data, setData] = useState<DirectoryItem[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
+    const { lang } = useParams()
+    console.log(lang)
     
-    
-    let path = window.location.pathname;
-    path = path.slice(3) // slices the first slash then the language code. The language code always consists of 2 characters, and follows the ISO 639-1 standard.
+    const truePath = window.location.pathname
+    let path = truePath.slice(3)
     path = path.replace(/\/$/, '') // Removes trailing slash
     let kind: string = "";
     let volume: string = "";
@@ -149,7 +150,7 @@ export default function GetDirectory({ dir }: {dir: string}) {
                         {data.map((item, index) => {
                             return (
                                 <div key={item.sha || index} id="chapter" className="h-14 flex items-center justify-between transition-colors border-2 rounded-md mb-7 dark:bg-defaultGray dark:border-gray-500 hover:dark:bg-black min-h-[3rem]">
-                                    <NavLink to={`${path}/${item.order}`} className="flex items-center w-full p-3 h-14">
+                                    <NavLink to={`${truePath}${item.order}`} className="flex items-center w-full p-3 h-14">
                                         <p className="flex items-center m-0">
                                             <strong>{item.name}</strong>
                                         </p>
@@ -170,7 +171,7 @@ export default function GetDirectory({ dir }: {dir: string}) {
                         {data.map((item, index) => {
                             return (
                                 <div key={item.sha || index} id="chapter" className="h-14 flex items-center justify-between transition-colors border-2 rounded-md mb-7 dark:bg-defaultGray dark:border-gray-500 hover:dark:bg-black min-h-[3rem]">
-                                    <NavLink to={`${path}/${item.order}`} className="flex items-center w-full p-3 h-14">
+                                    <NavLink to={`${truePath}${item.order}`} className="flex items-center w-full p-3 h-14">
                                         <p className="flex items-center m-0">
                                             <strong>{item.name}</strong>
                                         </p>

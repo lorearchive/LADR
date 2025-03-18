@@ -1,5 +1,5 @@
 import { ProcessVariator } from "./ProcessScript.tsx";
-import { CreateHtmlLine } from "./CreateLine.tsx";
+import { CreateHtmlLine, LangNotReadyYetError } from "./CreateLine.tsx";
 import { useParams } from "react-router-dom";
 
 
@@ -231,6 +231,7 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", Tex
                         }
                 }
             }
+            
         case "#zmc":
             switch (instruction) {
                 case "instant":
@@ -258,9 +259,16 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", Tex
 
 
         case "#st":
-            if (array.length === 5 && instruction2 !== "instant" && instruction4 !== "") {
-                return CreateHtmlLine("noSpeaker", ProcessVariator(array[4]))
-            } else if (array.length === 5 && instruction2 === "instant" && instruction4 === "") {
+            if (array.length === 5 && instruction4 !== "") {
+                switch (lang) {
+                    case "ko":
+                        return CreateHtmlLine({ type: "noSpeaker", dialogue: ProcessVariator(array[4]) })
+                    case "en":
+                        return CreateHtmlLine({ type: "noSpeaker", dialogue: ProcessVariator(TextEn) })
+                    default:
+                        LangNotReadyYetError()
+                }
+            } else if (instruction === "[0,0]" && instruction2 === "instant" && instruction3 === "1" && instruction4 === "") {
                 return ""
             } else {
                 return "#st error!", array
@@ -268,11 +276,17 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", Tex
 
         case "#stm":
             if (array.length === 5) {
-                return CreateHtmlLine("center", ProcessVariator(array[4]))
+                switch (lang) {
+                    case "ko":
+                        return CreateHtmlLine({type: "center", dialogue: ProcessVariator(array[4])})
+                    case "en":
+                        return CreateHtmlLine({type: "center", dialogue: ProcessVariator(TextEn)})
+                    default:
+                        LangNotReadyYetError()
+                }
             } else {
                 throw new Error("LADR: #stm array is not of length 5.")
             }
-            break
 
         case "#clearST":
             return <br />;
