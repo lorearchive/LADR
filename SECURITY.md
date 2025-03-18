@@ -3,13 +3,7 @@ We take the security of our services seriously. Although as this is a web app wi
 
 
 ## Supported Versions
-
-The following table highlights releases which are supported with security updates. Releases lower than the current supported release should NOT be live, however if for some reason they are, please report it to us, using the same method outlined below in the "Reporting a Vulnerability" section.
-
-| Version | Supported          |
-| ------- | ------------------ |
-| n       | :white_check_mark: |
-
+I only maintain the latest version with security updates, I think that makes the most sense for a web app. The latest version should be what's live on the website.
 
 ## Reporting a Vulnerability
 
