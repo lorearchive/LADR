@@ -4,9 +4,9 @@ import { ProcessSelector } from "./ProcessScript";
 import { ProcessVariator } from "./ProcessScript";
 import { CreateHtmlLine } from "./CreateLine";
 import ProcessCommand from "./ProcessCommand";
-import GetImage from "./GetImage";
+import GetImage from "./GetImage.tsx";
 
-export default function ProcessNestedArray({ NestedArray, Group, BGID, Transition, SelectionProcessTrue, TextEn }: { NestedArray: any[][], Group: number, BGID: number, Transition: number, SelectionProcessTrue?: boolean, TextEn?: string }): any[] {
+export default function ProcessNestedArray({ NestedArray, Group, BGID, Transition, TextEn }: { NestedArray: any[][], Group: number, BGID: number, Transition: number, TextEn?: string }): any[] {
     const { lang } = useParams<{ lang: string }>()
 
     let t9nParam: object = {}
@@ -31,7 +31,7 @@ export default function ProcessNestedArray({ NestedArray, Group, BGID, Transitio
 
     fontarray = NestedArray.find(subarray => subarray[0] === "#fontsize") as []
 
-    if (fontarray) {
+    if (fontarray !== undefined) {
         let a: number = fontarray[1] as number - 70
         if (a > 0) {
             fontsize = 0.007 * (fontarray[1] as number) + 0.886
@@ -63,13 +63,13 @@ export default function ProcessNestedArray({ NestedArray, Group, BGID, Transitio
                     return (subarray[0] as string).startsWith("[ns") || (subarray[0] as string).startsWith("[s")
                 })
 
-                if (NestedArray.length > 1) {
+                if (nal > 1) {
                     ignoreFor = nal - 1
                 }
                 return ProcessSelector({nestedArray: line, group: Group, ...t9nParam})
 
             } else if (Group !== 0) {
-                ignoreFor = NestedArray.length !== 1 ? nal - 1 : 0
+                ignoreFor = nal !== 1 ? nal - 1 : 0
                 return ProcessSelector({nestedArray: NestedArray, group: Group, ...t9nParam})
             }
             
@@ -150,16 +150,19 @@ export default function ProcessNestedArray({ NestedArray, Group, BGID, Transitio
                 break
 
             case 1027503790:
+            case 1272583944:         // ?
             case 1626584722:         // Goofy white transition (there are so many of them which look similar )
             case 2046503352:
             case 2127590351:         // Ease out of black
+            case 2457385855:         // ?
+            case 2878370298:         // ?
             case 348351892:          // ?
+            case 4075662009:         // ?
                 break
             default:
                 console.error("LADR: Unrecognized transition type! Transition:", Transition)
                 throw new Error("Unrecognized transition type! Refer to the console for more info.")
         }
-
     }
     return output
 }
