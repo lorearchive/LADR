@@ -3,7 +3,7 @@
 Hey there, welcome to the GitHub page of LADR! I am excited that you are interested in the LADR project. This document will go over how the LADR works, so you can make your contributions, fixing what you want fixed, doing things you love.
 
 > [!TIP]
-> Beta testing? Read the [beta testing guide](https://github.com/lorearchive/LADR/blob/main/README.md) to learn more.
+> Beta testing? Read the [beta testing guide](https://github.com/lorearchive/LADR/blob/main/TESTING.md) to learn more.
 
 ## Reporting issues
 If you find a bug, or something that doesn't seem quite right, there are a few ways of going about reporting. The easiest way is to open an issue in the [Issue Tracker](https://github.com/lorearchive/LADR/issues). When you do so, please make sure to include relevant information like your Device, operating system, browser and browser version, screen resolution, and a detailed description about your problem.
