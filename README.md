@@ -38,14 +38,10 @@ Note that the contents of the two repositories are NOT owned by the Lore Archive
 
 *Lore Archive's Dialogue Reader for Blue Archive*, often shortened to just **LADR**, is an online, web-based text story viewer for Blue Archive built from the ground up. It is written primarily in TypeScript and JavaScript, and uses React.
 
+**Don't try contributing to the code!** I am going to re-write the application into Svelte.
+
+This is my first big project which uses git and GitHub, and you may find me figuring things out by poking at everything.
+
 ### License
 The codebase of LADR (excludes the Excel Tables found in `/data/ExcelTable` and the contents of the LJR and LIR) is licensed under the [MIT License](https://github.com/lorearchive/LADR/blob/main/LICENSE).
-
-### Files
-The project's file stucture largely consists of the following directories:
-
-- **data/** contains files which do not belong to src, public, or state. Sometimes actual data.
-- **public/** contains image files which are used outside of the story render
-- **src/** contains files responsible for the website & rendering of the website - the "Renderer".
-- **state/** a makeshift globally-scoped variable (obsolete)
 

@@ -10,8 +10,17 @@ Date format: `YYYY-MMM-DD`
 ## [Unreleased]
 - Nothing yet
 
+## [1.1.3] - 2025-Mar-19
 
-## [1.1.2] - 2025-Mar-19
+### Changed
+- Code refactoring and optimizations
+- Updated documentation
+
+### Fixed
+#### Renderer
+- ProcessVariator's text color variator now supports mid-dialogue word color changes
+
+## [1.1.2] - 2025-Mar-17
 ### Added
 - Minor text in Home
 
@@ -212,6 +221,7 @@ Get ready for the biggest update log yet!
 - Everything!
 
 
+[1.1.2]: https://github.com/lorearchive/LADR/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/lorearchive/LADR/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/lorearchive/LADR/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/lorearchive/LADR/compare/v1.0.1...v1.1.0
