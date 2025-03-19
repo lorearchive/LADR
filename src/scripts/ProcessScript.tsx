@@ -29,7 +29,7 @@ let ignoreFor: number = 0
 
 const variator_colour_regex = /^\[[0-9A-F]{6}\].*?\[-\]$/             // Matches EXACTLY "[HEXADECIMAL]...[-]"
 const variator_colour_regexCapture = /^\[([0-9A-F]{6})\](.*?)\[-\]$/
-const variator_colour_generalRegex = /\[([0-9A-F]{6})\](.*?)\[-\]/g   // Matches GENERALLY "...[HEXADECIMAL]...[-]..."
+const variator_colour_generalRegex = /\[([0-9A-Fa-f]{6})\](.*?)\[-\]/g // Matches GENERALLY "...[HEXADECIMAL]...[-]..."
 let variator_colour = "0"                                           // The captured hex code, defaulted at 0 to check if it has been changed later
 let variator_colouredText: string                                   // The captured text
 
@@ -108,50 +108,49 @@ export default function ProcessScript( { DataList }: {DataList: Object[]}) {
 }
 
 
-export function ProcessVariator( dialogue: string, telemetry?: boolean ): string {
-
-
+export function ProcessVariator(dialogue: string, telemetry?: boolean): string {
     // Text delay VARIATOR
     if (/\[wa:\d+\]/.test(dialogue)) {
         dialogue = dialogue.replace(/\[wa:\d+\]/g, "")
     }
 
     // Text color VARIATOR
+    const variator_colour_regex = /^\[[0-9A-Fa-f]{6}\].*?\[-\]$/; // Matches EXACTLY "[HEXADECIMAL]...[-]"
+    const variator_colour_regexCapture = /^\[([0-9A-Fa-f]{6})\](.*?)\[-\]$/;
+    const variator_colour_generalRegex = /\[([0-9A-Fa-f]{6})\](.*?)\[-\]/g; // Matches GENERALLY "...[HEXADECIMAL]...[-]..."
+    let variator_colour = "0"; // The captured hex code, defaulted at 0 to check if it has been changed later
+    let variator_colouredText: string; // The captured text
 
     if (variator_colour_regex.test(dialogue)) {
 
-        let matches = variator_colour_regexCapture.exec(dialogue) as RegExpExecArray
-        variator_colour = matches[1]
-        variator_colouredText = matches[2]
+        let matches = variator_colour_regexCapture.exec(dialogue) as RegExpExecArray;
+        variator_colour = matches[1];
+        variator_colouredText = matches[2];
 
-
-        dialogue = `<span class="colouredText" style="color: #${variator_colour} ">${variator_colouredText}</span>`
-
+        dialogue = `<span class="colouredText" style="color: #${variator_colour} ">${variator_colouredText}</span>`;
+    
     } else if (variator_colour_generalRegex.test(dialogue)) {
-        console.error("LADR: Received general match for custom text colouring. ", dialogue)
+        dialogue = dialogue.replace(variator_colour_generalRegex, (_, hex, text) => {
+            return `<span class="colouredText" style="color: #${hex} ">${text}</span>`;
+        });
     }
-
 
     // RUBY TEXT VARIATOR
-
     if (dialogue.includes("[ruby=")) {
         dialogue = dialogue.replace(/\[ruby=(.*?)\](.*?)\[\/ruby\]/g, (_, small, base) => {
-            return `<ruby>${base}<rp>(</rp><rt>${small}</rt><rp>)</rp></ruby>`
-        })
+            return `<ruby>${base}<rp>(</rp><rt>${small}</rt><rp>)</rp></ruby>`;
+        });
     }
-    
-    
 
     // newlineVARIATOR
-
     if (dialogue.includes("#n")) {
-        dialogue = dialogue.replace(/#n/g, "<br />")
+        dialogue = dialogue.replace(/#n/g, "<br />");
     }
 
     if (telemetry) {
-        dialogue = dialogue.replace(dialogue, `<span style="font-style: oblique;">${dialogue}</span>`)
+        dialogue = dialogue.replace(dialogue, `<span style="font-style: oblique;">${dialogue}</span>`);
     }
-    return dialogue
+    return dialogue;
 }
 
 
