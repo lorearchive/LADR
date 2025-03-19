@@ -147,6 +147,12 @@ export default function GetImage(id: number) {
                         <img src={imageUrl} alt={`Image ${id}`} loading="lazy" style={{ maxWidth: `80%`, height: `auto`, aspectRatio: `${720}/200`,objectFit: "cover", margin: "0 auto" }}/>
                     </div>
                 )
+            } else if (imgDim?.width === 3160 && imgDim?.height === 2220) {
+                return (
+                    <div id="bgImage" className="my-4 mb-8">
+                        <img src={imageUrl} alt={`Image ${id}`} loading="lazy" style={{ maxWidth: `80%`, height: `auto`, aspectRatio: `${720}/200`,objectFit: "cover", margin: "0 auto" }}/>
+                    </div>
+                )
             }
             
             else if (imgDim) {
@@ -167,6 +173,12 @@ export default function GetImage(id: number) {
                 return (
                     <div id="bgImage" className="my-4 mb-8">
                         <img src={diffImgUrl} alt={`Image ${id}`} loading="lazy" style={{ maxWidth: `80%`, height: `auto`, aspectRatio: `${720}/200`,objectFit: "cover", margin: "0 auto" }}/>
+                    </div>
+                )
+            } else if (imgDim?.width === 3160 && imgDim?.height === 2220) {
+                return (
+                    <div id="bgImage" className="my-4 mb-8">
+                        <img src={imageUrl} alt={`Image ${id}`} loading="lazy" style={{ maxWidth: `80%`, height: `auto`, aspectRatio: `${720}/200`,objectFit: "cover", margin: "0 auto" }}/>
                     </div>
                 )
             }

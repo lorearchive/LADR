@@ -153,10 +153,16 @@ export default function ProcessNestedArray({ NestedArray, Group, BGID, Transitio
             case 1272583944:         // ?
             case 1626584722:         // Goofy white transition (there are so many of them which look similar )
             case 2046503352:
+            case 2089682509:         // ?
             case 2127590351:         // Ease out of black
+            case 2246884625:         // ?
             case 2457385855:         // ?
+            case 2527144513:         // ?
             case 2878370298:         // ?
+            case 3222392982:         // ?
             case 348351892:          // ?
+            case 3657480713:         // ?
+            case 3957412172:         // ?
             case 4075662009:         // ?
                 break
             default:
