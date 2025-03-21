@@ -13,7 +13,6 @@ export default function GetDirectory({ dir }: {dir: string}) {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
     const { lang } = useParams()
-    console.log(lang)
     
     const truePath = window.location.pathname
     let path = truePath.slice(3)
@@ -150,7 +149,7 @@ export default function GetDirectory({ dir }: {dir: string}) {
                         {data.map((item, index) => {
                             return (
                                 <div key={item.sha || index} id="chapter" className="h-14 flex items-center justify-between transition-colors border-2 rounded-md mb-7 dark:bg-defaultGray dark:border-gray-500 hover:dark:bg-black min-h-[3rem]">
-                                    <NavLink to={`${truePath}/${item.order}`} className="flex items-center w-full p-3 h-14">
+                                    <NavLink to={`${truePath}${item.order}`} className="flex items-center w-full p-3 h-14">
                                         <p className="flex items-center m-0">
                                             <strong>{item.name}</strong>
                                         </p>
@@ -171,7 +170,7 @@ export default function GetDirectory({ dir }: {dir: string}) {
                         {data.map((item, index) => {
                             return (
                                 <div key={item.sha || index} id="chapter" className="h-14 flex items-center justify-between transition-colors border-2 rounded-md mb-7 dark:bg-defaultGray dark:border-gray-500 hover:dark:bg-black min-h-[3rem]">
-                                    <NavLink to={`${truePath}/${item.order}`} className="flex items-center w-full p-3 h-14">
+                                    <NavLink to={`${truePath}${item.order}`} className="flex items-center w-full p-3 h-14">
                                         <p className="flex items-center m-0">
                                             <strong>{item.name}</strong>
                                         </p>

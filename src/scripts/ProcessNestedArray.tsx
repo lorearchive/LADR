@@ -22,7 +22,12 @@ export default function ProcessNestedArray({ NestedArray, Group, BGID, Transitio
             t9nParam = {}
             break
         case "en":
-            t9nParam = { TextEn }
+            if (TextEn === undefined) {
+                throw new Error("ProcessNestedArray: TextEn is undefined...")
+            } else {
+                TextEn = ProcessVariator(TextEn)
+            }
+            t9nParam = { TextEn}
             break
         default:
             throw new Error("LADR: Not ready for this language yet.")
@@ -78,12 +83,11 @@ export default function ProcessNestedArray({ NestedArray, Group, BGID, Transitio
             if (subarray.length === 4) {
                 speaker = subarray[1] as string
                 dialogue = subarray[3] as string
+                dialogue = ProcessVariator(dialogue)
 
                 if (fontsize !== undefined) {
-                    dialogue = ProcessVariator(dialogue)
                     return CreateHtmlLine({ type: "normal", dialogue, speaker, fontsize, ...t9nParam});
                 } else {
-                    dialogue = ProcessVariator(dialogue)
                     return CreateHtmlLine({ type: "normal", dialogue, speaker, ...t9nParam });
                 }
     

@@ -10,8 +10,23 @@ Date format: `YYYY-MMM-DD`
 ## [Unreleased]
 - Nothing yet
 
-## [1.1.3] - 2025-Mar-19
 
+## [1.1.4] - 2025-Mar-22
+### Changed
+- Minor code optimizations
+- Home page changes
+
+#### Renderer
+- GetImage should now render black backgrounds - we'll see how this goes
+
+### Fixed
+- For GetDirectory to work, the URL now must end with a slash - root.jsx has been updated to add the slash whenever there isn't
+
+#### Renderer
+- TextEn is now checked for variators in ProcessNestedArray
+
+
+## [1.1.3] - 2025-Mar-19
 ### Changed
 - Code refactoring and optimizations
 - Updated documentation
@@ -221,7 +236,8 @@ Get ready for the biggest update log yet!
 - Everything!
 
 
-[1.1.2]: https://github.com/lorearchive/LADR/compare/v1.1.2...v1.1.3
+[1.1.4]: https://github.com/lorearchive/LADR/compare/v1.1.3...v1.1.4
+[1.1.3]: https://github.com/lorearchive/LADR/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/lorearchive/LADR/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/lorearchive/LADR/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/lorearchive/LADR/compare/v1.0.1...v1.1.0

@@ -49,9 +49,6 @@ export default function GetImage(id: number) {
             throw new Error("LADR: Unrecognized GetImage type.")
     }
 
-    if (id === 1047754314) { // Blank black background
-        shouldRender = false
-    }
 
 
     if (shouldRender && imageUrl) {

@@ -42,12 +42,10 @@ export default function Home() {
                     <DialogHeader>
                     <DialogTitle className="mt-1!">LADR Changelog</DialogTitle>
                     <DialogDescription>
-                        <em>@latest - v1.1.0 <strong>Current</strong></em>
+                        <em>@latest - v1.1.4beta <strong>Current</strong></em>
                         <br /><br />
                         <span style={{color: `white`}}>
-                            This version of LADR brings forth many updates.
-                            <br />
-                            Probs I'll update this when production. Shame you can't use lists in here
+                            This is the beta version of the app.
                             <br /><br />
                             For the complete changelog, visit the <a href="https://github.com/lorearchive/LADR/blob/main/CHANGELOG.md" className="text-blue-600 underline">GitHub CHANGELOG.</a>
                         </span>
@@ -70,10 +68,8 @@ export default function Home() {
             <br />
 
 
-            <h2>Cookie Information</h2>
-            <p className="font-serif">At this stage, LADR uses one cookie to personalize your experience - to save the language you have chosen to load it whenever you come back. Would suck if you had to change the language every time on visit!</p>
-            <br />
-            <p className="font-serif">If you would like to opt out from this, simply toggle the switch below - click it again to re-enable it!</p>
+            <h2>Pre-Release information</h2>
+            <p className="font-serif">We are currently in the beta stages of LADR. Expect everything to break - if you see any issues, visit our <a href="https://github.com/lorearchive/LADR/blob/main/CONTRIBUTING.md" className="text-blue-600 underline">contributing guide</a>.</p>
 
 
 

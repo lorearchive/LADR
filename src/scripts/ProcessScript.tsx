@@ -147,10 +147,7 @@ export function ProcessVariator(dialogue: string, telemetry?: boolean): string {
         dialogue = dialogue.replace(/#n/g, "<br />");
     }
 
-    if (telemetry) {
-        dialogue = dialogue.replace(dialogue, `<span style="font-style: oblique;">${dialogue}</span>`);
-    }
-    return dialogue;
+    return dialogue
 }
 
 

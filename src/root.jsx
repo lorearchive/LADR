@@ -35,12 +35,37 @@ const PageAnim = ({ children }) => (
 const NumberGuard1 = ({ children }) => {
     const { level1 } = useParams()
 
+    if (!level1.endsWith("/")) {
+        const location = useLocation();
+        const navigate = useNavigate();
+      
+        useEffect(() => {
+          if (!location.pathname.endsWith('/')) {
+            navigate(location.pathname + '/', { replace: true });
+          }
+        }, [location.pathname, navigate]);
+      
+    }
+
     return /^\d+$/.test(level1) ? children : <PageAnim><GetDirectory /></PageAnim>
 }
 
 const NumberGuard2 = ({ children }) => {
     const { level1 } = useParams()
     const { level2 } = useParams()
+
+
+    if (!level2.endsWith("/")) {
+        const location = useLocation();
+        const navigate = useNavigate();
+      
+        useEffect(() => {
+          if (!location.pathname.endsWith('/')) {
+            navigate(location.pathname + '/', { replace: true });
+          }
+        }, [location.pathname, navigate]);
+      
+    }
 
     return (/^\d+$/.test(level1) && /^\d+$/.test(level2)) ? children : <PageAnim><GetEpisode /></PageAnim>
 }
@@ -57,6 +82,19 @@ const LangGuard = ({ children }) => {
         throw new Error("LADR: Invalid language code")
     }
 }
+
+const AddTrailingSlash = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+  
+    useEffect(() => {
+      if (!location.pathname.endsWith('/')) {
+        navigate(location.pathname + '/', { replace: true });
+      }
+    }, [location.pathname, navigate]);
+  
+    return null
+  };
 
 
 function App() {
@@ -78,7 +116,9 @@ function App() {
                     <Route path="/:lang/home"                           element={ <PageAnim><ScrollToTop /><Home /></PageAnim> } />
                     <Route path="/:lang/main"                           element={ <PageAnim><ScrollToTop /><MainSto /></PageAnim> } />
 
-                    <Route path="/:lang/main/:level1"                   element={ <NumberGuard1><PageAnim><GetDirectory dir="true" /></PageAnim></NumberGuard1> } />
+                    <Route path="/:lang/main/:level1"                   element={ <AddTrailingSlash /> } />
+                    <Route path="/:lang/main/:level1/"                  element={ <NumberGuard1><PageAnim><GetDirectory dir="true" /></PageAnim></NumberGuard1> } />
+                    
                     <Route path="/:lang/main/:level1/:level2"           element={ <NumberGuard2><PageAnim><GetDirectory /></PageAnim></NumberGuard2> } />
                     <Route path="/:lang/main/:level1/:level2/:level3"   element={ <PageAnim><GetEpisode /></PageAnim> } />
 
