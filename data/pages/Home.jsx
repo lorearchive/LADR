@@ -69,7 +69,7 @@ export default function Home() {
             <h2>Pre-Release information</h2>
             <p className="font-serif">We are currently in the beta stages of LADR. Expect everything to break - if you see any issues, visit our <a href="https://github.com/lorearchive/LADR/blob/main/CONTRIBUTING.md" className="text-blue-600 underline">contributing guide</a>.</p>
             <br />
-            <p className="font-serif">When you see a blank page, that means an error has occured. Please tell me more about it! Open the browser's Developer Tools by pressing Ctrl/Cmd + Shift + I, navigate to the console tab, then show us the error message! You can report it in our <a href="https://github.com/lorearchive/LADR/issues" className="text-blue-600 underline">issue trackerB</a>.</p>
+            <p className="font-serif">When you see a blank page, that means an error has occured. Please tell me more about it! Open the browser's Developer Tools by pressing Ctrl/Cmd + Shift + I, navigate to the console tab, then show us the error message! You can report it in our <a href="https://github.com/lorearchive/LADR/issues" className="text-blue-600 underline">issue tracker</a>.</p>
 
 
 
