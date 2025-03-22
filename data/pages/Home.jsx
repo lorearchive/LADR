@@ -60,8 +60,6 @@ export default function Home() {
             <h2>Help us make LADR BETTR!</h2>
             <p className="font-serif">We don't sell your data, we don't track you, and we don't show you ads. We're here to provide a fast, clean, and junk-free reading experience for Blue Archive's story. If you like it, we invite you to propose improvements you want to see! Check out the <a href="https://github.com/orgs/lorearchive/projects/1/views/1" className="text-blue-600 underline">LADR Backlog</a> for the latest development updates.</p>
             <br></br>
-            <p className="font-serif">This app was built with <a href="https://react.dev/" className="text-blue-600 underline">React</a>, <a href="https://swc.rs/" className="text-blue-600 underline">SWC</a>, <a href="https://vite.dev/" className="text-blue-600 underline">Vite</a> and <a href="https://tailwindcss.com/" className="text-blue-600 underline">TailwindCSS</a>. If you would like to contribute to the development efforts of this web app, check out our <a href="https://github.com/lorearchive/LADR" className="text-blue-600 underline">source code</a>!</p>
-            <br />
             <p className="font-serif">The stylistic choices of LADR were inspired by <a href="https://github.com/050644zf" className="text-blue-600 underline">050644zf</a>'s <a href="https://astr.pages.dev/#/zh_CN/menu/maintheme" className="text-blue-600 underline">Arknights Story Text Reader</a>. Check them out!</p>
         
             
@@ -70,6 +68,8 @@ export default function Home() {
 
             <h2>Pre-Release information</h2>
             <p className="font-serif">We are currently in the beta stages of LADR. Expect everything to break - if you see any issues, visit our <a href="https://github.com/lorearchive/LADR/blob/main/CONTRIBUTING.md" className="text-blue-600 underline">contributing guide</a>.</p>
+            <br />
+            <p className="font-serif">When you see a blank page, that means an error has occured. Please tell me more about it! Open the browser's Developer Tools by pressing Ctrl/Cmd + Shift + I, navigate to the console tab, then show us the error message! You can report it in our <a href="https://github.com/lorearchive/LADR/issues" className="text-blue-600 underline">issue trackerB</a>.</p>
 
 
 

@@ -253,6 +253,7 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", Tex
 
 
         case "#bgshake":
+        case '#video':
         case "#showmenu":
         case "#hidemenu":
             return "";

@@ -40,6 +40,28 @@ export default function MainSto() {
             <DirectoryFile chapter="2" desc="Abydos?" link={`/${lang}/main/1/2/`} />
             <DirectoryFile chapter="3" desc="Abydos?" link={`/${lang}/main/1/3/`} />
 
+            <h2 className="mb-7">Volume 2</h2>
+
+            <DirectoryFile chapter="1" desc="Abydos?" link={`/${lang}/main/2/1/`} />
+            <DirectoryFile chapter="2" desc="Abydos?" link={`/${lang}/main/2/2/`} />
+
+            <h2 className="mb-7">Volume 3</h2>
+
+            <DirectoryFile chapter="1" desc="Abydos?" link={`/${lang}/main/3/1/`} />
+            <DirectoryFile chapter="2" desc="Abydos?" link={`/${lang}/main/3/2/`} />
+            <DirectoryFile chapter="3" desc="Abydos?" link={`/${lang}/main/3/3/`} />
+            <DirectoryFile chapter="4" desc="Abydos?" link={`/${lang}/main/3/4/`} />
+
+
+            <h2 className="mb-7">Volume 4</h2>
+
+            <DirectoryFile chapter="1" desc="Abydos?" link={`/${lang}/main/4/1/`} />
+            <DirectoryFile chapter="2" desc="Abydos?" link={`/${lang}/main/4/2/`} />
+
+            <h2 className="mb-7">Volume 5</h2>
+
+            <DirectoryFile chapter="1" desc="Abydos?" link={`/${lang}/main/5/1/`} />
+
             
         </>
     );
