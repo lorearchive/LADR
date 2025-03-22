@@ -1,8 +1,7 @@
 ![image](https://github.com/user-attachments/assets/4ec8bb04-7ccc-473f-89c1-cd29a0d751ee)
-
-# Lore Archive's Dialogue Reader for Blue Archive
-
 <div align="center">
+  
+# Lore Archive's Dialogue Reader for Blue Archive
 
 ![GitHub License](https://img.shields.io/github/license/lorearchive/LADR?style=flat)
 ![GitHub repo size](https://img.shields.io/github/repo-size/lorearchive/LADR?style=flat)
