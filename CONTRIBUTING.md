@@ -28,4 +28,4 @@ To report **security vulnerabilities**, refer to the [Security vulnerabilities r
 
 **Don't try to edit the source code, don't even try to figure it out!**
 
-I am going to re-write LADR into [Svelte](https://svelte.dev/), currently it is written with React. Until that happens, which is the near future, contributing to the code is pointless. Although you can still suggest improvements in the Issue Tracker.
+I am going to re-write LADR into [Svelte](https://svelte.dev/), currently it is written with React. Until that happens, which is the near future, contributing to the code is pointless. Although you can still suggest improvements in the Issue Tracker - which will be noted!
