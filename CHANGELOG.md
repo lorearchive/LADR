@@ -11,6 +11,10 @@ Date format: `YYYY-MMM-DD`
 - Nothing yet
 
 
+## [1.1.5] - 2025-Mar-23
+### Added
+- `.htaccess` for efficient SPA routing
+
 ## [1.1.4] - 2025-Mar-22
 ### Changed
 - Minor code optimizations
@@ -235,7 +239,7 @@ Get ready for the biggest update log yet!
 ### Added
 - Everything!
 
-
+[1.1.4]: https://github.com/lorearchive/LADR/compare/v1.1.4...v1.1.5
 [1.1.4]: https://github.com/lorearchive/LADR/compare/v1.1.3...v1.1.4
 [1.1.3]: https://github.com/lorearchive/LADR/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/lorearchive/LADR/compare/v1.1.1...v1.1.2
