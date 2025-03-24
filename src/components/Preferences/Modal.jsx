@@ -26,7 +26,7 @@ const Modal = ({ handleClose }) => {
                 </div>
 
                 <div id="settingsWindow" className="p-3">
-                    <div id="setting" className="flex items-center">
+                    <div id="setting" className="flex flex-row items-center">
                         <p>Language:</p>
                         <div className="inline-flex ml-3 rounded-md shadow-xs dark:border-slate-700" role="group">
                             <button type="button" onClick={() => handleNavigate("en")} className={`px-4 py-2 border-t-3 border-b-3 text-sm dark:border-gray-700 font-medium rounded-s-lg focus:z-10 ${lang === "en" ? "bg-blue-700 text-white dark:bg-blue-600" : "bg-white text-gray-900 hover:bg-gray-100 hover:text-blue-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"}`}>
@@ -37,6 +37,7 @@ const Modal = ({ handleClose }) => {
                             </button>
                         </div>
                     </div>
+                    <div className="mt-3 text-gray-400 ml-22"><p><em>More languages to come!</em></p></div>
                 </div>
 
                 <button onClick={handleClose} className="p-3 rounded-md dark:bg-gray-900">Close</button>
