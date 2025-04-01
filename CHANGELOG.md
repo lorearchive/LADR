@@ -249,6 +249,7 @@ Get ready for the biggest update log yet!
 ### Added
 - Everything!
 
+[1.2.0]: https://github.com/lorearchive/LADR/compare/v1.1.5...v1.2.0
 [1.1.5]: https://github.com/lorearchive/LADR/compare/v1.1.4...v1.1.5
 [1.1.4]: https://github.com/lorearchive/LADR/compare/v1.1.3...v1.1.4
 [1.1.3]: https://github.com/lorearchive/LADR/compare/v1.1.2...v1.1.3
