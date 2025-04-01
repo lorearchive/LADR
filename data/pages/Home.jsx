@@ -42,10 +42,11 @@ export default function Home() {
                     <DialogHeader>
                     <DialogTitle className="mt-1!">LADR Changelog</DialogTitle>
                     <DialogDescription>
-                        <em>@latest - v1.1.5beta <strong>Current</strong></em>
+                        <em>@latest - v1.2.0beta <strong>Current</strong></em>
                         <br /><br />
                         <span style={{color: `white`}}>
-                            - Added .htaccess to add support for SPAs for hosting
+                            - File management of the LJR has been improved, alongside correct file ordering
+                            - Optimizations and improvements
                             <br /><br />
                             For the complete changelog, visit the <a href="https://github.com/lorearchive/LADR/blob/main/CHANGELOG.md" className="text-blue-600 underline">GitHub CHANGELOG.</a>
                         </span>

@@ -12,7 +12,6 @@ export default function GetDirectory({ dir }: {dir: string}) {
     const [data, setData] = useState<DirectoryItem[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
-    const { lang } = useParams()
     
     const truePath = window.location.pathname
     let path = truePath.slice(3)
@@ -37,11 +36,7 @@ export default function GetDirectory({ dir }: {dir: string}) {
                 chapter = match[2];
             }
         } else {
-            kind = "any"
-            path = path.replace(/[^A-Za-z0-9\s/]/g, '') // Removes all special characters other than slash, for sanitization
-            if (path.startsWith("/test")) {
-                path = path.slice(5)
-            }
+            throw new Error("LADR: Not ready for that URL yet! (Or it is malformed)")
         }
     } else {
         throw new Error("LADR: Not ready for that URL yet! (Or it is malformed)")
@@ -65,6 +60,7 @@ export default function GetDirectory({ dir }: {dir: string}) {
                     response = await fetch(
                         `https://api.github.com/repos/lorearchive/ladr-json/contents${path}`
                     )
+                    
                 }
 
                 if (!response.ok) {
@@ -88,32 +84,22 @@ export default function GetDirectory({ dir }: {dir: string}) {
                             sha: item.sha
                         }));
                     setData(names);
-                } else if (kind === "any") {
-                    const names = result
-                    .filter((item: { name: string}) => item.name.endsWith(".json"))
-                    .map((item: { name:string, sha: string}) => ({ name: item.name.replace('.json', ''), sha: item.sha }));
-
-                    setData(names);
-
                 } else {
                     const names = result
                         .filter((item: { name: string }) => item.name.endsWith(".json"))
                         .map((item: { name: string; sha: string }) => {
-                            const match = item.name.match(/^Episode(\d+)[-_]?/);
-                            const episodeNo = match ? match[1] : null
-                            const sector = item.name.match(/-s(\d+)/)
-                            const sectorNo = sector ? sector[1] : null
+                            const episodeNo = item.name.slice(2, 4)
+                            const sectorNo  = item.name.at(4) === "0" ? "1" : "2"
 
-                            
-                            if (sectorNo === null) {
+                            if (sectorNo === "1") {
                                 return {
-                                    order: match ? match[1] : null,
+                                    order: episodeNo,
                                     name: `Episode ${episodeNo}`, 
                                     sha: item.sha 
-                                };
+                                }
                             } else {
                                 return {
-                                    order: match ? match[1] : null,
+                                    order: episodeNo,
                                     sector: sectorNo,
                                     name: `Episode ${episodeNo} - Sector ${sectorNo}`,
                                     sha: item.sha

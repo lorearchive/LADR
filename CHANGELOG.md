@@ -11,6 +11,16 @@ Date format: `YYYY-MMM-DD`
 - Nothing yet
 
 
+## [1.2.0] - 2025-Apr-1
+### Changed
+- Minor frontend updates
+
+### Fixed
+- Episode list is now organized, all episodes are displayed in sequential order
+
+#### Renderer
+- GetImage support for more image dimensions
+
 ## [1.1.5] - 2025-Mar-23
 ### Added
 - `.htaccess` for efficient SPA routing

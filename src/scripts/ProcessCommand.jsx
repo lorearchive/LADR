@@ -252,6 +252,7 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", Tex
 
 
 
+        case "#fx":
         case "#bgshake":
         case '#video':
         case "#showmenu":
@@ -332,6 +333,7 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", Tex
                 case "dr":
                 case "black":
                 case "falldownR":
+                case "FallDownR":
                 case "falldownL":
                     return <br />;
 
@@ -343,6 +345,7 @@ export default function ProcessCommand({ array, fontSize = 0, dialogue = "", Tex
                 case "m3":
                 case "m4":
                 case "m5":
+                case "sig":
                 case "hide":
                 case "jump":
                 case "shake":

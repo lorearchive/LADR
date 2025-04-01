@@ -150,10 +150,16 @@ export default function GetImage(id: number) {
                         <img src={imageUrl} alt={`Image ${id}`} loading="lazy" style={{ maxWidth: `80%`, height: `auto`, aspectRatio: `${720}/200`,objectFit: "cover", margin: "0 auto" }}/>
                     </div>
                 )
+            } else if (imgDim?.width === 1280 && imgDim?.height === 899) {
+                return (
+                    <div id="bgImage" className="my-4 mb-8">
+                        <img src={imageUrl} alt={`Image ${id}`} loading="lazy" style={{ maxWidth: `80%`, height: `auto`, aspectRatio: `${720}/200`,objectFit: "cover", margin: "0 auto" }}/>
+                    </div>
+                )
             }
             
             else if (imgDim) {
-                console.error("Unexpected Dimensions:", imgDim);
+                console.error("Unexpected Dimensions:", imgDim, "diffImgUrl", diffImgUrl);
                 throw new Error("Unexpected Dimensions. Check the console for more info.");
             } else {
                 throw new Error("imgDim is not defined.")
@@ -175,13 +181,19 @@ export default function GetImage(id: number) {
             } else if (imgDim?.width === 3160 && imgDim?.height === 2220) {
                 return (
                     <div id="bgImage" className="my-4 mb-8">
-                        <img src={imageUrl} alt={`Image ${id}`} loading="lazy" style={{ maxWidth: `80%`, height: `auto`, aspectRatio: `${720}/200`,objectFit: "cover", margin: "0 auto" }}/>
+                        <img src={diffImgUrl} alt={`Image ${id}`} loading="lazy" style={{ maxWidth: `80%`, height: `auto`, aspectRatio: `${720}/200`,objectFit: "cover", margin: "0 auto" }}/>
+                    </div>
+                )
+            } else if (imgDim?.width === 1280 && imgDim?.height === 899) {
+                return (
+                    <div id="bgImage" className="my-4 mb-8">
+                        <img src={diffImgUrl} alt={`Image ${id}`} loading="lazy" style={{ maxWidth: `80%`, height: `auto`, aspectRatio: `${720}/200`,objectFit: "cover", margin: "0 auto" }}/>
                     </div>
                 )
             }
             
             else if (imgDim) {
-                console.error("Unexpected Dimensions:", imgDim);
+                console.error("Unexpected Dimensions:", imgDim, "diffImgUrl", diffImgUrl);
                 throw new Error("Unexpected Dimensions. Check the console for more info.");
             } else {
                 throw new Error("imgDim is not defined.")

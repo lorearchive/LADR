@@ -39,7 +39,7 @@ export default function GetAdjEpisodes() {
                     if (sector === "1") { // That is, current sector
                         if (sectorCount === sector) { // sector count of current episode is 1
                             setAdjNavigate(
-                                <div id="adjNavigate" className="flex justify-between h-5">
+                                <div id="adjNavigate" className="flex justify-between h-5 mt-3">
                                     <NavLink to={`${basePath}/${prevEp}-${prevSectorCount}`} id="prevEpisodeNavigate" className="flex">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
@@ -57,7 +57,7 @@ export default function GetAdjEpisodes() {
                             );
                         } else {
                             setAdjNavigate(
-                                <div id="adjNavigate" className="flex justify-between h-5">
+                                <div id="adjNavigate" className="flex justify-between h-5 mt-3">
                                     <NavLink to={`${basePath}/${prevEp}-${prevSectorCount}`} id="prevEpisodeNavigate" className="flex">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
@@ -79,7 +79,7 @@ export default function GetAdjEpisodes() {
                         const parsedSector = parseInt(sector)
                         if (sectorCount === sector) {
                             setAdjNavigate(
-                                <div id="adjNavigate" className="flex justify-between h-5">
+                                <div id="adjNavigate" className="flex justify-between h-5 mt-3">
                                     <NavLink to={`${basePath}/${episode}-${parsedSector - 1}`} id="prevEpisodeNavigate" className="flex">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />

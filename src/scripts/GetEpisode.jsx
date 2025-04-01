@@ -28,13 +28,20 @@ export default function GetEpisode() {
                 const chapter = segments[2] ?? '';
                 let episode = segments[3] ?? '';
                 let sector
+                let sectorNoInFile
 
 
                 if (episode.includes("-")) {
                     sector = episode.slice(episode.indexOf("-") + 1)
+                    if (sector === "1") {
+                        sectorNoInFile = 0
+                    } else {
+                        sectorNoInFile = 5
+                    }
                     episode = episode.slice(0, episode.indexOf("-"))
                 } else {
                     sector = 1
+                    sectorNoInFile = 0
                 }
                 // Sector check. Read more about sectors in the contributing guide!
 
@@ -51,7 +58,7 @@ export default function GetEpisode() {
                 } else if (episode === '') {
                     url = `https://raw.githubusercontent.com/lorearchive/ladr-json/${storytype}/Volume${volume}/Chapter${chapter}.json`
                 } else {
-                    url = `https://raw.githubusercontent.com/lorearchive/ladr-json/${storytype}/Volume${volume}/Chapter${chapter}/Episode${episode}-s${sector}.json`
+                    url = `https://raw.githubusercontent.com/lorearchive/ladr-json/${storytype}/Volume${volume}/Chapter${chapter}/${volume}${chapter}${episode}${sectorNoInFile}.json`
                 }
                 // I've added many kinds of URLs just in case
 
