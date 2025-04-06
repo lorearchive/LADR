@@ -1,0 +1,70 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+@font-face {
+    font-family: "Source Serif 4";
+    src: url('/fonts/SourceSerif4-VariableFont_opsz,wght') format("ttf");
+    font-style: normal;
+    font-weight: normal;
+}
+
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 320px;
+    min-height: 100vh;
+}
+
+* {
+    font-family: 'Source Serif 4', serif;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+body:has(#ladr-window > main > div > #episode) #ladr-header {
+    position: relative;
+} 
+
+#ladr-header {
+    margin: 0;
+    overflow-y: hidden;
+    height: 54px;
+    background-color: #242424;
+    position: fixed;
+    width: 100%;
+}
+
+#ladr-window {
+    margin-top: 54px;
+    min-height: 100vh;
+}
+
+
+#ladr-app {
+    margin: 0;
+    min-height: 100vh;
+    background-color: #242424;
+}
+  
+  #ladr-app:has(#ladr-window > main > div > #episode) {
+    background-color: #121212;
+    margin: 0;
+}
+
+main {
+    margin: 0 auto;
+    padding-top: 3em;
+}
+
+
+#ladr-header-li .active {
+    @apply inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500;
+  
+}
+  
+.ladr-header-links {
+    @apply inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300;
+    transition: border-color 0.4s ease;
+}
