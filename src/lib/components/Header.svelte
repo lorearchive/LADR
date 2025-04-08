@@ -9,13 +9,14 @@
 
 </script>
 
-<nav class="flex justify-between border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400 z-40 max-h-54">
-	<ul class="mx-auto -mb-px flex flex-wrap items-baseline">
-		<li id="ladr-header-li">
-			<a href={`/${lang}/home`} class="ladr-header-links" class:active={routeid === `/${lang}/home`} data-sveltekit-preload-data="hover">Home</a>
+
+<nav class="flex justify-between border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400 z-40 h-full">
+	<ul class="mx-auto flex flex-wrap items-end">
+		<li id="ladr-header-li" class:active={routeid === `/${lang}/home`}>
+			<a href={`/${lang}/home`} class="h-full flex flex-col justify-center" data-sveltekit-preload-data="hover">Home</a>
 		</li>
-		<li id="ladr-header-li" class="m-0 p-0">
-			<a href={`/${lang}/main`} class="ladr-header-links" class:active={routeid!.startsWith(`/${lang}/main`)} data-sveltekit-preload-data="hover">Main Story</a>
+		<li id="ladr-header-li" class:active={routeid!.startsWith(`/${lang}/main`)}>
+			<a href={`/${lang}/main`} class="h-full flex flex-col justify-center"  data-sveltekit-preload-data="hover">Main Story</a>
 		</li>
 	</ul>
 </nav>

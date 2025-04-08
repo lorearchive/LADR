@@ -59,12 +59,12 @@ main {
 }
 
 
-#ladr-header-li .active {
-    @apply inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500;
+#ladr-header-li.active {
+    @apply flex flex-col items-center justify-center mx-4 w-20 h-full border-b-2 text-blue-600  border-blue-600 dark:text-blue-500 dark:border-blue-500;
   
 }
   
-.ladr-header-links {
-    @apply inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300;
+#ladr-header-li:not(.active) {
+    @apply flex flex-col items-center justify-center mx-4 w-20 h-full border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300;
     transition: border-color 0.4s ease;
 }
