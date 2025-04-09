@@ -15,7 +15,9 @@
 <div id="ladr-window">
     {#key data.url}
         <div id="ladr-window-animate" in:fly={{x: 200, duration: 210, delay: 100}} out:fly={{ x:-200, duration: 210}}> <!-- animation will probably change to motion.dev -->
-            {@render children()}
+            <main class="min-h-screen w-4xl">
+                {@render children()}
+            </main>
         </div>
     {/key}
 </div>

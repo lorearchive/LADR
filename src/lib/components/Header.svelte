@@ -4,7 +4,7 @@
 	import { LangStore } from "../state/lang.svelte";
 
 	let lang = LangStore.lang
-	let routeid = $derived(page.route.id!.split("/").map((item, index) => index === 1? lang : item).join("/"))
+	let routeid = $derived(page.url.pathname.split("/").map((item, index) => index === 1? lang : item).join("/"))
 	// Swaps out the [lang] for the current lang global state value
 
 </script>
@@ -15,7 +15,7 @@
 		<li id="ladr-header-li" class:active={routeid === `/${lang}/home`}>
 			<a href={`/${lang}/home`} class="h-full flex flex-col justify-center" data-sveltekit-preload-data="hover">Home</a>
 		</li>
-		<li id="ladr-header-li" class:active={routeid!.startsWith(`/${lang}/main`)}>
+		<li id="ladr-header-li" class:active={routeid.startsWith(`/${lang}/main`)}>
 			<a href={`/${lang}/main`} class="h-full flex flex-col justify-center"  data-sveltekit-preload-data="hover">Main Story</a>
 		</li>
 	</ul>
