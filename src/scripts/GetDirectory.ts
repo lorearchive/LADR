@@ -50,8 +50,31 @@ export default async function GetDirectory(type: string, volume: string, chapter
                                     : item.name,
                                 sha: item.sha,
                             }));
+                    } else if (toSearchFor === "chapter") {
+                        names = result
+                            .filter((item: { type: string, name: string }) => item.type === "file" || item.name.endsWith(".json"))
+                            .map((item: DirectoryItem) => {
+                                const episodeNo = item.name.slice(2, 4)
+                                const sectorNo  = item.name.at(4) === "0" ? "1" : "2"
+
+                                if (sectorNo === "1") {
+                                    return {
+                                        name: `Episode ${episodeNo}`, 
+                                        sha: item.sha 
+                                    }
+                                } else {
+                                    return {
+                                        sector: sectorNo,
+                                        name: `Episode ${episodeNo} - Sector ${sectorNo}`,
+                                        sha: item.sha
+                                    };
+                                }
+                            })
+
+
+                        console.log(names)
                     } else {
-                        throw new Error("LADR: wait")
+                        throw new Error("LADR: Something is wrong with the URL.")
                     }
                 } catch (e) {
                     error = e;

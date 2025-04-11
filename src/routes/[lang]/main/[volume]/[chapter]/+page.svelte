@@ -7,7 +7,7 @@
 
 </script>
 
-<h1>Volume {headingNo}</h1>
+<h1>Chapter {headingNo}</h1>
 
 <div id="dirList">
     {#each data.post.contents as item}
