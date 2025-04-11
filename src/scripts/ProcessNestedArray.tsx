@@ -142,6 +142,7 @@ export default function ProcessNestedArray({ NestedArray, Group, BGID, Transitio
             case 2243764445:         // Slow fade to black
             case 2482233134:         // Slow from black
             case 2752031158:         // Very slow ease fade to black
+            case 3174465279:         // ??
             case 3182852162:         // Slow to white, quick ease from white
             case 3656288287:         // Instant to black
             case 3785883235:         // Fade To and from white
@@ -168,6 +169,7 @@ export default function ProcessNestedArray({ NestedArray, Group, BGID, Transitio
             case 3657480713:         // ?
             case 3868567233:         // ?
             case 3957412172:         // ?
+            case 3977094957:         // ?
             case 4075662009:         // ?
                 break
             default:
