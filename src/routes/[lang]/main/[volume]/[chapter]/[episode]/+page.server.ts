@@ -23,6 +23,4 @@ export const load: PageServerLoad = async ({ url }) => {
             dir: dir,
         }
     } 
-    
-
-};
+}
