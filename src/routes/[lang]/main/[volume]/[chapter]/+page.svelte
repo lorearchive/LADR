@@ -11,9 +11,17 @@
 
 <div id="dirList">
     {#each data.post.contents as item}
-        <div id="dirItem">
-            <a href={page.url.pathname + "/" + item.name.slice(8)}>{item.name}</a>
-        </div>
+        {#if item.name.includes("-")} <!-- is sector two? -->
+            <div id="dirItem">
+                <a href={page.url.pathname + "/" + item.name.slice(8).slice(0, 2)}>{item.name}</a>
+                <!-- the slice first removes the "Episode " from the name, then gets the first two char - the ep no. -->
+            </div>
+        {:else}
+            <div id="dirItem">
+                <a href={page.url.pathname + "/" + item.name.slice(8)}>{item.name}</a>
+            </div>
+        {/if}
+
     {/each}
 </div>
 
