@@ -1,6 +1,7 @@
 interface DirectoryItem {
     name: string;
     sha: string;
+    number: string
 }
 
 export default async function GetDirectory(type: string, volume: string, chapter: string | undefined = undefined) {
@@ -60,19 +61,18 @@ export default async function GetDirectory(type: string, volume: string, chapter
                                 if (sectorNo === "1") {
                                     return {
                                         name: `Episode ${episodeNo}`, 
-                                        sha: item.sha 
+                                        sha: item.sha,
+                                        number: episodeNo
                                     }
                                 } else {
                                     return {
                                         sector: sectorNo,
                                         name: `Episode ${episodeNo} - Sector ${sectorNo}`,
-                                        sha: item.sha
+                                        sha: item.sha,
+                                        number: episodeNo
                                     };
                                 }
                             })
-
-
-                        console.log(names)
                     } else {
                         throw new Error("LADR: Something is wrong with the URL.")
                     }

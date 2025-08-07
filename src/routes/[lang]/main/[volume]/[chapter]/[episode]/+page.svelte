@@ -1,8 +1,9 @@
-<script lang="ts">
-	import type { PageProps } from "../$types";
+<script>
+    import ProcessEpisode from "../../../../../../scripts/ProcessEpisode";
+    
+    let { data } = $props()
 
-    let { data }: PageProps = $props()
+    const dataList = data.story.dataList
+
 
 </script>
-
-

@@ -4,7 +4,7 @@ import ProcessTokens from './ProcessTokens'
 import ProcessNestedArray from './ProcessNestedArray'
 
 
-interface rawToken {
+export interface rawToken {
     SelectionGroup: number
     Transition: number
     BGName: number
@@ -25,8 +25,7 @@ let htmlSelection3: string[] = []
 
 let BGID: number        // If raw token contains custom bg
 let Transition: number  // same thing but for transtion
-
-let t9nParam: object = {} // You'll see...
+let t9nParam: object = {} // Contains language data. Empty if ko. Not empty if anything else.
 
 
 export default function ProcessEpisode( dataList: rawToken[], curLang: string ) {
@@ -45,12 +44,10 @@ export default function ProcessEpisode( dataList: rawToken[], curLang: string ) 
         const Group = item.SelectionGroup // Does this token belong to a selection group?
         const script = item.ScriptKr // The yolk
 
-        let textEn
 
 
         if (curLang === "en") {
             t9nParam = { TextEn: ProcessVariator(item.TextEn) }
-            textEn = item.TextEn
 
         } else if (curLang === "ko") {
             t9nParam = {}
@@ -65,6 +62,7 @@ export default function ProcessEpisode( dataList: rawToken[], curLang: string ) 
 
         let output = ProcessNestedArray( nestedArray, Group, BGID, Transition, ...Object.values(t9nParam))
 
+        console.log(output)
 
     })
 
@@ -253,7 +251,7 @@ export function ProcessSelector( NestedArray: (string | number)[][], group: numb
 
     if (previousGroup === 0) {
         previousGroup = group
-        if (currentHtml && (currentHtml.every((element: string | JSX.Element) => element === "" || (React.isValidElement(element) && element.type === 'br')))) {
+        if (currentHtml && (currentHtml.every((element: string | Element) => element === "" || (React.isValidElement(element) && element.type === 'br')))) {
             htmlSelection1 = [""]
         } else if (currentHtml) {
             htmlSelection1 = currentHtml
