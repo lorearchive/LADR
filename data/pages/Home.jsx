@@ -58,6 +58,10 @@ export default function Home() {
 
             <hr className="border-white" />
 
+            <h1>LADR IS CURRENTLY UNMAINTAINED. - 2 MARCH, 2026</h1>
+            <p className="font-serif">As I am currently focused on developing the Lore Archive Wiki, LADR developments and maintenance will temporarily be paused. For updates, visit <a href="https://lorearchive.github.io" className="text-blue-600 underline">the updates page</a>.</p>
+
+
             <h2>Help us make LADR BETTR!</h2>
             <p className="font-serif">We don't sell your data, we don't track you, and we don't show you ads. We're here to provide a fast, clean, and junk-free reading experience for Blue Archive's story. If you like it, we invite you to propose improvements you want to see! Check out the <a href="https://github.com/orgs/lorearchive/projects/1/views/1" className="text-blue-600 underline">LADR Backlog</a> for the latest development updates.</p>
             <br></br>
